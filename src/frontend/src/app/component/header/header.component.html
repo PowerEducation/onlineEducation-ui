@@ -1,0 +1,29 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+<div >
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a (click)="navigate()" class="navbar-brand" style="cursor:pointer">Power Education</a>
+		</div>
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li> <a (click)="navigateToCourses()" style="cursor:pointer">Browse courses</a></li>
+				<li> <a style="cursor:pointer" (click)="navigateToTestSeries()">Test Series</a></li>
+			</ul>
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a class="dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">Results
+  						<span class="caret"></span></a>
+  					<ul class="dropdown-menu">
+					    <li><a >HTML</a></li>
+					    <li><a >CSS</a></li>
+					    <li><a >JavaScript</a></li>
+					  </ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+						<li><a (click)="signMeIn()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Sign in</a></li>
+					</ul>
+		</div>
+	</div>
+</div>
+</nav>

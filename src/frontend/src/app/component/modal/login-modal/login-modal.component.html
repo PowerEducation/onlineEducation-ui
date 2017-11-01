@@ -1,0 +1,44 @@
+<div ng-submit="save()">
+  <div class="container-fluid" >
+    <div class="modal-header">
+      <button type="button" class="close" (click)="close()">&times;</button>
+      <h3 class="modal-title">Enter your login creadendials</h3>
+    </div>
+    <div class="modal-body" >
+      <div *ngIf="viewType=='signIn'">
+        <div class="form-group">
+          <label for="user">User Name:</label>
+          <input type="text" class="form-control" id="usr" [(ngModel)]="userName" maxLength=25>
+
+          <label for="description">Password</label>
+          <input type="password" class="form-control" id="description" [(ngModel)]="password">
+        </div>
+        
+      </div>
+      <div *ngIf="viewType=='signUp'">
+    <div class="form-group">
+          <label for="user">User Name:</label>
+          <input type="text" class="form-control" id="usr" [(ngModel)]="userName" maxlength="25">
+
+          <label for="description">Password</label>
+          <input type="password" class="form-control" id="description" [(ngModel)]="password" maxlength="50">
+          
+          <label for="description">Confirm Password</label>
+          <input type="password" class="form-control" id="description" [(ngModel)]="confirmPassword">
+          
+        </div>
+    
+    
+    </div>
+    </div>
+    
+    <div class="modal-footer">
+      <div class="row">
+        <button class="btn btn-info pull-left" (click)="signup()" *ngIf="viewType!=='signUp'">Sign Up</button>
+        <button class="btn btn-success" (click)="save()" *ngIf="viewType==='signUp'">Save</button>
+        <button class="btn btn-success" (click)="signIn()" *ngIf="viewType!=='signUp'">Sign In</button>
+        <button class="btn btn-default" (click)="close()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
