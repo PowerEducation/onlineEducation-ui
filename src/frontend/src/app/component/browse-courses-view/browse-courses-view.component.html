@@ -1,3 +1,6 @@
-<p>
-  browse-courses-view works!
-</p>
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" [ngClass]="{'active':typeOfDetails=='examInfo'}"  ><a (click)="getDetails('examInfo')">Exam Info</a></li>
+  <li role="presentation" [ngClass]="{'active':typeOfDetails=='testSeries'}"><a  (click)="getDetails('testSeries')">Test Series</a></li>
+  <li role="presentation" [ngClass]="{'active':typeOfDetails=='news'}" ><a (click)="getDetails('news')">News</a></li>
+</ul>
+

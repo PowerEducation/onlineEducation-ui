@@ -4,7 +4,7 @@ import {Modal, BSModalContext} from "angular2-modal/plugins/bootstrap";
 import {overlayConfigFactory, Overlay} from "angular2-modal/esm/index";
 import { LoginModalComponent } from '../modal/login-modal/login-modal.component';
 import {CommonUtilService} from '../../services/common-util.service';
-
+import {DefinedConstants} from "../../app.defined.constants";
 
 @Component({
   selector: 'app-header',
@@ -14,10 +14,11 @@ import {CommonUtilService} from '../../services/common-util.service';
 export class HeaderComponent implements OnInit {
 
   constructor(private modal:Modal, overlay:Overlay, vcRef:ViewContainerRef,private utilService: CommonUtilService,
-              private router: Router, private route: ActivatedRoute) {
+              private router: Router, private route: ActivatedRoute,private defineConstants: DefinedConstants) {
     overlay.defaultViewContainer = vcRef; }
 
-  
+  public typeCourse;
+  public courseList;
 
   ngOnInit() {
   }
@@ -64,10 +65,20 @@ export class HeaderComponent implements OnInit {
     this.utilService.testSeries =true;
     this.router.navigate(['/home'], { queryParams: { page:'testSeries'  } });
   }
-  navigate(){
+  navigate(type){
+    sessionStorage.setItem('course',type);
     this.utilService.mainPageView =true;
     this.utilService.browseCoursesView =false;
     this.utilService.testSeries = false;
     this.router.navigate(['/home'] );
+  }
+  showMore(type){
+    this.typeCourse = type;
+    if(type==='ssc')
+      this.courseList = this.defineConstants.sscCourseList;
+    else if(type==='bfsi')
+      this.courseList = this.defineConstants.bfsiCourseList;
+    else if(type==='sla')
+      this.courseList = this.defineConstants.slaCourseList;
   }
 }

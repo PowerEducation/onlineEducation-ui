@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BSModalContext} from "angular2-modal/plugins/bootstrap/modal-context";
 import {CloseGuard, ModalComponent, DialogRef} from "angular2-modal/esm/index";
-import {FormGroup,FormBuilder,Validators,AbstractControl,ReactiveFormsModule } from '@angular/forms';
+import {FormGroup,FormBuilder,Validators,AbstractControl,FormControl,ReactiveFormsModule } from '@angular/forms';
 import {CommonApiService} from '../../../services/common-api.service';
 import {DefinedConstants} from "../../../app.defined.constants";
 import {Users} from "../../../model/users.model";
@@ -19,8 +19,9 @@ export class LoginModalComponent implements  CloseGuard, ModalComponent<CustomMo
   private loginForm:FormGroup;
   private context:CustomModalContext;
   public userName;
-  public  password;
-  public confirm
+  public  pwd;
+  public cPwd;
+  userform: FormGroup;
   public viewType:string;
   constructor(public dialog: DialogRef<CustomModalContext>,fb:FormBuilder,private apiService:CommonApiService,
     public definedConstants:DefinedConstants,) {
@@ -56,7 +57,8 @@ close(){
 save(){
   var user = new Users();
   user.userID = this.userName;
-  user.password = this.password;
+  user.password = this.pwd;
+
   this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_USER_LOGIN,user).subscribe(
     response=>{
       console.log("User Name is:",JSON.stringify(response));
@@ -66,6 +68,9 @@ save(){
     })
     this.context = this.dialog.context;
     this.dialog.close(false);
+}
+validateUserName(){
+  
 }
 
 }

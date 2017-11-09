@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+
 
 @Component({
   selector: 'app-browse-courses-view',
@@ -9,7 +11,18 @@ export class BrowseCoursesViewComponent implements OnInit {
 
   constructor() { }
 
+  public type;
+  public typeOfDetails;
   ngOnInit() {
+    this.initialize();
+  }
+  initialize(){
+    this.type = sessionStorage.getItem('course');
+    this.typeOfDetails = "examInfo";
   }
 
+  getDetails(typeOfDetails){
+    console.log("Details"+typeOfDetails);
+    this.typeOfDetails = typeOfDetails;
+  }
 }

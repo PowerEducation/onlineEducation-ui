@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -20,8 +21,9 @@ import { BrowseCoursesViewComponent } from './component/browse-courses-view/brow
 import { HomePageComponent } from './component/home-page/home-page.component';
 import { MasterPageComponent } from './component/master-page/master-page.component';
 import { BrowseLectureComponent } from './component/browse-lecture/browse-lecture.component';
-import { TestSeriesComponent } from './component/test-series/test-series.component'
-
+import { TestSeriesComponent } from './component/test-series/test-series.component';
+import { SliderUtilComponent } from './component/util/slider-util/slider-util.component';
+import { NgClass } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -35,10 +37,12 @@ import { TestSeriesComponent } from './component/test-series/test-series.compone
     HomePageComponent,
     MasterPageComponent,
     BrowseLectureComponent,
-    TestSeriesComponent
+    TestSeriesComponent,
+    SliderUtilComponent
   ],
   entryComponents:[LoginModalComponent],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
