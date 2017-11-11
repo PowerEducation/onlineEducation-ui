@@ -1,75 +1,98 @@
 <div ng-submit="save()">
   <div class="container-fluid" >
-    <form (ngSubmit)="signIn()">
+   
     <div class="modal-header">
       <button type="button" class="close" (click)="close()">&times;</button>
       <h3 class="modal-title">Enter your login creadendials</h3>
     </div>
     <div class="modal-body" >
       <div *ngIf="viewType=='signIn'">
-        <div class="form-group">
-          <label for="user" class="input-label"
-          [ngClass]="{'form-error':(formErrors.userName)}">User Name:</label>
-          <input type="text" class="form-control" 
-          [ngClass]="{'form-error':(formErrors.pwd)}" id="usr" [(ngModel)]="userName" 
-          maxLength=25 (blur)="validateUserName()" required minlength="3">
-          <span *ngIf="userName.errors.required">It is Required</span>
-          <label for="description">Password</label>
-          <input type="password" class="form-control" id="pwd" 
-          [ngClass]="{'form-error':(formErrors.pwd)}" [(ngModel)]="pwd">
-        </div> 
-        
-      </div>
-      <div *ngIf="viewType=='signUp'">
-    <div class="form-group form-inline">
-            <div class="row col-md-12" style="padding-left: 30px;">
-            <!--<span for="First Name" class="pull-left col-md-12">User Name</span>-->
-            <input type="text" class="form-control col-md-12" id="fNm" [(ngModel)]="userName" maxlength="25" placeholder="Enter User Name">
-         </div>
-      <div class="row col-md-12" style="padding-top: 6px">
-          <span class="col-md-6">
-           <!--<label for="First Name" class="col-md-6">First Name</label>-->
-            <input type="text" class="form-control col-md-6" id="fNm" [(ngModel)]="fNm" maxlength="50" placeholder="Enter First Name">
-          </span>
-          <span class="col-md-6">
-            <!--<label  for="Last Name" class="col-md-6 pull-right">Last Name</label>-->
-          <input type="text" class="form-control col-md-6 pull-right" id="lNm" [(ngModel)]="lNm" maxlength="50" placeholder="Enter Last Name">
-          </span>
-          
-         </div>
-        <div class="row col-md-12" style="padding-top: 6px">
-          <span class="col-md-6" >
-           <!--<label for="First Name" class="col-md-6">Password</label>-->
-            <input type="password" class="form-control col-md-6" id="fNm" [(ngModel)]="pwd" maxlength="50" placeholder="Enter Password">
-          </span>
-          <span class="col-md-6">
-            <!--<label  for="Last Name" class="col-md-10 pull-right">Confirm Password</label>-->
-          <input type="password" class="form-control col-md-6 pull-right" id="cPwd" [(ngModel)]="cPwd" maxlength="50" placeholder="Confirm Password">
-          </span>
-          
-         </div>
-      
-        
-         <div class="row">
-         
-           
-      </div>
-
-         <div class="row"></div>
-        </div>
-    
-    
-    </div>
-    </div>
-    
-    <div class="modal-footer">
+ 
+    <form (ngSubmit)="signIn()" #loginForm="ngForm">
+  <div class="form-group">  
+    <span class="help-block" class="text-danger"
+              *ngIf="loginError!=='false'"> {{loginError}}<hr></span>
+              
+     <label for="email">User Name</label>
+          <input type="text" class="form-control" id="userName"
+            name="userName" ngModel required minlength="3" maxlength="25" #userName="ngModel"> 
+            <span class="help-block" style="color: red"
+              *ngIf="!userName.valid &&  userName.touched"> Please enter valid User Name</span>
+  </div>
+  <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" id="password" 
+            name="password" ngModel required minlength="3" maxlength="25" #password="ngModel">
+             <span class="help-block" style="color: red"
+              *ngIf="!password.valid &&  password.touched"> Please enter valid Password</span>
+          </div>
+ <div class="modal-footer">
       <div class="row">
-        <button class="btn btn-info pull-left" (click)="signup()" *ngIf="viewType!=='signUp'">Sign Up</button>
-        <button class="btn btn-success" (click)="save()" *ngIf="viewType==='signUp'">Save</button>
-        <button class="btn btn-success" (click)="signIn()" *ngIf="viewType!=='signUp'">Sign In</button>
-        <button class="btn btn-default" (click)="close()">Cancel</button>
+        <button class="btn btn-info pull-left" (click)="signup()">Sign Up</button>
+        <button class="btn btn-success" [disabled]="!loginForm.valid">Sign In</button>
       </div>
     </div>
     </form>
+        
+      </div>
+      <div *ngIf="viewType=='signUp'">
+        <form [formGroup]="signUpForm" (ngSubmit)="save()">
+          <div class="form-group form-inline">
+            <div class="row col-md-12" style="padding-top: 6px">
+              <span class="col-md-6">
+           <!--<label for="First Name" class="col-md-6">First Name</label>-->
+                <input type="text" class="form-control col-md-6" id="uNm"
+                formControlName="uNm" placeholder="Enter User Name">
+            </span>
+            <span class="col-md-6">
+            <!--<label  for="Last Name" class="col-md-6 pull-right">Last Name</label>-->
+            <input type="text" class="form-control col-md-6 pull-right" id="email"  
+            formControlName="email" placeholder="Enter email Address">
+            </span>
+          
+          </div>
+          <div class="row col-md-12" style="padding-top: 6px">
+            <span class="col-md-6">
+           <!--<label for="First Name" class="col-md-6">First Name</label>-->
+              <input type="text" class="form-control col-md-6" id="fNm"  
+              formControlName="fNm" placeholder="Enter First Name">
+            </span>
+            <span class="col-md-6">
+            <!--<label  for="Last Name" class="col-md-6 pull-right">Last Name</label>-->
+            <input type="text" class="form-control col-md-6 pull-right" id="lNm"
+            formControlName="lNm" placeholder="Enter Last Name">
+            </span>
+          
+          </div>
+          <div class="row col-md-12" style="padding-top: 6px">
+            <span class="col-md-6" >
+           <!--<label for="First Name" class="col-md-6">Password</label>-->
+              <input type="password" class="form-control col-md-6" id="pwd"
+              formControlName="pwd" placeholder="Enter Password">
+            </span>
+            <span class="col-md-6">
+            <!--<label  for="Last Name" class="col-md-10 pull-right">Confirm Password</label>-->
+            <input type="password" class="form-control col-md-6 pull-right" id="cPwd"  
+            formControlName="cPwd" placeholder="Confirm Password">
+            </span>
+          
+          </div>
+         <div class="row">
+         </div>
+
+         <div class="row">  <span class="help-block"> *All Fields are Mandatory</span>  
+         </div>
+        </div>
+     <div class="modal-footer">
+      <div class="row">
+        <button class="btn btn-success" [disabled]="!signUpForm.valid">Save</button>
+      </div>
+    </div>
+  </form>
+    </div>
+    </div>
+    
+   
+    
   </div>
 </div>

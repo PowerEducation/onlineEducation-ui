@@ -24,6 +24,7 @@ import { BrowseLectureComponent } from './component/browse-lecture/browse-lectur
 import { TestSeriesComponent } from './component/test-series/test-series.component';
 import { SliderUtilComponent } from './component/util/slider-util/slider-util.component';
 import { NgClass } from '@angular/common';
+import {CaptchaModule} from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { NgClass } from '@angular/common';
     routes,
     ModalModule.forRoot(),
     BootstrapModalModule,
-    
+    CaptchaModule
   ],
   providers: [DefinedConstants,
   CommonApiService,

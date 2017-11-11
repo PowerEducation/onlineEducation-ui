@@ -1,8 +1,9 @@
 export class DefinedConstants {
 
-public API_BASE_URL="http://localhost:8080";
+public API_BASE_URL="http://localhost:8080/";
 public API_PROFILE = "/profile";
-public API_USER_LOGIN="/userLogins"
+public API_USER_LOGIN="userLogins";
+public API_FINDBY_USERID="userLogins/search/findByuserID?userID=";
 
 public sscCourseList = ["CGL","CHSL","MTS"];
 public slaCourseList = ["PO","Clerk","Assistant"];
