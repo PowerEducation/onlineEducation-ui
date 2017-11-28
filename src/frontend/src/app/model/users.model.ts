@@ -6,11 +6,12 @@ export class Users{
   public lastName:string;
   public loginAttempt:string;
   public ipAddress:string;
-  public userTimeStamp;
+  public userTimeStamp:string;
 }
 
 export class UsersInfo{
   public FName:string;
   public LName:string;
   public userID:string;
+  public role:string;
 }

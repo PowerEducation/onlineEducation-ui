@@ -13,14 +13,21 @@ import {DefinedConstants} from "../../app.defined.constants";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private modal:Modal, overlay:Overlay, vcRef:ViewContainerRef,private utilService: CommonUtilService,
+  constructor(private modal:Modal, overlay:Overlay, vcRef:ViewContainerRef,private commonService: CommonUtilService,
               private router: Router, private route: ActivatedRoute,private defineConstants: DefinedConstants) {
     overlay.defaultViewContainer = vcRef; }
 
   public typeCourse;
   public courseList;
+  public isLogin = false;
+  public userLogin:any;
 
   ngOnInit() {
+    this.userLogin = JSON.parse(sessionStorage.getItem("userLogin"));
+    if(this.commonService.isUserLoggedIn){
+      this.isLogin = true;
+    }
+    console.log(this.userLogin.fName);
   }
 
   signMeIn(){
@@ -53,23 +60,23 @@ export class HeaderComponent implements OnInit {
     console.log("Signing in>>");
   }
   navigateToCourses(){
-    this.utilService.mainPageView =false;
-    this.utilService.browseCoursesView =true;
-    this.utilService.testSeries = false;
+    this.commonService.mainPageView =false;
+    this.commonService.browseCoursesView =true;
+    this.commonService.testSeries = false;
     this.router.navigate(['/home'], { queryParams: { page:'browseCourses'  } });
 
   }
   navigateToTestSeries(){
-    this.utilService.mainPageView =false;
-    this.utilService.browseCoursesView =false;
-    this.utilService.testSeries =true;
+    this.commonService.mainPageView =false;
+    this.commonService.browseCoursesView =false;
+    this.commonService.testSeries =true;
     this.router.navigate(['/home'], { queryParams: { page:'testSeries'  } });
   }
   navigate(type){
     sessionStorage.setItem('course',type);
-    this.utilService.mainPageView =true;
-    this.utilService.browseCoursesView =false;
-    this.utilService.testSeries = false;
+    this.commonService.mainPageView =true;
+    this.commonService.browseCoursesView =false;
+    this.commonService.testSeries = false;
     this.router.navigate(['/home'] );
   }
   showMore(type){
@@ -80,5 +87,13 @@ export class HeaderComponent implements OnInit {
       this.courseList = this.defineConstants.bfsiCourseList;
     else if(type==='sla')
       this.courseList = this.defineConstants.slaCourseList;
+  }
+
+  /**
+ * Method to Log out the user
+ */
+  loggingOut(){
+    this.commonService.isUserLoggedIn =false;
+    this.commonService.userInfo = null;
   }
 }

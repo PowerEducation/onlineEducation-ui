@@ -35,9 +35,16 @@
 				<li> <a style="cursor:pointer" (click)="navigateToTestSeries()">Contact us</a></li>
 			</ul>
 			
-			<ul class="nav navbar-nav navbar-right">
-						<li><a (click)="signMeIn()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Sign in</a></li>
-					</ul>
+			<ul class="nav navbar-nav navbar-right" >
+						<li *ngIf="!commonService.isUserLoggedIn; else elseBlock">
+							<a (click)="signMeIn()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Sign in</a>
+						</li>
+						<template #elseBlock>
+							<li style="padding-top: 15px;"> Welcome {{commonService.userInfo.FName}}</li>
+					<li><a (click)="loggingOut()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Log out</a></li>
+			</template>
+			</ul>
+			
 		</div>
 	</div>
 </div>

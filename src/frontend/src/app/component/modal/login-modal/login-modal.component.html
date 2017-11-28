@@ -24,12 +24,13 @@
             <input type="password" class="form-control" id="password" 
             name="password" ngModel required minlength="3" maxlength="25" #password="ngModel">
              <span class="help-block" style="color: red"
-              *ngIf="!password.valid &&  password.touched"> Please enter valid Password</span>
+              *ngIf="!password.valid &&  password.touched"> Please enter valid password</span>
           </div>
  <div class="modal-footer">
       <div class="row">
-        <button class="btn btn-info pull-left" (click)="signup()">Sign Up</button>
         <button class="btn btn-success" [disabled]="!loginForm.valid">Sign In</button>
+        <button class="btn btn-info pull-left" (click)="signup()">Sign Up</button>
+        
       </div>
     </div>
     </form>
@@ -42,7 +43,7 @@
               <span class="col-md-6">
            <!--<label for="First Name" class="col-md-6">First Name</label>-->
                 <input type="text" class="form-control col-md-6" id="uNm"
-                formControlName="uNm" placeholder="Enter User Name">
+                formControlName="uNm" placeholder="Enter User Name" (blur)="validateUserName();">
             </span>
             <span class="col-md-6">
             <!--<label  for="Last Name" class="col-md-6 pull-right">Last Name</label>-->
@@ -84,8 +85,11 @@
          </div>
         </div>
      <div class="modal-footer">
+       <div class="row pull-left" *ngIf="hasErrors" style="color: red">
+          {{loginError}}
+       </div>
       <div class="row">
-        <button class="btn btn-success" [disabled]="!signUpForm.valid">Save</button>
+        <button class="btn btn-success" [disabled]="!signUpForm.valid && hasErrors">Save</button>
       </div>
     </div>
   </form>
