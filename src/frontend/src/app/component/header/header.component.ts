@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import {Modal, BSModalContext} from "angular2-modal/plugins/bootstrap";
 import {overlayConfigFactory, Overlay} from "angular2-modal/esm/index";
@@ -27,7 +27,6 @@ export class HeaderComponent implements OnInit {
     if(this.commonService.isUserLoggedIn){
       this.isLogin = true;
     }
-    console.log(this.userLogin.fName);
   }
 
   signMeIn(){
@@ -63,14 +62,25 @@ export class HeaderComponent implements OnInit {
     this.commonService.mainPageView =false;
     this.commonService.browseCoursesView =true;
     this.commonService.testSeries = false;
-    this.router.navigate(['/home'], { queryParams: { page:'browseCourses'  } });
+    let navParams : NavigationExtras;
+    navParams = {
+      queryParams:{
+        'page': 'browseCourses'
+      }
+    }
+    this.router.navigate(['/home'],navParams);
 
   }
-  navigateToTestSeries(){
+  navigateToTestSeries(typeTest){
+    if(typeTest=="test"){
+      this.router.navigate(['/beginTest']);
+    }else{
     this.commonService.mainPageView =false;
     this.commonService.browseCoursesView =false;
     this.commonService.testSeries =true;
     this.router.navigate(['/home'], { queryParams: { page:'testSeries'  } });
+    }
+    
   }
   navigate(type){
     sessionStorage.setItem('course',type);

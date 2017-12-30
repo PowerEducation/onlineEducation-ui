@@ -1,0 +1,31 @@
+ [{
+    "Q":"How are you?",
+    "type":"radio",
+    "A":[{"index":1,"Ans":"good"},
+        {"index":2,"Ans":"fine"},
+        {"index":3,"Ans":"All right"},
+        {"index":4,"Ans":"very good"}],
+    "CA":"2",
+    "expln":"It's my Wish"
+   
+},{
+    "Q":"How are you doing?",
+    "type":"mcq",
+    "A":[{"index":1,"Ans":"good"},
+        {"index":2,"Ans":"fine"},
+        {"index":3,"Ans":"All right"},
+        {"index":4,"Ans":"very good"}],
+    "CA":"2",
+    "expln":"It's my Wish"
+    },
+    {
+    "Q":"How are you doing?",
+    "type":"mcq",
+    "A":[{"index":1,"Ans":"good"},
+        {"index":2,"Ans":"fine"},
+        {"index":3,"Ans":"All right"},
+        {"index":4,"Ans":"very good"}],
+    "CA":"2",
+    "expln":"It's my Wish"
+    }
+]

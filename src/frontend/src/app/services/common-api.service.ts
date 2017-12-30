@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Rx";
 import {Headers, Http, Response, RequestOptions} from "@angular/http";
 import {DefinedConstants} from '../app.defined.constants';
 
+
 @Injectable()
 export class CommonApiService {
 
@@ -36,4 +37,10 @@ genericPost(urlString:string,payLoad:any){
         .catch(this.handleError);
   }
   
+  genericMockedData(mockedObjectName ) :Observable<any>{
+    
+     return new Observable(observer =>{
+      observer.next(mockedObjectName);
+    });
+  }
 }

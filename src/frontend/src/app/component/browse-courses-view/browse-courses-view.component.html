@@ -4,3 +4,14 @@
   <li role="presentation" [ngClass]="{'active':typeOfDetails=='news'}" ><a (click)="getDetails('news')">News</a></li>
 </ul>
 
+<div *ngIf="type==='testSeries'">
+    This is test Series.
+</div>
+
+<div *ngIf="type==='examInfo'">
+    This is Exam Info.
+</div>
+<div *ngIf="type==='news'">
+    This is News about Exam.
+</div>
+

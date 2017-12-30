@@ -1,0 +1,26 @@
+<p>
+ Your test wilk start now. It's a time bound test.
+</p>
+<div class="container">
+  <div class="row col-md-4">
+    <span *ngFor="let q of qAns; let i=index"> 
+        <button class="btn btn-primary" (click)="showQAns(i)">{{i+1}}</button>
+    </span>
+  </div>
+</div>
+
+<div class="container">
+    <div class="row" *ngIf="currentQAns != null">
+      Q: {{currentQAns.Q}}
+      <div *ngFor="let qAns of currentQAns.A; let i=index">
+        <div *ngIf="currentQAns.type==='radio'">
+          <input type="radio" >{{qAns.Ans}}
+        </div>
+        <div *ngIf="currentQAns.type==='mcq'">
+          <input type="checkbox">{{qAns.Ans}}
+        </div>
+      </div>
+      <button class="btn btn-primary">Submit</button>
+      <button class="btn btn-warning" (click)="skipQuestion()">Skip</button>
+    </div>
+</div>

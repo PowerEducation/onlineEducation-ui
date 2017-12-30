@@ -17,12 +17,14 @@ export class BrowseCoursesViewComponent implements OnInit {
     this.initialize();
   }
   initialize(){
-    this.type = sessionStorage.getItem('course');
+    this.type = 'examInfo';
     this.typeOfDetails = "examInfo";
   }
 
   getDetails(typeOfDetails){
     console.log("Details"+typeOfDetails);
     this.typeOfDetails = typeOfDetails;
+    this.type = typeOfDetails;
+
   }
 }

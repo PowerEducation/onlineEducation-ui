@@ -10,4 +10,7 @@ public API_FINDBY_USERID="userLogins/search/findByuserID?userID=";
 public sscCourseList = ["CGL","CHSL","MTS"];
 public slaCourseList = ["PO","Clerk","Assistant"];
 public bfsiCourseList = ["Rajsthan","Delhi"];
+public MAIN_PAGE_VIEW = "mainPageView";
+public COURSE_VIEW =  "browseCourses";
+public TEST_SERIES_VIEW = "testSeries";
 }

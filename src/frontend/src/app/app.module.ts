@@ -24,7 +24,9 @@ import { BrowseLectureComponent } from './component/browse-lecture/browse-lectur
 import { TestSeriesComponent } from './component/test-series/test-series.component';
 import { SliderUtilComponent } from './component/util/slider-util/slider-util.component';
 import { NgClass } from '@angular/common';
-import {CaptchaModule} from 'primeng/primeng';
+import {GalleriaModule, CaptchaModule,DataTableModule } from 'primeng/primeng';
+import { StartExamModalComponent } from './component/modal/start-exam-modal/start-exam-modal.component';
+import { BeginTestComponentComponent } from './component/begin-test-component/begin-test-component.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +41,11 @@ import {CaptchaModule} from 'primeng/primeng';
     MasterPageComponent,
     BrowseLectureComponent,
     TestSeriesComponent,
-    SliderUtilComponent
+    SliderUtilComponent,
+    StartExamModalComponent,
+    BeginTestComponentComponent
   ],
-  entryComponents:[LoginModalComponent],
+  entryComponents:[LoginModalComponent,StartExamModalComponent],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
@@ -52,7 +56,8 @@ import {CaptchaModule} from 'primeng/primeng';
     routes,
     ModalModule.forRoot(),
     BootstrapModalModule,
-    CaptchaModule
+    CaptchaModule,DataTableModule,
+    GalleriaModule
   ],
   providers: [DefinedConstants,
   CommonApiService,

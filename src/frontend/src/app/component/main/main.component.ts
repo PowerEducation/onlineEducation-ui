@@ -1,6 +1,11 @@
-import { Component, OnInit,trigger,state,style,transition,animate } from '@angular/core';
+import { DefinedConstants } from '../../app.defined.constants';
+import { ViewState } from '@angular/core/src/view/types';
+import { BrowseCoursesViewComponent } from '../browse-courses-view/browse-courses-view.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { animate, Component, OnInit, state, style, transition, trigger, ViewChild, ViewChildren } from '@angular/core';
 import {CommonUtilService} from '../../services/common-util.service';
 import {CommonApiService} from '../../services/common-api.service';
+import {Subscription} from 'rxjs/Rx';
 
 @Component({
   selector: 'app-main',
@@ -21,10 +26,40 @@ import {CommonApiService} from '../../services/common-api.service';
 })
 export class MainComponent implements OnInit {
 
-  constructor(private utilService :CommonUtilService) { }
+  private subscription: Subscription;
+  private param:string;
+
+  @ViewChildren('childView') childViews
+  self = this;
+
+  @ViewChild(BrowseCoursesViewComponent)
+  private browseCoursesViewComponent: BrowseCoursesViewComponent;
+
+  constructor(private utilService :CommonUtilService, private definedConstants: DefinedConstants,
+  private router:Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    console.log(this.utilService.mainPageView);
+    this.subscription = this.route.queryParams.subscribe(
+      queryParam => this.param = queryParam['page']
+    )
+    this.viewSwitch(this.param);
   }
 
+viewSwitch(type){
+  this.resetAll();
+  switch(type){
+    case this.definedConstants.MAIN_PAGE_VIEW:
+        this.utilService.mainPageView = true;
+        break;
+    case this.definedConstants.COURSE_VIEW:
+        this.utilService.browseCoursesView = true;
+    case this.definedConstants.TEST_SERIES_VIEW:
+        this.utilService.testSeries =true;
+  }
+}
+  resetAll(){
+    this.utilService.mainPageView = false;
+    this.utilService.browseCoursesView = false;
+    this.utilService.testSeries = false;
+  }
 }
