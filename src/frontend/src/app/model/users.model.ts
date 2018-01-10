@@ -10,8 +10,8 @@ export class Users{
 }
 
 export class UsersInfo{
-  public FName:string;
-  public LName:string;
+  public fName:string;
+  public lName:string;
   public userID:string;
   public role:string;
 }

@@ -16,6 +16,9 @@ export const router: Routes =[
         path:'home',
         component:MainComponent,
     },{
+        path:'admin-home',
+        component:MainComponent,
+    },{
         path:'browseCourses',
         component:BrowseCoursesViewComponent
     },{

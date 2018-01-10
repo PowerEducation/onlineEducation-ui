@@ -1,7 +1,8 @@
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import {Modal, BSModalContext} from "angular2-modal/plugins/bootstrap";
-import {overlayConfigFactory, Overlay} from "angular2-modal/esm/index";
+import {MatDialog} from '@angular/material';
+import { Overlay } from 'ngx-modialog';
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
 import { LoginModalComponent } from '../modal/login-modal/login-modal.component';
 import {CommonUtilService} from '../../services/common-util.service';
 import {DefinedConstants} from "../../app.defined.constants";
@@ -13,23 +14,48 @@ import {DefinedConstants} from "../../app.defined.constants";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private modal:Modal, overlay:Overlay, vcRef:ViewContainerRef,private commonService: CommonUtilService,
-              private router: Router, private route: ActivatedRoute,private defineConstants: DefinedConstants) {
-    overlay.defaultViewContainer = vcRef; }
+  // constructor(private modal:Modal, vcRef:ViewContainerRef,private commonService: CommonUtilService,
+  //             private router: Router, private route: ActivatedRoute,private defineConstants: DefinedConstants) {
+  //   modal.defaultViewContainer = vcRef;
+  //  }
+
+  constructor(private commonService: CommonUtilService,public modal: Modal,
+  private dialog: MatDialog,private router: Router, private route: ActivatedRoute,
+  private defineConstants: DefinedConstants) {
+   }
 
   public typeCourse;
   public courseList;
   public isLogin = false;
   public userLogin:any;
+  public userRole;
+
 
   ngOnInit() {
-    this.userLogin = JSON.parse(sessionStorage.getItem("userLogin"));
+    this.commonService.getUserInformation();
     if(this.commonService.isUserLoggedIn){
       this.isLogin = true;
-    }
+      this.userRole = this.commonService.userInfo.role;
+    }else
+      this.userRole=this.defineConstants.ROLE_UNKNOWN;
   }
 
   signMeIn(){
+      let dialogRef = this.dialog.open(LoginModalComponent, {
+      width: '600px',
+      data: 'This Is Dialog Componenet'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!==undefined){
+        let userInfo = result;
+        this.userRole = userInfo.userRole;
+        if(this.userRole == this.defineConstants.ROLE_ADMIN)
+           this.router.navigate(['/admin-home'] );
+      
+      }
+      // this.animal = result;
+    });
 //        this.modal.alert()
 //        .size('lg')
 //        .showClose(true)
@@ -47,47 +73,57 @@ export class HeaderComponent implements OnInit {
 //            </ul>`)
 //        .open();
     
-     var dialog = this.modal.open(LoginModalComponent, overlayConfigFactory({}, BSModalContext));
-    dialog
-      .then((d) => d.result)
-      .then((r) => {
-        /*let navigationExtras:NavigationExtras = {
-         }*/
-        if (r)
-          console.log("r>>>"+r);
-      });
+    //  this.modal.open(LoginModalComponent)
+    //   .then(dialogRef => {
+    //         dialogRef.result.then( result => alert('The result is: ${result}');
+    //     });
+      //   dialogRef => {(d) => d.result)
+      // .then((r) => {
+      //   /*let navigationExtras:NavigationExtras = {
+      //    }*/
+      //   if (r)
+      //     console.log("r>>>"+r);
+      // });
     console.log("Signing in>>");
   }
-  navigateToCourses(){
-    this.commonService.mainPageView =false;
-    this.commonService.browseCoursesView =true;
-    this.commonService.testSeries = false;
-    let navParams : NavigationExtras;
-    navParams = {
-      queryParams:{
-        'page': 'browseCourses'
+  
+  navigateTo(type,subType){
+    this.resetAll();
+    if(type=="browseCourses"){
+      this.commonService.browseCoursesView =true;
+      let navParams : NavigationExtras;
+      navParams = {
+        queryParams:{
+          'page': 'browseCourses'
+        }
       }
-    }
-    this.router.navigate(['/home'],navParams);
-
-  }
-  navigateToTestSeries(typeTest){
-    if(typeTest=="test"){
+      this.router.navigate(['/home'],navParams);
+  }else if (type=="testSeries"){
+     if(subType=="test"){
       this.router.navigate(['/beginTest']);
     }else{
-    this.commonService.mainPageView =false;
-    this.commonService.browseCoursesView =false;
     this.commonService.testSeries =true;
     this.router.navigate(['/home'], { queryParams: { page:'testSeries'  } });
     }
+  }else if(type==="QManager"){
+    this.commonService.qManagerView =true;
+    this.router.navigate(['/home'], { queryParams: { page:'questionManager'  } });
+    console.log("Moving to Q Manager");
+  }
+  else{
+      sessionStorage.setItem('course',type);
+      this.commonService.mainPageView =true;
+      this.commonService.browseCoursesView =false;
+      this.commonService.testSeries = false;
+      this.router.navigate(['/home'] );
+    }
     
   }
-  navigate(type){
-    sessionStorage.setItem('course',type);
-    this.commonService.mainPageView =true;
-    this.commonService.browseCoursesView =false;
-    this.commonService.testSeries = false;
-    this.router.navigate(['/home'] );
+  resetAll(){
+     this.commonService.mainPageView =false;
+     this.commonService.browseCoursesView =false;
+     this.commonService.testSeries = false;
+     this.commonService.qManagerView = false;
   }
   showMore(type){
     this.typeCourse = type;
@@ -103,7 +139,11 @@ export class HeaderComponent implements OnInit {
  * Method to Log out the user
  */
   loggingOut(){
-    this.commonService.isUserLoggedIn =false;
-    this.commonService.userInfo = null;
+    if(this.commonService.userInfo.role === this.defineConstants.ROLE_ADMIN){
+       this.router.navigate(['/home'] );
+    }
+    this.userRole = this.defineConstants.ROLE_UNKNOWN;
+    this.commonService.loggedOutUser();
+    
   }
 }

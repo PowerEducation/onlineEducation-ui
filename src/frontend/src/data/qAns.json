@@ -1,5 +1,6 @@
  [{
     "Q":"How are you?",
+    "QImg":"aHR0cDovL2RlbW8udGhlbWVyZXgubmV0Lz90aGVtZT1lZHVjYXRpb24NCg0KDQpXaS1GaSAgU3R1ZHkNCg0KT3VyIENlbnRlciANCg0KDQo=",
     "type":"radio",
     "A":[{"index":1,"Ans":"good"},
         {"index":2,"Ans":"fine"},
@@ -19,7 +20,7 @@
     "expln":"It's my Wish"
     },
     {
-    "Q":"How are you doing?",
+    "Q":"How old are you?",
     "type":"mcq",
     "A":[{"index":1,"Ans":"good"},
         {"index":2,"Ans":"fine"},

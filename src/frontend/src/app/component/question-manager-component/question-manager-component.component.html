@@ -1,0 +1,42 @@
+<div class="col-md-12">
+
+  <div class="col-md-2">
+    <mat-form-field>
+      <mat-select placeholder="Select Course" [(ngModel)]="selectedCourse" name="course" (change)="subjectChanged('course')">
+        <mat-option *ngFor="let course of courses" [value]="course.value">
+          {{course.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-md-2">
+    <mat-form-field>
+      <mat-select placeholder="Select Subject" [(ngModel)]="selectedSubject" name="subject" (change)="subjectChanged()">
+        <mat-option *ngFor="let subject of subjects" [value]="subject.value">
+          {{course.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-md-2">
+    <mat-form-field>
+      <mat-select placeholder="Select Topic" [(ngModel)]="selectedTopic" name="topic" (change)="subjectChanged()">
+        <mat-option *ngFor="let topic of topics" [value]="topic.value">
+          {{course.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-md-2">
+    <mat-form-field>
+      <mat-select placeholder="Select Choice" [(ngModel)]="selectedChoic" name="choice" (change)="subjectChanged()">
+        <mat-option *ngFor="let topic of topics" [value]="topic.value">
+          {{course.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-md-2">
+    Apply
+  </div>
+</div>

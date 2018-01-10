@@ -2,7 +2,7 @@
 <div >
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a (click)="navigate()" class="navbar-brand" style="cursor:pointer">Power Education</a>
+			<a (click)="navigateTo('','')" class="navbar-brand" style="cursor:pointer">Power Education</a>
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
@@ -11,7 +11,7 @@
   						<span class="caret"></span></a>
   					<ul class="dropdown-menu">
 					    <li>
-							<a (click)="navigateToCourses('ssc')" style="cursor: pointer">SSC</a>
+							<a (click)="navigateTo('browseCourses','ssc')" style="cursor: pointer">SSC</a>
 							
 						</li>
 							
@@ -20,29 +20,83 @@
 					  </ul>
 				</li>
 			</ul>
-			<div class="dropdown">
+			<!--<div class="dropdown">
   <button class="dropbtn">Dropdown</button>
   <div class="dropdown-content">
     <a href="#">Link 1</a>
     <a href="#">Link 2</a>
     <a href="#">Link 3</a>
   </div>
-</div>
+</div>-->
 			<ul class="nav navbar-nav">
-				<!--<li> <a (click)="navigateToCourses()" style="cursor:pointer">Browse courses</a></li>-->
-				<li> <a style="cursor:pointer" (click)="navigateToTestSeries('')">Exams</a></li>
-				<li> <a style="cursor:pointer" (click)="navigateToTestSeries('test')">Begin Test</a></li>
-				<li> <a style="cursor:pointer" (click)="navigateToTestSeries('')">Contact us</a></li>
+				<li> <a style="cursor:pointer" (click)="navigateTo()">Shop</a></li>
+				<li class="dropdown"> <!-- *ngIf="commonService.isUserLoggedIn && commonService.userInfo.role==='A';">
+					<a class="dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">Admin
+  						<span class="caret"></span></a>
+  					<ul class="dropdown-menu">
+					    <li>
+							<a (click)="navigateTo()" style="cursor: pointer">Upload Question</a>
+							
+						</li>
+							
+					    <li><a (click)="navigateTo()">Set Paper</a></li>
+					  </ul>-->
+		<mat-card-content *ngIf="userRole == this.defineConstants.ROLE_ADMIN">
+			<button mat-raised-button color="white" [matMenuTriggerFor]="menu">Admin</button>
+			<mat-menu #menu="matMenu" [overlapTrigger]="false"> 
+				<button mat-menu-item> 
+					<span>Dashboard</span>
+				</button>
+				<button mat-menu-item [matMenuTriggerFor]="QMenu"> 
+					<span>Questions</span>
+				</button>
+				<button mat-menu-item [matMenuTriggerFor]="TMMenu"> 
+					<span>Test Manager</span>
+				</button>
+				<button mat-menu-item [matMenuTriggerFor]="PMenu"> 
+					<span>Product</span>
+				</button>
+				<button mat-menu-item [matMenuTriggerFor]="CMenu"> 
+					<span>Candidate</span>
+				</button>
+			</mat-menu>
+			<mat-menu #QMenu="matMenu">
+				<button mat-menu-item (click)="navigateTo('QManager','Q')">Question</button>
+				<button mat-menu-item (click)="navigateTo('testSeries','Q')">Import Question</button>
+				<button mat-menu-item>Subject</button>
+			</mat-menu>
+			<mat-menu #TMMenu="matMenu">
+				<button mat-menu-item>View All Tests</button>
+				<button mat-menu-item>Create Test</button>
+			</mat-menu>
+			<mat-menu #PMenu="matMenu">
+				<button mat-menu-item>Product</button>
+				<button mat-menu-item>Doscount</button>
+				<button mat-menu-item>Doscount Distribution</button>
+				<button mat-menu-item>Payment</button>
+				<button mat-menu-item>Product Link</button>
+			</mat-menu>
+			<mat-menu #CMenu="matMenu">
+				<button mat-menu-item>Add Candidate</button>
+				<button mat-menu-item>Add Group</button>
+				<button mat-menu-item>Import Data</button>
+			</mat-menu>
+    </mat-card-content>
+				</li>
+		
+				<li> <a style="cursor:pointer" (click)="navigateTo('')">About us</a></li>
+				<li> <a style="cursor:pointer" (click)="navigateTo('')">Contact us</a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right" >
+						<!--<li *ngIf="commonService.userInfo.role==='A'"> Bookmark</li>-->
 						<li *ngIf="!commonService.isUserLoggedIn; else elseBlock">
-							<a (click)="signMeIn()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Sign in</a>
+							<a (click)="signMeIn()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Log in</a>
 						</li>
-						<template #elseBlock>
-							<li style="padding-top: 15px;"> Welcome {{commonService.userInfo.FName}}</li>
+						<ng-template #elseBlock>
+							<li style="padding-top: 15px;"> Welcome {{commonService.userInfo.fName}} </li>
 					<li><a (click)="loggingOut()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Log out</a></li>
-			</template>
+			</ng-template>
 			</ul>
 			
 		</div>

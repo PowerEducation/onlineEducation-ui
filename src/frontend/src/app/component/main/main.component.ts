@@ -39,11 +39,16 @@ export class MainComponent implements OnInit {
   private router:Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.utilService.getUserInformation();
     this.subscription = this.route.queryParams.subscribe(
       queryParam => this.param = queryParam['page']
     )
-    this.viewSwitch(this.param);
+    if(this.param ==undefined)
+      this.viewSwitch(this.definedConstants.MAIN_PAGE_VIEW);
+    else
+      this.viewSwitch(this.param);
   }
+
 
 viewSwitch(type){
   this.resetAll();
@@ -55,11 +60,14 @@ viewSwitch(type){
         this.utilService.browseCoursesView = true;
     case this.definedConstants.TEST_SERIES_VIEW:
         this.utilService.testSeries =true;
+    case this.definedConstants.Q_Manager_View:
+        this.utilService.qManagerView =true;    
   }
 }
   resetAll(){
     this.utilService.mainPageView = false;
     this.utilService.browseCoursesView = false;
     this.utilService.testSeries = false;
+    this.utilService.qManagerView =false;
   }
 }

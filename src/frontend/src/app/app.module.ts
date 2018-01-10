@@ -13,8 +13,8 @@ import { MainComponent } from './component/main/main.component';
 import { FooterComponent } from './component/footer/footer.component';
 import { LeftComponent } from './component/left/left.component';
 import { Routes, RouterModule } from '@angular/router';
-import { ModalModule } from 'angular2-modal';
-import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+import { ModalModule } from 'ngx-modialog';
+import { BootstrapModalModule } from 'ngx-modialog/plugins/bootstrap';
 import { LoginModalComponent } from './component/modal/login-modal/login-modal.component';
 import {routes} from './app.router';
 import { BrowseCoursesViewComponent } from './component/browse-courses-view/browse-courses-view.component';
@@ -27,6 +27,11 @@ import { NgClass } from '@angular/common';
 import {GalleriaModule, CaptchaModule,DataTableModule } from 'primeng/primeng';
 import { StartExamModalComponent } from './component/modal/start-exam-modal/start-exam-modal.component';
 import { BeginTestComponentComponent } from './component/begin-test-component/begin-test-component.component';
+import { AdminPanelComponentComponent } from './component/admin-panel-component/admin-panel-component.component';
+import {MatButtonModule, MatCheckboxModule, MatSelectModule, MatInputModule, MatSidenavModule, MatSnackBarModule, MatToolbarModule,
+       MatCheckboxModule, MatMenuModule, MatCardModule, MatIconModule,MatDialogModule, MatButtonToggleModule} from '@angular/material';
+import { QuestionManagerComponentComponent } from './component/question-manager-component/question-manager-component.component';
+import { SingleValuedModalComponent } from './component/modal/single-valued-modal/single-valued-modal.component';
 
 @NgModule({
   declarations: [
@@ -43,9 +48,15 @@ import { BeginTestComponentComponent } from './component/begin-test-component/be
     TestSeriesComponent,
     SliderUtilComponent,
     StartExamModalComponent,
-    BeginTestComponentComponent
+    BeginTestComponentComponent,
+    AdminPanelComponentComponent,
+    QuestionManagerComponentComponent,
+    SingleValuedModalComponent
   ],
-  entryComponents:[LoginModalComponent,StartExamModalComponent],
+  entryComponents:[
+    LoginModalComponent,
+    StartExamModalComponent,
+    SingleValuedModalComponent],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
@@ -57,7 +68,12 @@ import { BeginTestComponentComponent } from './component/begin-test-component/be
     ModalModule.forRoot(),
     BootstrapModalModule,
     CaptchaModule,DataTableModule,
-    GalleriaModule
+    GalleriaModule,
+    MatButtonModule, MatMenuModule,
+    MatCardModule, MatIconModule,
+    MatDialogModule, MatSelectModule,
+    MatInputModule, MatSidenavModule, MatButtonToggleModule,
+    MatSnackBarModule, MatToolbarModule, MatCheckboxModule
   ],
   providers: [DefinedConstants,
   CommonApiService,
