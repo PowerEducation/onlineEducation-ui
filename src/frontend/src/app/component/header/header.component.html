@@ -30,7 +30,7 @@
 </div>-->
 			<ul class="nav navbar-nav">
 				<li> <a style="cursor:pointer" (click)="navigateTo()">Shop</a></li>
-				<li class="dropdown"> <!-- *ngIf="commonService.isUserLoggedIn && commonService.userInfo.role==='A';">
+				<li class="dropdown"> <!-- *ngIf="utilService.isUserLoggedIn && utilService.userInfo.role==='A';">
 					<a class="dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">Admin
   						<span class="caret"></span></a>
   					<ul class="dropdown-menu">
@@ -62,7 +62,7 @@
 			</mat-menu>
 			<mat-menu #QMenu="matMenu">
 				<button mat-menu-item (click)="navigateTo('QManager','Q')">Question</button>
-				<button mat-menu-item (click)="navigateTo('testSeries','Q')">Import Question</button>
+				<button mat-menu-item (click)="navigateTo('importQuestionView','Q')">Import Question</button>
 				<button mat-menu-item>Subject</button>
 			</mat-menu>
 			<mat-menu #TMMenu="matMenu">
@@ -89,12 +89,12 @@
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right" >
-						<!--<li *ngIf="commonService.userInfo.role==='A'"> Bookmark</li>-->
-						<li *ngIf="!commonService.isUserLoggedIn; else elseBlock">
+						<!--<li *ngIf="utilService.userInfo.role==='A'"> Bookmark</li>-->
+						<li *ngIf="!utilService.isUserLoggedIn; else elseBlock">
 							<a (click)="signMeIn()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Log in</a>
 						</li>
 						<ng-template #elseBlock>
-							<li style="padding-top: 15px;"> Welcome {{commonService.userInfo.fName}} </li>
+							<li style="padding-top: 15px;"> Welcome {{utilService.userInfo.fName}} </li>
 					<li><a (click)="loggingOut()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Log out</a></li>
 			</ng-template>
 			</ul>

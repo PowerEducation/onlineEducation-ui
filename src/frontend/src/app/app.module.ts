@@ -24,14 +24,18 @@ import { BrowseLectureComponent } from './component/browse-lecture/browse-lectur
 import { TestSeriesComponent } from './component/test-series/test-series.component';
 import { SliderUtilComponent } from './component/util/slider-util/slider-util.component';
 import { NgClass } from '@angular/common';
-import {GalleriaModule, CaptchaModule,DataTableModule } from 'primeng/primeng';
+import {GalleriaModule, CaptchaModule,DataTableModule,SharedModule } from 'primeng/primeng';
 import { StartExamModalComponent } from './component/modal/start-exam-modal/start-exam-modal.component';
 import { BeginTestComponentComponent } from './component/begin-test-component/begin-test-component.component';
 import { AdminPanelComponentComponent } from './component/admin-panel-component/admin-panel-component.component';
-import {MatButtonModule, MatCheckboxModule, MatSelectModule, MatInputModule, MatSidenavModule, MatSnackBarModule, MatToolbarModule,
+import {MatButtonModule, MatSelectModule, MatInputModule, MatSidenavModule, MatSnackBarModule, MatToolbarModule, MatRadioModule, MatTooltipModule,
        MatCheckboxModule, MatMenuModule, MatCardModule, MatIconModule,MatDialogModule, MatButtonToggleModule} from '@angular/material';
 import { QuestionManagerComponentComponent } from './component/question-manager-component/question-manager-component.component';
 import { SingleValuedModalComponent } from './component/modal/single-valued-modal/single-valued-modal.component';
+import { AddQuestionsComponent } from './component/add-questions/add-questions.component';
+import { QuillModule } from 'ngx-quill';
+import { QuestionPanelComponent } from './component/add-questions/question-panel/question-panel.component';
+import { ImportQuestionsXlsComponent } from './component/import-questions-xls/import-questions-xls.component'
 
 @NgModule({
   declarations: [
@@ -51,7 +55,10 @@ import { SingleValuedModalComponent } from './component/modal/single-valued-moda
     BeginTestComponentComponent,
     AdminPanelComponentComponent,
     QuestionManagerComponentComponent,
-    SingleValuedModalComponent
+    SingleValuedModalComponent,
+    AddQuestionsComponent,
+    QuestionPanelComponent,
+    ImportQuestionsXlsComponent
   ],
   entryComponents:[
     LoginModalComponent,
@@ -66,12 +73,12 @@ import { SingleValuedModalComponent } from './component/modal/single-valued-moda
     // RouterModule.forRoot(api_routes, {useHash:false}),
     routes,
     ModalModule.forRoot(),
-    BootstrapModalModule,
-    CaptchaModule,DataTableModule,
+    BootstrapModalModule,QuillModule,
+    CaptchaModule,DataTableModule, SharedModule,
     GalleriaModule,
     MatButtonModule, MatMenuModule,
     MatCardModule, MatIconModule,
-    MatDialogModule, MatSelectModule,
+    MatDialogModule, MatSelectModule, MatRadioModule, MatTooltipModule
     MatInputModule, MatSidenavModule, MatButtonToggleModule,
     MatSnackBarModule, MatToolbarModule, MatCheckboxModule
   ],

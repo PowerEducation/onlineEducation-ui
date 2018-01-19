@@ -27,6 +27,14 @@ export class CommonApiService {
         .map(res => res.json())
         .catch(this.handleError);
   }
+
+  genericDelete(urlString:string){
+    console.log("Generic Delete Method" +urlString);  
+      return this.http.delete(urlString)
+        .map(res => res.json())
+        .catch(this.handleError);
+  }
+
 genericPost(urlString:string,payLoad:any){
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });

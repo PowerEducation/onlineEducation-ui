@@ -1,3 +1,47 @@
-<div class="row"> 
+<!--<div class="row"> 
     <button class="btn btn-primary" (click)="startTest()">Start Test</button>
+    <input type="file" (change)="onFileChange($event)" multiple="false" /> 
 </div>
+<div id="drop">Drop a File Here</div>-->
+
+<!--<div id="drop" (drop)="onDrop($event)"
+    (dragover)="onDragOver($event)"> Drop a File    </div>-->
+    <input type="file" (change)="onFileChange($event)" multiple="false" />
+<!--
+	<table class="sjs-table">
+		<tr *ngFor="let row of data">
+			<td *ngFor="let val of row">
+				{{val}}
+			</td>
+		</tr>
+	</table>-->
+    <div class="col-md-12">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div *ngIf="formattedData.length>1">
+                <p-dataTable [value]="formattedData" [editable]="true"  scrollable="true"
+                    scrollHeight="600px" scrollWidth="1200px" [style]="{'margin-top':'30px'}" 
+                    sortMode="multiple" [rows]="10" [paginator]="true">
+                <p-column field="SNo" header="S. No."  [style]="{'width':'30px'}"></p-column>
+                <p-column field="QUESTIONTEXT" header="Question Text" [editable]="true" [style]="{'width':'250px'}"
+                 [sortable]="true" [filter]="true" filterPlaceholder="Search"></p-column>
+                <p-column field="SUBJECTNAME" header="Subject Name" [editable]="true" [style]="{'width':'250px'}"  [sortable]="true"></p-column>
+                <p-column field="TOPICNAME" header="Topic Name" [editable]="true" [style]="{'width':'250px'}"  [sortable]="true"></p-column>
+                <p-column field="OPTION1" header="Ans. Option1" [editable]="true" [style]="{'width':'250px'}"></p-column>
+                <p-column field="OPTION2" header="Ans. Option2" [editable]="true" [style]="{'width':'250px'}"></p-column>
+                <p-column field="OPTION3" header="Ans. Option3" [editable]="true" [style]="{'width':'250px'}"></p-column>
+                <p-column field="OPTION4" header="Ans. Option4" [editable]="true" [style]="{'width':'250px'}"></p-column>
+                <p-column field="OPTION5" header="Ans. Option5" [editable]="true" [style]="{'width':'250px'}"></p-column>
+                <p-column field="OPTION6" header="Ans. Option6" [editable]="true" [style]="{'width':'250px'}"></p-column>
+                <p-column field="CORRECTANSWER" header="Correct Answer" [editable]="true" [style]="{'width':'250px'}"></p-column>
+                <p-column field="EXPLANATION" header="Explanation" [editable]="true" [style]="{'width':'250px'}"></p-column>
+                <p-column field="DIFFICULTYLEVEL" header="Diff Level" [editable]="true" [style]="{'width':'250px'}"></p-column>
+                <p-column field="QUESTIONTAGS" header="Tags" [editable]="true" [style]="{'width':'250px'}"></p-column>
+        </p-dataTable>
+        <div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    
+    <button (click)="save()">Save!</button>
+	<button (click)="validateQuestions()">Validate Questions</button>

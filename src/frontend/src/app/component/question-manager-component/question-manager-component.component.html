@@ -1,5 +1,10 @@
 <div class="col-md-12">
-
+  <div class="col-md-8"></div>
+    <div class="col-md-4"><button mat-raised-button class="float-right" color="primary"
+    (click)="navigateToAddQ()">Add Questions</button></div>
+</div>
+<div class="col-md-12">
+<!--
   <div class="col-md-2">
     <mat-form-field>
       <mat-select placeholder="Select Course" [(ngModel)]="selectedCourse" name="course" (change)="subjectChanged('course')">
@@ -8,35 +13,83 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  </div>
+  </div>-->
   <div class="col-md-2">
     <mat-form-field>
-      <mat-select placeholder="Select Subject" [(ngModel)]="selectedSubject" name="subject" (change)="subjectChanged()">
+      <mat-select placeholder="Select Subject" [(ngModel)]="selectedSubject" name="subject" (change)="subjectChanged('subject')">
         <mat-option *ngFor="let subject of subjects" [value]="subject.value">
-          {{course.viewValue}}
+          {{subject.viewValue}}
         </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <div class="col-md-2">
     <mat-form-field>
-      <mat-select placeholder="Select Topic" [(ngModel)]="selectedTopic" name="topic" (change)="subjectChanged()">
+      <mat-select placeholder="Select Topic" [(ngModel)]="selectedTopic" name="topic" (change)="topicChanged()">
         <mat-option *ngFor="let topic of topics" [value]="topic.value">
-          {{course.viewValue}}
+          {{topic.viewValue}}
         </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <div class="col-md-2">
     <mat-form-field>
-      <mat-select placeholder="Select Choice" [(ngModel)]="selectedChoic" name="choice" (change)="subjectChanged()">
-        <mat-option *ngFor="let topic of topics" [value]="topic.value">
-          {{course.viewValue}}
+      <mat-select placeholder="Select Choice" [(ngModel)]="selectedChoice" name="choice">
+        <mat-option *ngFor="let choice of this.definedConstants.DATA_QUESTION_CHOICE" [value]="choice.value">
+          {{choice.viewValue}}
         </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <div class="col-md-2">
-    Apply
+       <mat-form-field class="example-full-width" >
+          <input matInput  maxlength="32" placeholder="Enter" [(ngModel)]="tags">
+          <mat-hint align="end">{{tags.length}} / 32</mat-hint>
+          
+        </mat-form-field>
   </div>
+  <div class="col-md-2">
+    <button mat-raised-button class="float-right" color="primary" (click)="fetchQuestions()">Apply</button>
+  </div>
+</div>
+<div class="col-md-12 container-fluid">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+    <input #gb type="text" pInputText size="50" placeholder="Global Filter">
+    <button type="button" icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:right">Download</button>
+</div>
+      <p-dataTable [value]="outputQuestions"  [rows]="10" sortMode="multiple" exportFilename="cars" 
+                   [paginator]="true" [pageLinks]="3" [responsive]="true" [stacked]="stacked"
+                   [globalFilter]="gb" #dt  expandableRows="true">
+         <p-header>
+       
+    </p-header>
+            <p-column expander="true" styleClass="col-icon" [style]="{'width':'25px'}"></p-column>
+        <p-column field="question" header="Question" [editable]="true" [style]=" {'overflow':'visible' }"
+        [sortable]="true"></p-column>
+        <p-column field="difficultyLevel" header="Difficulty Level" [sortable]="true"></p-column>
+        <p-column field="tagId" header="Tag" [sortable]="true"></p-column>
+        <p-column>
+         <ng-template pTemplate="header">
+            Action
+        </ng-template>
+         <ng-template let-question="rowData" let-index="rowIndex"  pTemplate="body">
+            <button type="button" pButton (click)="editQuestion(question)" icon="fa-search">Edit</button>
+            <button type="button" pButton (click)="deleteQuestion(question,index)" icon="fa-search">Delete</button>
+        </ng-template>
+        </p-column>
+        <ng-template let-question pTemplate="rowexpansion">
+           <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-3" style="text-align:center">
+                    <i class="fa fa-search" (click)="showAnswer(question)" style="cursor:pointer;float:left;margin-top:40px"></i>
+                </div>
+            </div>
+           </div>
+          </ng-template>
+      </p-dataTable>
+  </div> 
+  <div class="col-md-1"></div>
 </div>

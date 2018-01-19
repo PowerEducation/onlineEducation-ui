@@ -4,5 +4,7 @@
 <app-browse-courses-view #childView *ngIf="utilService.browseCoursesView" style="margin-top: 50px"></app-browse-courses-view>
 <app-test-series *ngIf="utilService.testSeries" style="margin-top: 50px"> </app-test-series>
 <app-question-manager-component *ngIf="utilService.qManagerView"></app-question-manager-component>
+<app-add-questions *ngIf="utilService.addQuestionView"></app-add-questions>
 <app-admin-panel-component *ngIf="utilService.adminPanelView"></app-admin-panel-component>
-<app-footer class="footer-class"></app-footer>
+<app-import-questions-xls *ngIf="utilService.importQuestionView"></app-import-questions-xls>
+<!--<app-footer class="footer-class"></app-footer>-->

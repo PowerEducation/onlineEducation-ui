@@ -14,6 +14,7 @@ export class SingleValuedModalComponent implements OnInit {
   constructor(public dialog: MatDialogRef<SingleValuedModalComponent>, @Inject(MAT_DIALOG_DATA) public data:string) { }
   public typeInput="";
   ngOnInit() {
+    console.log(this.data)
   }
 
 onNoClick(): void {
@@ -23,7 +24,7 @@ onNoClick(): void {
   close(value){
     console.log(value.length)
     this.dialog.close({
-      "type":this.data.type,
+      "type":this.data,
       "value" : value
     });
   }
@@ -31,4 +32,5 @@ onNoClick(): void {
   saveData(){
     this.close(this.typeInput)
   }
+
 }

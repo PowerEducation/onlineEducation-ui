@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   //   modal.defaultViewContainer = vcRef;
   //  }
 
-  constructor(private commonService: CommonUtilService,public modal: Modal,
+  constructor(private utilService: CommonUtilService,public modal: Modal,
   private dialog: MatDialog,private router: Router, private route: ActivatedRoute,
   private defineConstants: DefinedConstants) {
    }
@@ -32,10 +32,10 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit() {
-    this.commonService.getUserInformation();
-    if(this.commonService.isUserLoggedIn){
+    this.utilService.getUserInformation();
+    if(this.utilService.isUserLoggedIn){
       this.isLogin = true;
-      this.userRole = this.commonService.userInfo.role;
+      this.userRole = this.utilService.userInfo.role;
     }else
       this.userRole=this.defineConstants.ROLE_UNKNOWN;
   }
@@ -88,9 +88,9 @@ export class HeaderComponent implements OnInit {
   }
   
   navigateTo(type,subType){
-    this.resetAll();
+    this.utilService.resetAll();
     if(type=="browseCourses"){
-      this.commonService.browseCoursesView =true;
+      this.utilService.browseCoursesView =true;
       let navParams : NavigationExtras;
       navParams = {
         queryParams:{
@@ -102,29 +102,28 @@ export class HeaderComponent implements OnInit {
      if(subType=="test"){
       this.router.navigate(['/beginTest']);
     }else{
-    this.commonService.testSeries =true;
+    this.utilService.testSeries =true;
     this.router.navigate(['/home'], { queryParams: { page:'testSeries'  } });
     }
   }else if(type==="QManager"){
-    this.commonService.qManagerView =true;
+    this.utilService.qManagerView =true;
     this.router.navigate(['/home'], { queryParams: { page:'questionManager'  } });
     console.log("Moving to Q Manager");
+  }else if(type==="importQuestionView"){
+      this.utilService.importQuestionView =true;
+      this.router.navigate(['/home'], { queryParams: { page:'importQuestionView'  } });
+      console.log("Moving to Q Manager");
   }
   else{
       sessionStorage.setItem('course',type);
-      this.commonService.mainPageView =true;
-      this.commonService.browseCoursesView =false;
-      this.commonService.testSeries = false;
+      this.utilService.mainPageView =true;
+      this.utilService.browseCoursesView =false;
+      this.utilService.testSeries = false;
       this.router.navigate(['/home'] );
     }
     
   }
-  resetAll(){
-     this.commonService.mainPageView =false;
-     this.commonService.browseCoursesView =false;
-     this.commonService.testSeries = false;
-     this.commonService.qManagerView = false;
-  }
+
   showMore(type){
     this.typeCourse = type;
     if(type==='ssc')
@@ -139,11 +138,11 @@ export class HeaderComponent implements OnInit {
  * Method to Log out the user
  */
   loggingOut(){
-    if(this.commonService.userInfo.role === this.defineConstants.ROLE_ADMIN){
+    if(this.utilService.userInfo.role === this.defineConstants.ROLE_ADMIN){
        this.router.navigate(['/home'] );
     }
     this.userRole = this.defineConstants.ROLE_UNKNOWN;
-    this.commonService.loggedOutUser();
+    this.utilService.loggedOutUser();
     
   }
 }

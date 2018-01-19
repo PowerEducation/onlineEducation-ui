@@ -1,0 +1,106 @@
+<div>
+  <div class="example-container" >
+    <mat-form-field style="border-style: groove;"> 
+      <textarea matInput placeholder="Enter Your Question"  [(ngModel)]="enteredQuestion"
+          matTextareaAutosize required
+          matAutosizeMinRows="2"
+          matAutosizeMaxRows="10"></textarea>
+    </mat-form-field>
+  </div>
+
+<div  class="col-md-12">
+  <div  class="col-md-3"> Correct Answer</div>
+  <div  class="col-md-9"> Answer Description</div>
+</div>
+  <div *ngFor="let answer of answers;let index=index;" class="col-md-12">
+  
+    <div class="col-md-2">
+      <span class="col-md-4">{{index+1}}</span>
+      <span class="col-md-8">
+        <div *ngIf="questionType==='sc' || questionType==='tf'">
+          <mat-radio-button class="example-container" (change)="correctAnswerSelection(index)" >
+          </mat-radio-button>
+       </div>
+       <div *ngIf="questionType==='mc'">
+         <mat-checkbox (change)="correctAnswerSelection(index)"></mat-checkbox>
+         </div>
+
+      </span>
+      
+       
+    </div>
+    <div class="example-container">
+      <mat-form-field style="border-style: groove;"> 
+        <textarea matInput placeholder="Enter Your Answer"
+            matTextareaAutosize required  [(ngModel)]="answer.text"
+            matAutosizeMinRows="1"
+            matAutosizeMaxRows="2"></textarea>
+      </mat-form-field>
+       <button mat-raised-button color="primary" (click)="deleteAnswer(index)">Delete</button>
+    </div>
+    
+  </div>
+  <!--<div class="col-md-12">
+    <mat-radio-group class="example-container" [(ngModel)]="favoriteSeason">
+  <mat-radio-button class="example-container" *ngFor="let season of answers" [value]="season" >
+      <div   >
+       <mat-form-field style="border-style: groove;" class="example-container"> 
+        <textarea matInput placeholder="Enter Your Answer"  
+            matTextareaAutosize required
+            matAutosizeMinRows="1"
+            matAutosizeMaxRows="2" (change)="updateAnswer($event)" ></textarea>
+      </mat-form-field>
+      </div>
+  </mat-radio-button>
+</mat-radio-group>
+</div>-->
+<div class="col-md-12">
+  <div class="col-md-8"></div>
+  <div class="col-md-4" style="margin-top: 4px">   
+    <button mat-raised-button color="primary" (click)="addAnswer()">Add More Answers</button>
+  </div>
+</div>
+
+
+  <div class="col-md-12" style="margin: 4px">
+    <div class="col-md-2"> <button mat-raised-button color="grey" (click)="addExplanation()" class="float-right">{{explanationText}}</button></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-8" style="margin: 4px"> 
+      <div *ngIf="explanationText == definedConstants.REMOVE_EPLN" class="example-container">
+            <mat-form-field style="border-style: groove;"> 
+                <textarea matInput placeholder="Enter Your Explanation"  
+                  matTextareaAutosize required  [(ngModel)]="explanationValue"
+                  matAutosizeMinRows="1"
+                  matAutosizeMaxRows="2"></textarea>
+            </mat-form-field>
+          </div>
+
+    </div>
+
+  </div>
+  <div class="col-md-12" style="margin: 4px">
+    <div class="col-md-2"> <button mat-raised-button color="grey" (click)="addTag()" class="float-right">{{tagText}}</button></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-8" style="margin: 4px"> 
+      <div *ngIf="tagText == definedConstants.REMOVE_TAG" class="example-container">
+            <mat-form-field style="border-style: groove;"> 
+                <textarea matInput placeholder="Enter Your Tag"  
+                  matTextareaAutosize required  [(ngModel)]="tagValue"
+                  matAutosizeMinRows="1"
+                  matAutosizeMaxRows="2"></textarea>
+            </mat-form-field>
+          </div>
+
+    </div>
+
+  </div>
+    <div class="col-md-12"> 
+      <div class="col-md-4"></div>
+      <div class="col-md-4" >
+        <button mat-raised-button color="accent" (click)="saveQuestion()">Save Question</button>
+      </div>
+      <div class="col-md-4"></div>
+      </div>
+
+   
+</div>

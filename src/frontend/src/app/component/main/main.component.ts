@@ -44,30 +44,33 @@ export class MainComponent implements OnInit {
       queryParam => this.param = queryParam['page']
     )
     if(this.param ==undefined)
-      this.viewSwitch(this.definedConstants.MAIN_PAGE_VIEW);
+      this.utilService.viewSwitch(this.definedConstants.MAIN_PAGE_VIEW);
     else
-      this.viewSwitch(this.param);
+      this.utilService.viewSwitch(this.param);
   }
 
 
-viewSwitch(type){
-  this.resetAll();
-  switch(type){
-    case this.definedConstants.MAIN_PAGE_VIEW:
-        this.utilService.mainPageView = true;
-        break;
-    case this.definedConstants.COURSE_VIEW:
-        this.utilService.browseCoursesView = true;
-    case this.definedConstants.TEST_SERIES_VIEW:
-        this.utilService.testSeries =true;
-    case this.definedConstants.Q_Manager_View:
-        this.utilService.qManagerView =true;    
-  }
-}
-  resetAll(){
-    this.utilService.mainPageView = false;
-    this.utilService.browseCoursesView = false;
-    this.utilService.testSeries = false;
-    this.utilService.qManagerView =false;
-  }
+// viewSwitch(type){
+//   this.resetAll();
+//   switch(type){
+//     case this.definedConstants.MAIN_PAGE_VIEW:
+//         this.utilService.mainPageView = true;
+//         break;
+//     case this.definedConstants.COURSE_VIEW:
+//         this.utilService.browseCoursesView = true;
+//     case this.definedConstants.TEST_SERIES_VIEW:
+//         this.utilService.testSeries =true;
+//     case this.definedConstants.Q_Manager_View:
+//         this.utilService.qManagerView =true; 
+//     case this.definedConstants.ADD_QUESTIONS_VIEW:
+//         this.utilService.addQuestionView =true; 
+//   }
+// }
+//   resetAll(){
+//     this.utilService.mainPageView = false;
+//     this.utilService.browseCoursesView = false;
+//     this.utilService.testSeries = false;
+//     this.utilService.qManagerView =false;
+//     this.utilService.addQuestionView=false;
+//   }
 }
