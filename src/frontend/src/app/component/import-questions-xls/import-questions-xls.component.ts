@@ -7,7 +7,7 @@ import {DefinedConstants} from "../../app.defined.constants";
 import { Question,Answers } from '../../model/course.model';
 import * as XLSX from 'xlsx';
 import swal from 'sweetalert2';
-
+import quill from 'Quill';
 
 @Component({
   selector: 'app-import-questions-xls',
@@ -23,8 +23,12 @@ export class ImportQuestionsXlsComponent implements OnInit {
   ngOnInit() {
   }
 public type:any;
- public data: any;
-  public formattedData:any=[];
+public data: any;
+public formattedData:any=[];
+text1: string = '<div>Hello World!</div><div>PrimeNG <b>Editor</b> Rocks</div><div><br></div>';
+    
+    text2: string;
+
   
 	wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
 	fileName: string = 'SheetJS.xlsx';
@@ -76,7 +80,7 @@ public type:any;
           tempquestion[head]=element[counter++];
         })
         tempquestion["hasError"]=false;
-        tempquestion["error"]="You are Good to save this.";
+        tempquestion["errorText"]="You are Good to save this.";
         this.formattedData.push(tempquestion);
       });
      }else{
@@ -98,8 +102,8 @@ public type:any;
   }
   save(){
     console.log(JSON.stringify(this.formattedData))
-    let index =0;
-    this.formattedData.forEach(data=>{
+    
+    this.formattedData.forEach((data,index)=>{
       if(data.SUBJECTNAME!=undefined && data.SUBJECTNAME!=null && data.SUBJECTNAME!=""){
         //Find Subject Name or API Name
         let apiString=this.definedConstants.API_BASE_URL+this.definedConstants.API_SUBJECT_BY_NAME_FIND +data.SUBJECTNAME;
@@ -110,22 +114,22 @@ public type:any;
           resTopic=>{
             // return resTopic._embedded.topics;
             if(resTopic._embedded.topics.length==0){
-               this.formattedData[index].error ="Subject doesn't have any topic."
+               this.formattedData[index].errorText ="Subject doesn't have any topic."
                this.formattedData[index].hasError =true;
             }else{
               if(resTopic._embedded.topics.find(topic=>topic.tNm==data.TOPICNAME)){
                 let question = new Question();
-                question.question = btoa(data.QUESTIONTEXT);
+                question.question = btoa(encodeURIComponent(data.QUESTIONTEXT));
                 question.subject =resSub._links.self.href;
                 question.topic = (resTopic._embedded.topics.filter(topic=>topic.tNm==data.TOPICNAME))[0]._links.self.href;
-                let answers = [];
+                let answers:any = [];
                 answers.push({"text":data.OPTION1,"index":0});
                 answers.push({"text":data.OPTION2,"index":1});
                 answers.push({"text":data.OPTION3,"index":2});
                 answers.push({"text":data.OPTION4,"index":3});
                 answers.push({"text":data.OPTION5,"index":4});
                 answers.push({"text":data.OPTION6,"index":5});
-                question.answers = btoa(answers);
+                question.answers = btoa(encodeURIComponent(data.answers));
                 question.optionType=data.QUESTIONTYPE;
                 question.correctAns=data.CORRECTANSWER;
                 question.langCd="eng";
@@ -135,7 +139,8 @@ public type:any;
                 this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_QUESTIONS,question).subscribe(
                   response=>{
                     console.log("Saved the Question");
-                    this.formattedData[index].error="Saved the Question."
+                    this.formattedData[index].hasError =false;
+                    this.formattedData[index].errorText="Saved the Question."
                   },error=>{
                     swal("Issue in saving the Question")
                   });
@@ -148,7 +153,7 @@ public type:any;
     })
     },error=>{
       console.log("Subject Not Found")
-      this.formattedData[index].error ="Subject Name doesn't exists.";
+      this.formattedData[index].errorText ="Subject Name doesn't exists.";
       this.formattedData[index].hasError =true;
       
     });
@@ -159,41 +164,13 @@ public type:any;
         //     console.log("GOt the Subjects..",data.SUBJECTNAME)
         // }
       }else{
-        this.formattedData[index].error ="Subject Name is undefined."
+        this.formattedData[index].errorText ="Subject Name is undefined."
         this.formattedData[index].hasError =true;
       }
-    index++;  
   })
   }
 
-  findSubjectANDTopic(name,index){
-    let apiString=this.definedConstants.API_BASE_URL+this.definedConstants.API_SUBJECT_BY_NAME_FIND +name;
-    this.apiService.genericGet(apiString).subscribe(
-      resSub=>{
-        console.log("Subjects are>>",resSub.subjectName);
-        this.apiService.genericGet(this.definedConstants.API_BASE_URL+this.definedConstants.API_TOPIC_BY_SUBJECT+resSub._links.self.href).subscribe(
-          resTopic=>{
-            // return resTopic._embedded.topics;
-            if(resTopic._embedded.topics.length==0){
-               this.formattedData[index].error ="Subject doesn't have any topic."
-               this.formattedData[index].hasError =true;
-               return false;
-            }else{
-              this.formattedData[index].resTopic = resTopic;
-              return true;
-            }
-    },error=>{
-      console.error("Issue in Dealing with ");
-      return false;
-    })
-    },error=>{
-      console.log("Subject Not Found")
-      this.formattedData[index].error ="Subject Name doesn't exists.";
-      this.formattedData[index].hasError =true;
-      return false;
-    });
-    
-  }
+  
   validateQuestions(){
      const subjectConst = this.formattedData.map(data => data.SUBJECTNAME +","+ data.TOPICNAME);
      let subjects = subjectConst.filter((x, i, a) => x && a.indexOf(x) === i);

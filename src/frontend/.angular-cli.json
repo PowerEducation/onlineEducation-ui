@@ -23,6 +23,7 @@
         "styles.css",
         "../node_modules/sweetalert2/dist/sweetalert2.min.css",
         "../node_modules/quill/dist/quill.core.css",
+        "../node_modules/quill/dist/quill.snow.css",
         "../node_modules/font-awesome/css/font-awesome.min.css",
         "../node_modules/primeng/resources/primeng.min.css",
         "../node_modules/primeng/resources/themes/omega/theme.css"
@@ -33,7 +34,6 @@
         "../node_modules/sweetalert2/dist/sweetalert2.min.js",
         "../node_modules/select2/dist/js/select2.full.min.js",
         "../node_modules/xlsx/dist/xlsx.full.min.js",
-        "../node_modules/quill/dist/quill.min.js",
         "../node_modules/quill/dist/quill.js"
         ],
       "environmentSource": "environments/environment.ts",

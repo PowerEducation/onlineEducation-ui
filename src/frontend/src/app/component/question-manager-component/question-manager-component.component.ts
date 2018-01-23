@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { DefinedConstants } from '../../app.defined.constants';
 import {CommonUtilService} from '../../services/common-util.service';
@@ -15,7 +15,7 @@ import swal from 'sweetalert2';
 })
 export class QuestionManagerComponentComponent implements OnInit {
 
-  constructor(private definedConstants: DefinedConstants, private utilService: CommonUtilService, 
+  constructor(private zone:ChangeDetectorRef, private definedConstants: DefinedConstants, private utilService: CommonUtilService, 
   private apiService: CommonApiService, private router: Router, private route: ActivatedRoute,
   private dialog: MatDialog) { }
 
@@ -28,6 +28,7 @@ export class QuestionManagerComponentComponent implements OnInit {
    public tags:string="";
    public outputQuestions:any=[];
    public outputAnswers:any=[]
+   public isLoading:boolean=false;
   ngOnInit() {
     this.loadSubjects();
   }
@@ -64,21 +65,15 @@ export class QuestionManagerComponentComponent implements OnInit {
       if(result.value!=""){
         console.log('The dialog was closed'+JSON.stringify(result));
         // Save the Subject
-        let subject =  new Subjects();
-        subject.subjectName = result.value;
-        this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_SUBJECTS,subject).subscribe(
-          response=>{
-            console.log("Saved the Subject",response);
-            this.subjects=[];
-            this.subjects[this.subjects.length-1].value =  response.subjectName_links.self.href;
-            this.subjects[this.subjects.length-1].viewValue =  response.subjectName;
-            this.selectedSubject= response.subjectName_links.self.href;
-            this.subjects.push({value:this.definedConstants.ADD_SUBJECT,viewValue:this.definedConstants.ADD_SUBJECT})
-            swal("Subject Saved","Success")
-          },error=>{
-            console.error("Error in Saving the Information",error);
-          }
-        )
+        this.subjects[this.subjects.length-1].value =  result.link;
+        this.subjects[this.subjects.length-1].viewValue = result.value;
+        this.selectedSubject=result.link;
+        this.subjects.push({value:this.definedConstants.ADD_SUBJECT,viewValue:this.definedConstants.ADD_SUBJECT})
+        this.topics=[];
+        this.topics.push({value:this.definedConstants.ADD_TOPIC,viewValue:this.definedConstants.ADD_TOPIC})
+        swal("Subject Saved","Success")
+      }else{
+        this.selectedSubject="";
       }
     });
   }else{
@@ -100,27 +95,20 @@ topicChanged(){
       this.selectedTopic="";
        let dialogRef = this.dialog.open(SingleValuedModalComponent, {
       width: '600px',
-      data: {'type':'Topic'}
+      data: {'type':'Topic',
+             'subject':this.selectedSubject,
+            'topics':this.topics}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result.value!=""){
         // Save the Topic
-        let topic =  new Topic();
-        topic.tNm = result.value;
-        topic.subject = this.selectedSubject;
-        this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_TOPICS,topic).subscribe(
-          response=>{
-            console.log("Saved the Topic",response);
-            this.topics[this.topics.length-1].value =  response.tNm;
-            this.selectedTopic = response.tNm;
-            this.topics[this.topics.length-1].viewValue =  response.tNm;
-            this.topics.push({value:this.definedConstants.ADD_TOPIC,viewValue:this.definedConstants.ADD_TOPIC})
-            swal("Saved the Topic","success")
-          },error=>{
-            console.error("Error in Saving the Information",error);
-            swal("Error in Saving the Topic",error);
-          });
+        this.topics[this.topics.length-1].value =  result.link;
+        this.topics[this.topics.length-1].viewValue =  result.value;
+        
+        this.selectedTopic = result.value;
+        this.topics.push({value:this.definedConstants.ADD_TOPIC,viewValue:this.definedConstants.ADD_TOPIC})
+        swal("Saved the Topic","success")
       }
      });
     }
@@ -154,14 +142,15 @@ topicChanged(){
     
     this.apiService.genericGet(this.definedConstants.API_BASE_URL+apiString).subscribe(
       response=>{
-        console.log("Response"+JSON.stringify(response));
+        response._embedded.questions.map(quet=>quet.question = decodeURIComponent(atob(quet.question)))
         this.outputQuestions = response._embedded.questions;
-        console.log(response._embedded.questions.map(quet=>quet.question = atob(quet.question))) ;
+        
     })
     
   }
 
 deleteQuestion(question,index){
+
   swal({
     title: "Are you sure?",
   text: "You will not be able to recover this Question!",
@@ -172,19 +161,28 @@ deleteQuestion(question,index){
   cancelButtonText: "No, cancel plx!"
   }).then((result)=>{
    if(result===true){
+     this.isLoading=true;
      this.apiService.genericDelete(question._links.self.href).subscribe(
        response=>{
-         swal("Deleted!", "Your Question has been deleted.", "success");
+         
+        //  this.outputQuestions=[];
          this.outputQuestions.splice(index,1);
+          console.log(this.outputQuestions);
+         
+        this.zone.detectChanges();
+         this.isLoading=false;
+        //  this._ngZone.run(()=>this.outputQuestions.splice(index,1));
+        //  swal("Deleted!", "Your Question has been deleted.", "success");
+         
        }
      ),error=>{
        console.error("Error in Deleting:"+error);
+       this.isLoading=false;
      }
 
    }
  
-  }).catch(swal.noop);
-  console.log(question)
+  })
 }
   navigateToAddQ(){
     this.utilService.qManagerView =false;

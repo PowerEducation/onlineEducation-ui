@@ -66,19 +66,13 @@ export class AddQuestionsComponent implements OnInit {
         // Save the Subject
         let subject =  new Subjects();
         subject.subjectName = result.value;
-        this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_SUBJECTS,subject).subscribe(
-          response=>{
-            console.log("Saved the Subject");
-            this.selectedSubject =  response.subjectName;
-            this.subjects[this.subjects.length-1].value =  response._links.self.href;
-            this.subjects[this.subjects.length-1].viewValue =  response.subjectName;
-            this.subjects.push({value:this.definedConstants.ADD_SUBJECT,viewValue:this.definedConstants.ADD_SUBJECT})
-            swal("Subject Saved","Success")
-          },error=>{
-            console.error("Error in Saving the Information",error);
-          }
-        )
-      }
+        console.log("Saved the Subject");
+        this.selectedSubject =  result.value;
+        this.subjects[this.subjects.length-1].value =  result.link;
+        this.subjects[this.subjects.length-1].viewValue =  result.value;
+        this.subjects.push({value:this.definedConstants.ADD_SUBJECT,viewValue:this.definedConstants.ADD_SUBJECT})
+        swal("Subject Saved","Success")
+      } 
     });
   }else{
     this.apiService.genericGet(this.selectedSubject+this.definedConstants.API_TOPIC).subscribe(
@@ -98,7 +92,9 @@ topicChanged(){
     this.selectedTopic="";
        let dialogRef = this.dialog.open(SingleValuedModalComponent, {
       width: '600px',
-      data: {'type':'Topic'}
+      data: {'type':'Topic',
+           'subject':this.selectedSubject,
+           'topics':this.topics}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -107,17 +103,11 @@ topicChanged(){
         let topic =  new Topic();
         topic.tNm = result.value;
         topic.subject = this.selectedSubject;
-        this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_TOPICS,topic).subscribe(
-          response=>{
-            this.selectedTopic= response.tNm;
-            this.topics[this.topics.length-1].value =  response._links.self.href;
-            this.topics[this.topics.length-1].viewValue =  response.tNm;
-            this.topics.push({value:this.definedConstants.ADD_TOPIC,viewValue:this.definedConstants.ADD_TOPIC})
-            swal("Saved the Topic","success")
-          },error=>{
-            console.error("Error in Saving the Information",error);
-            swal("Error in Saving the Topic",error);
-          });
+        this.selectedTopic= result.value;
+        this.topics[this.topics.length-1].value =  result.links;
+        this.topics[this.topics.length-1].viewValue =  result.value;
+        this.topics.push({value:this.definedConstants.ADD_TOPIC,viewValue:this.definedConstants.ADD_TOPIC})
+        swal("Saved the Topic","success")
       }
      });
     }

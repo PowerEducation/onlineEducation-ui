@@ -1,20 +1,46 @@
-<div class="container-fluid" >
+<div *ngIf="isLoading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="4" fill="#EEEEEE" animationDuration="2s"></p-progressSpinner>
+</div> 
+<div class="container-fluid"  *ngIf="!isLoading">
    
     <div class="modal-header">
       <button type="button" class="close" (click)="close('')">&times;</button>
       <!--<form >-->
         <mat-form-field class="example-full-width" >
           <input matInput  maxlength="32" required placeholder="Enter" [(ngModel)]=typeInput>
-          <mat-hint align="start"><strong>Enter {{data.type}} Name</strong> </mat-hint>
+          <mat-hint align="start">
+           <span *ngIf="typeError" class="mat-error">
+            <strong>{{data.type}} already exists.</strong>
+           </span>
+           
+            <span *ngIf="!typeError">
+           <strong>Enter {{data.type}} Name</strong>
+           </span>
+           </mat-hint>
           <mat-hint align="end">{{typeInput.length}} / 32</mat-hint>
-          
+         
         </mat-form-field>
+        
         <div class="float-right">
             <button mat-raised-button color="grey" (click)="close('')">Cancel</button>
             <button mat-raised-button color="primary" (click)="saveData()">Save</button>
         </div>
       <!--</form>-->
     </div>
+    
+
+<!--<form (ngSubmit)="signIn()" #loginForm="ngForm">
+  <div class="form-group">  
+    <span class="help-block" class="text-danger"
+              *ngIf="loginError!=='false'"> {{loginError}}<hr></span>
+              
+     <label for="email">User Name</label>
+          <input type="text" class="form-control" id="userName"
+            name="userName" ngModel required minlength="3" maxlength="25" #userName="ngModel"> 
+            <span class="help-block" style="color: red"
+              *ngIf="!userName.valid &&  userName.touched"> Please enter valid User Name</span>
+  </div>-->
+
 </div>
 
 <!--<mat-card class="demo-card demo-basic">
