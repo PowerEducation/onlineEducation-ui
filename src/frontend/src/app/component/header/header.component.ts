@@ -113,6 +113,12 @@ export class HeaderComponent implements OnInit {
       this.utilService.importQuestionView =true;
       this.router.navigate(['/home'], { queryParams: { page:'importQuestionView'  } });
       console.log("Moving to Q Manager");
+  }else if(type===this.defineConstants.Q_ENTITY_VIEW){
+    this.utilService.manageEntityView =true;
+    this.router.navigate(['/home'], { queryParams: { page:'manageEntityView'  } });
+  }else if(type==this.defineConstants.TEST_MANAGER_VIEW){
+     this.utilService.testManagerView =true;
+      this.router.navigate(['/home'], { queryParams: { page:this.defineConstants.TEST_MANAGER_VIEW  } });
   }
   else{
       sessionStorage.setItem('course',type);

@@ -14,6 +14,9 @@ public adminPanelView:boolean;
 public qManagerView:boolean;
 public importQuestionView:boolean;
 public addQuestionView:boolean;
+public manageEntityView:boolean;
+public testManagerView:boolean;
+public testProductView:boolean;
 public isUserLoggedIn:boolean = false;
 public userInfo:UsersInfo;
 public userRole:string;
@@ -56,6 +59,15 @@ viewSwitch(type){
     case this.definedConstants.Q_IMPORT_VIEW:
          this.importQuestionView =true;
          break;
+    case this.definedConstants.Q_ENTITY_VIEW:
+          this.manageEntityView = true;
+          break;
+    case this.definedConstants.TEST_MANAGER_VIEW:
+         this.testManagerView = true;
+         break;
+    case this.definedConstants.TEST_CATEGORY_VIEW:
+         this.testProductView = true;
+         break;
   }
 }
   resetAll(){
@@ -65,6 +77,9 @@ viewSwitch(type){
     this.qManagerView =false;
     this.addQuestionView=false;
     this.importQuestionView=false;
+    this.manageEntityView=false;
+    this.testManagerView=false;
+    this.testProductView =false;
   }
 
   setUser(response){

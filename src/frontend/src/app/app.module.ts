@@ -29,13 +29,16 @@ import { StartExamModalComponent } from './component/modal/start-exam-modal/star
 import { BeginTestComponentComponent } from './component/begin-test-component/begin-test-component.component';
 import { AdminPanelComponentComponent } from './component/admin-panel-component/admin-panel-component.component';
 import {MatButtonModule, MatSelectModule, MatInputModule, MatSidenavModule, MatSnackBarModule, MatToolbarModule, MatRadioModule, MatTooltipModule,
-       MatCheckboxModule, MatMenuModule, MatCardModule, MatIconModule,MatDialogModule, MatButtonToggleModule} from '@angular/material';
+       MatCheckboxModule, MatMenuModule, MatCardModule, MatIconModule,MatDialogModule, MatButtonToggleModule, MatStepperModule} from '@angular/material';
 import { QuestionManagerComponentComponent } from './component/question-manager-component/question-manager-component.component';
 import { SingleValuedModalComponent } from './component/modal/single-valued-modal/single-valued-modal.component';
 import { AddQuestionsComponent } from './component/add-questions/add-questions.component';
 
 import { QuestionPanelComponent } from './component/add-questions/question-panel/question-panel.component';
-import { ImportQuestionsXlsComponent } from './component/import-questions-xls/import-questions-xls.component'
+import { ImportQuestionsXlsComponent } from './component/import-questions-xls/import-questions-xls.component';
+import { ManageEntityComponent } from './component/manage-entity/manage-entity.component';
+import { TestManagerViewComponent } from './component/test-manager-view/test-manager-view.component';
+import { TestCategogyViewComponent } from './component/test-categogy-view/test-categogy-view.component'
 
 @NgModule({
   declarations: [
@@ -58,7 +61,10 @@ import { ImportQuestionsXlsComponent } from './component/import-questions-xls/im
     SingleValuedModalComponent,
     AddQuestionsComponent,
     QuestionPanelComponent,
-    ImportQuestionsXlsComponent
+    ImportQuestionsXlsComponent,
+    ManageEntityComponent,
+    TestManagerViewComponent,
+    TestCategogyViewComponent
   ],
   entryComponents:[
     LoginModalComponent,
@@ -78,8 +84,8 @@ import { ImportQuestionsXlsComponent } from './component/import-questions-xls/im
     GalleriaModule,
     MatButtonModule, MatMenuModule,
     MatCardModule, MatIconModule,
-    MatDialogModule, MatSelectModule, MatRadioModule, MatTooltipModule,
-    MatInputModule, MatSidenavModule, MatButtonToggleModule,
+    MatDialogModule, MatSelectModule, MatRadioModule,       MatTooltipModule,
+    MatInputModule, MatSidenavModule, MatButtonToggleModule,MatStepperModule, 
     MatSnackBarModule, MatToolbarModule, MatCheckboxModule
   ],
   providers: [DefinedConstants,

@@ -40,6 +40,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.utilService.getUserInformation();
+   
     this.subscription = this.route.queryParams.subscribe(
       queryParam => this.param = queryParam['page']
     )
@@ -47,30 +48,7 @@ export class MainComponent implements OnInit {
       this.utilService.viewSwitch(this.definedConstants.MAIN_PAGE_VIEW);
     else
       this.utilService.viewSwitch(this.param);
+     console.log("this.param>>"+this.param)
+     console.log("CateGory View"+this.utilService.testProductView)
   }
-
-
-// viewSwitch(type){
-//   this.resetAll();
-//   switch(type){
-//     case this.definedConstants.MAIN_PAGE_VIEW:
-//         this.utilService.mainPageView = true;
-//         break;
-//     case this.definedConstants.COURSE_VIEW:
-//         this.utilService.browseCoursesView = true;
-//     case this.definedConstants.TEST_SERIES_VIEW:
-//         this.utilService.testSeries =true;
-//     case this.definedConstants.Q_Manager_View:
-//         this.utilService.qManagerView =true; 
-//     case this.definedConstants.ADD_QUESTIONS_VIEW:
-//         this.utilService.addQuestionView =true; 
-//   }
-// }
-//   resetAll(){
-//     this.utilService.mainPageView = false;
-//     this.utilService.browseCoursesView = false;
-//     this.utilService.testSeries = false;
-//     this.utilService.qManagerView =false;
-//     this.utilService.addQuestionView=false;
-//   }
 }

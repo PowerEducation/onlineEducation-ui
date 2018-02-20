@@ -7,6 +7,7 @@ import { SingleValuedModalComponent } from '../modal/single-valued-modal/single-
 import {MatDialog} from '@angular/material';
 import { Courses, Subjects, Topic } from '../../model/course.model';
 import swal from 'sweetalert2';
+import {Subscription} from "rxjs/Rx";
 
 @Component({
   selector: 'app-add-questions',
@@ -29,10 +30,35 @@ export class AddQuestionsComponent implements OnInit {
    public choices:any=[];
    public topics:any=[]
    public tags:string="";
-   
+   private subscription: Subscription;
+   public param:string;
+   public question:any;
 
   ngOnInit() {
-    this.loadSubjects();
+   
+   this.subscription = this.route.queryParams.subscribe(
+      queryParam=>{
+        this.param =queryParam['view']
+      });
+      if(this.param !== undefined){
+        this.question = JSON.parse(sessionStorage.getItem("tempQuestion"));
+        console.log(""+JSON.stringify(this.question))
+      
+        this.apiService.genericGet(this.question._links.subject.href).subscribe( 
+          res=>{
+            this.subjects.push({value:res._links.subject.href,viewValue:res.subjectName})
+              this.selectedSubject =res._links.subject.href;
+        });
+        this.apiService.genericGet(this.question._links.topic.href).subscribe( 
+          response=>{
+              this.topics.push({value:response._links.topic.href,viewValue:response.tNm});
+              this.selectedTopic =response._links.topic.href;
+              
+        });
+      }else{
+        this.loadSubjects();
+      }
+      
   }
 
 /**
@@ -45,7 +71,6 @@ export class AddQuestionsComponent implements OnInit {
             this.subjects.push({value:subjects._links.self.href,viewValue:subjects.subjectName})
           });
           this.subjects.push({value:this.definedConstants.ADD_SUBJECT,viewValue:this.definedConstants.ADD_SUBJECT});
-          console.log("Subjects Are::"+JSON.stringify( this.subjects));
       },error=>{
         console.error("Error in Getting Response")
       });

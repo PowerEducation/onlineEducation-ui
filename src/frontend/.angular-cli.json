@@ -19,6 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "../src/assets/fonts/hindi/hindi.css",
       "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "styles.css",
         "../node_modules/sweetalert2/dist/sweetalert2.min.css",

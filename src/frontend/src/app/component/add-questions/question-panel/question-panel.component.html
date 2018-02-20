@@ -6,9 +6,10 @@
           matAutosizeMinRows="2"
           matAutosizeMaxRows="10"></textarea>
     </mat-form-field>
+    <!--<p-editor [(ngModel)]="enteredQuestion" [style]="{'height':'80px'}" placeholder="Enter Your Question*"></p-editor>-->
   </div>
 
-<div  class="col-md-12">
+<div  class="col-md-12" style="margin-top:5px">
   <div  class="col-md-3"> Correct Answer</div>
   <div  class="col-md-9"> Answer Description</div>
 </div>
@@ -36,6 +37,7 @@
             matAutosizeMinRows="1"
             matAutosizeMaxRows="2"></textarea>
       </mat-form-field>
+      <!--<p-editor [(ngModel)]="answer.text" [style]="{'height':'80px'}" placeholder="Enter Your Answer*"></p-editor>-->
        <button mat-raised-button color="primary" (click)="deleteAnswer(index)">Delete</button>
     </div>
     
@@ -74,9 +76,7 @@
                   matAutosizeMaxRows="2"></textarea>
             </mat-form-field>
           </div>
-
     </div>
-
   </div>
   <div class="col-md-12" style="margin: 4px">
     <div class="col-md-2"> <button mat-raised-button color="grey" (click)="addTag()" class="float-right">{{tagText}}</button></div>
@@ -90,9 +90,7 @@
                   matAutosizeMaxRows="2"></textarea>
             </mat-form-field>
           </div>
-
     </div>
-
   </div>
     <div class="col-md-12"> 
       <div class="col-md-4"></div>
@@ -101,6 +99,4 @@
       </div>
       <div class="col-md-4"></div>
       </div>
-
-   
 </div>

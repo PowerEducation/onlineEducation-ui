@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { DefinedConstants } from '../../app.defined.constants';
 import {CommonUtilService} from '../../services/common-util.service';
@@ -15,10 +15,12 @@ import swal from 'sweetalert2';
 })
 export class QuestionManagerComponentComponent implements OnInit {
 
-  constructor(private zone:ChangeDetectorRef, private definedConstants: DefinedConstants, private utilService: CommonUtilService, 
+  constructor( private definedConstants: DefinedConstants, private utilService: CommonUtilService, 
   private apiService: CommonApiService, private router: Router, private route: ActivatedRoute,
   private dialog: MatDialog) { }
 
+  @Input() source:string;
+  @Input() testValues;
    public selectedSubject: string="";
    public selectedChoice:string="";
    public selectedTopic:string="";
@@ -80,6 +82,7 @@ export class QuestionManagerComponentComponent implements OnInit {
     this.apiService.genericGet(this.selectedSubject+this.definedConstants.API_TOPIC).subscribe(
       resSubject=>{
         this.topics=[];
+        this.selectedTopic="";
         resSubject._embedded.topics.forEach(topic=>{
           this.topics.push({value:topic._links.self.href,viewValue:topic.tNm});  
         })
@@ -119,30 +122,52 @@ topicChanged(){
   //  public selectedChoice:string;
   //  public selectedTopic:string;
   //  public tags:string="";
-  let isSelectionDone:boolean=false;
   let apiString:string;
   if(this.tags!==""){
     apiString=this.definedConstants.API_FIND_QUESTION_BY_TAG +this.tags;
-    isSelectionDone=true;
+    if(this.selectedSubject!="" && this.selectedSubject!=this.definedConstants.ADD_SUBJECT
+           && this.selectedTopic!=this.definedConstants.ADD_TOPIC && this.selectedTopic!="" && this.selectedChoice!=""){
+              apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TOPIC_A_TAG_A_OPTIONTYP +this.selectedSubject;
+              apiString= apiString+"&topic="+this.selectedTopic;
+              apiString= apiString+"&tagId="+this.tags;
+              apiString= apiString+"&optionType="+this.selectedChoice;
+           }
+           else if(this.selectedSubject!="" && this.selectedSubject!=this.definedConstants.ADD_SUBJECT
+           && this.selectedTopic!=this.definedConstants.ADD_TOPIC && this.selectedTopic!="" && this.selectedChoice!=""){
+               apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TOPIC_A_TAG +this.selectedSubject;
+              apiString= apiString+"&topic="+this.selectedTopic;
+              apiString= apiString+"&tagId="+this.tags;
+           } else if(this.selectedSubject!="" && this.selectedSubject!=this.definedConstants.ADD_SUBJECT){
+              apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TAG +this.selectedSubject;  
+              apiString= apiString+"&tagId="+this.tags;
+    } 
   }else if(this.selectedSubject!="" && this.selectedSubject!=this.definedConstants.ADD_SUBJECT){
     apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT +this.selectedSubject;
-    isSelectionDone=true;
-  }
-  if(this.tags!=="" && this.selectedSubject!="" && this.selectedSubject!=this.definedConstants.ADD_SUBJECT
-           && this.selectedTopic!=this.definedConstants.ADD_TOPIC && this.selectedTopic!=""){
-    apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TOPIC_A_TAG +this.selectedSubject + "&topic="+this.selectedTopic+"&tagId="+this.tags;
-    isSelectionDone=true;
-  } else if(this.tags!=="" && this.selectedSubject!="" && this.selectedSubject!=this.definedConstants.ADD_SUBJECT){
-    apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TAG +this.selectedSubject + "&tagId="+this.tags;
-    isSelectionDone=true;
-  } 
-  if(!isSelectionDone)
+    if(this.selectedTopic!=this.definedConstants.ADD_TOPIC && this.selectedTopic!="" && this.selectedChoice!=""){
+        apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TOPIC_A_OPTIONTYP +this.selectedSubject;
+        apiString= apiString+"&topic="+this.selectedTopic;
+        apiString= apiString+"&optionType="+this.selectedChoice;
+    }else if(this.selectedTopic!=this.definedConstants.ADD_TOPIC && this.selectedTopic!=""){
+      apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TOPIC +this.selectedSubject;
+      apiString= apiString+"&topic="+this.selectedTopic;
+    }
+  }else
     swal("","Enter a Valid Selection","success")
+  // if(this.tags!=="" && this.selectedSubject!="" && this.selectedSubject!=this.definedConstants.ADD_SUBJECT
+  //          && this.selectedTopic!=this.definedConstants.ADD_TOPIC && this.selectedTopic!=""){
+  //   apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TOPIC_A_TAG +this.selectedSubject + "&topic="+this.selectedTopic+"&tagId="+this.tags;
+  // } else if(this.tags!=="" && this.selectedSubject!="" && this.selectedSubject!=this.definedConstants.ADD_SUBJECT){
+  //   apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TAG +this.selectedSubject + "&tagId="+this.tags;
+  // } 
+    
     
     
     this.apiService.genericGet(this.definedConstants.API_BASE_URL+apiString).subscribe(
       response=>{
-        response._embedded.questions.map(quet=>quet.question = decodeURIComponent(atob(quet.question)))
+        response._embedded.questions.map(quet=>{
+          quet.question = decodeURIComponent(atob(quet.question));
+          quet.answers = JSON.parse(decodeURIComponent(atob(quet.answers)))
+        });
         this.outputQuestions = response._embedded.questions;
         
     })
@@ -169,7 +194,7 @@ deleteQuestion(question,index){
          this.outputQuestions.splice(index,1);
           console.log(this.outputQuestions);
          
-        this.zone.detectChanges();
+        // this.zone.detectChanges();
          this.isLoading=false;
         //  this._ngZone.run(()=>this.outputQuestions.splice(index,1));
         //  swal("Deleted!", "Your Question has been deleted.", "success");
@@ -193,5 +218,18 @@ deleteQuestion(question,index){
 
   showAnswer(ques){
     console.log("question",ques);
+  }
+  rowExpand(){
+    console.log("Row Expansion");
+  }
+  editQuestion (question){
+    sessionStorage.setItem("tempQuestion",JSON.stringify(question))
+    this.utilService.qManagerView =false;
+    this.utilService.addQuestionView =true;
+    this.router.navigate(['/home'], { queryParams: { page:'addQuestionsView',view:'Edit'  } });
+    
+  }
+  addToTest(){
+    console.log(this.testValues)
   }
 }

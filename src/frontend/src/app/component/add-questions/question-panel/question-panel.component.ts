@@ -109,11 +109,11 @@ export class QuestionPanelComponent implements OnInit {
   saveQuestion(){
     if(this.isFormvalidated()){
       let question = new Question();
-      question.question = btoa(this.enteredQuestion);
+      question.question = btoa(encodeURIComponent(this.enteredQuestion));
       question.expln = this.explanationValue;
       question.tagId = this.tagValue;
       question.correctAns = this.correctAnswerIndex.toString();
-      question.answers= btoa(JSON.stringify(this.answers));
+      question.answers= btoa(encodeURIComponent(JSON.stringify(this.answers)));
       this.qData.emit(question);
     }
   }

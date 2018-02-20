@@ -25,10 +25,8 @@ export class ImportQuestionsXlsComponent implements OnInit {
 public type:any;
 public data: any;
 public formattedData:any=[];
-text1: string = '<div>Hello World!</div><div>PrimeNG <b>Editor</b> Rocks</div><div><br></div>';
-    
-    text2: string;
-
+public isAllQSaved:boolean=false;
+public isLoading:boolean=false;
   
 	wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
 	fileName: string = 'SheetJS.xlsx';
@@ -129,7 +127,7 @@ text1: string = '<div>Hello World!</div><div>PrimeNG <b>Editor</b> Rocks</div><d
                 answers.push({"text":data.OPTION4,"index":3});
                 answers.push({"text":data.OPTION5,"index":4});
                 answers.push({"text":data.OPTION6,"index":5});
-                question.answers = btoa(encodeURIComponent(data.answers));
+                question.answers = btoa(encodeURIComponent(JSON.stringify(answers)));
                 question.optionType=data.QUESTIONTYPE;
                 question.correctAns=data.CORRECTANSWER;
                 question.langCd="eng";
@@ -232,5 +230,46 @@ text1: string = '<div>Hello World!</div><div>PrimeNG <b>Editor</b> Rocks</div><d
         }
      })
   }
+  fontFamilyEdit(){
+    let font = quill.import('formats/font');
+    font.whitelist = ['inconsolata', 'roboto', 'mirza', 'arial'];
+  }
+
+
+public toolbarOptions:any = [
+  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+  ['blockquote', 'code-block'],
+
+  [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+  [{ 'direction': 'rtl' }],                         // text direction
+
+  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+  [{ 'font': [] }],
+  [{ 'align': [] }],
+
+  ['clean']                                         // remove formatting button
+];
+
+public editorText = new quill('#editor', {
+  modules: {
+    toolbar: this.toolbarOptions
+  },
+  theme: 'snow'
+});
+
+
+deleteQuestion(index){
+  this.isLoading =true;
+  this.formattedData.splice(index,1);
+  console.log(this.formattedData)
+  this.isLoading =false;
+}
+
 }
 

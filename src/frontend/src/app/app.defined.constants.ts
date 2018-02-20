@@ -10,7 +10,7 @@ public API_COURSES="/courses";
 // Subjects API
 public API_SUBJECTS="/subjects";
 public API_SUBJECT_BY_NAME_FIND="/subjects/search/findBysubjectName?subjectName=";
-// Questions API
+// Topics API
 public API_TOPICS="/topics";
 public API_TOPIC="/topic"
 public API_TOPIC_BY_NAME_FIND="/topics/search/findBytNm?tNm=";
@@ -20,9 +20,17 @@ public API_QUESTIONS="/questions";
 public API_FIND_QUESTION_BY_SUBJECT="/questions/search/findBySubject?subject=";
 public API_FIND_QUESTION_BY_TAG="/questions/search/findByTagId?tagId=";
 public API_FIND_QUESTION_BY_SUBJECT_A_TOPIC="/questions/search/findBySubjectAndTopic?subject=";
+public API_FIND_QUESTION_BY_SUBJECT_A_TOPIC_A_OPTIONTYP="/questions/search/findBySubjectAndTopicAndOptionType?subject="
 public API_FIND_QUESTION_BY_SUBJECT_A_TAG="/questions/search/findBySubjectAndTagId?subject=";
 public API_FIND_QUESTION_BY_SUBJECT_A_TOPIC_A_TAG="/questions/search/findBySubjectAndTopicAndTagId?subject=";
 public API_FIND_QUESTION_BY_SUBJECT_A_TOPIC_A_TAG_A_OPTIONTYP="/questions/search/findBySubjectAndTopicAndTagIdAndOptionType?subject=";
+
+//Category API
+public API_TEST_CATEGORY =  "/testProducts";
+
+//TEST API
+public API_TEST =  "/tests";
+public API_FIND_BY_TEST_NAME="/tests/search/findByTestName?testName=";
 
 // Static Data to Populate
 public DATA_QUESTION_CHOICE =[{"value":"sc","viewValue":"Single Choice"},{"value":"mc","viewValue":"Multiple Choice"}];
@@ -35,8 +43,11 @@ public bfsiCourseList = ["Rajsthan","Delhi"];
 public MAIN_PAGE_VIEW = "mainPageView";
 public COURSE_VIEW =  "browseCourses";
 public TEST_SERIES_VIEW = "testSeries";
+public TEST_MANAGER_VIEW="testManagerView";
+public TEST_CATEGORY_VIEW="addProductView";
 public Q_Manager_View ="questionManager";
 public Q_IMPORT_VIEW="importQuestionView";
+public Q_ENTITY_VIEW="manageEntityView";
 public ADD_QUESTIONS_VIEW="addQuestionsView";
 public ADD_COURSE = "Add COURSE";
 public ADD_SUBJECT = "Add Subject";
@@ -45,6 +56,8 @@ public ADD_EPLN= "Add Explanation";
 public REMOVE_EPLN= "Remove Explanation";
 public ADD_TAG= "Add Tag";
 public REMOVE_TAG= "Remove Tag";
+public ADD_CATEGORY= "Add Category";
+public SOURCE_TEST_M="testManager";
 // Roles
 public ROLE_ADMIN="A";
 public ROLE_STUDENT="S";

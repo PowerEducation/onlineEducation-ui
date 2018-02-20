@@ -14,3 +14,7 @@
     text-align: center;
     background: #58FA82;
 }
+
+#editor {
+  height: 375px;
+}
