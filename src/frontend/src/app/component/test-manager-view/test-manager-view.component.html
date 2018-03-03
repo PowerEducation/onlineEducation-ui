@@ -66,7 +66,15 @@
      
       <div>
         <button mat-raised-button color="primary" matStepperNext>Next</button>
-        <button mat-raised-button color="primary" (click)="saveProgress()" (disable)="createNewTest.valid">Save Progress</button>
+        <span *ngIf="isTestResumed;else notResumedBlock">
+           <button mat-raised-button color="primary" (click)="updateProgress()" (disable)="createNewTest.valid">Update</button>
+        </span>
+        <ng-template #notResumedBlock>
+                  <span>
+                     <button mat-raised-button color="primary" (click)="saveProgress()" (disable)="createNewTest.valid">Save Progress</button>
+                  </span>
+        </ng-template>
+       
       </div>
     </form>
   </mat-step>
@@ -85,10 +93,10 @@
   <mat-step [stepControl]="addQuestion">
     <form [formGroup]="addQuestion">
       <ng-template matStepLabel>Add Question</ng-template>
-     <app-question-manager-component [source]="definedConstants.SOURCE_TEST_M" [testValues]="createNewTest.value" ></app-question-manager-component>
+     <app-question-manager-component [source]="definedConstants.SOURCE_TEST_M" [testValues]="createNewTest.value"  (testQuestionData)="addToTest($event)" ></app-question-manager-component>
       <div>
-        <button mat-button mat-raised-button matStepperPrevious>Back</button>
-        <button mat-button mat-raised-button matStepperNext>Next</button>
+        <button mat-button mat-raised-button  color="primary" matStepperPrevious>Back</button>
+        <button mat-button mat-raised-button  color="primary" matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>
@@ -96,8 +104,9 @@
     <ng-template matStepLabel>Done</ng-template>
     You are now done.
     <div>
-      <button mat-button mat-raised-button matStepperPrevious>Back</button>
-      <button mat-button mat-raised-button (click)="stepper.reset()">Reset</button>
+      <button mat-button mat-raised-button  color="primary" matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" (click)="publishTest()">Publish</button>
+      <!--<button mat-button mat-raised-button (click)="stepper.reset()">Reset</button>-->
     </div>
   </mat-step>
 </mat-horizontal-stepper>

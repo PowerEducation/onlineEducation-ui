@@ -118,7 +118,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/home'], { queryParams: { page:'manageEntityView'  } });
   }else if(type==this.defineConstants.TEST_MANAGER_VIEW){
      this.utilService.testManagerView =true;
-      this.router.navigate(['/home'], { queryParams: { page:this.defineConstants.TEST_MANAGER_VIEW  } });
+     this.router.navigate(['/home'], { queryParams: { page:this.defineConstants.TEST_MANAGER_VIEW  } });
+  }else if(type===this.defineConstants.ALL_TEST_VIEW){
+    this.utilService.allTestsView =true;
+    this.router.navigate(['/home'], { queryParams: { page:this.defineConstants.ALL_TEST_VIEW  } });
   }
   else{
       sessionStorage.setItem('course',type);

@@ -38,7 +38,8 @@ import { QuestionPanelComponent } from './component/add-questions/question-panel
 import { ImportQuestionsXlsComponent } from './component/import-questions-xls/import-questions-xls.component';
 import { ManageEntityComponent } from './component/manage-entity/manage-entity.component';
 import { TestManagerViewComponent } from './component/test-manager-view/test-manager-view.component';
-import { TestCategogyViewComponent } from './component/test-categogy-view/test-categogy-view.component'
+import { TestCategogyViewComponent } from './component/test-categogy-view/test-categogy-view.component';
+import { ViewAllTestsComponent } from './component/view-all-tests/view-all-tests.component'
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { TestCategogyViewComponent } from './component/test-categogy-view/test-c
     ImportQuestionsXlsComponent,
     ManageEntityComponent,
     TestManagerViewComponent,
-    TestCategogyViewComponent
+    TestCategogyViewComponent,
+    ViewAllTestsComponent
   ],
   entryComponents:[
     LoginModalComponent,

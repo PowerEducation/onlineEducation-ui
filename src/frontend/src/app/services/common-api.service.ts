@@ -44,6 +44,16 @@ genericPost(urlString:string,payLoad:any){
         .map(res => res.json())
         .catch(this.handleError);
   }
+
+  genericPut(urlString:string,payLoad:any){
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    console.log("In Put method" +urlString);  
+      return this.http.put(urlString,payLoad,options)
+        .map(res => res.json())
+        .catch(this.handleError);
+  }
   
   genericMockedData(mockedObjectName ) :Observable<any>{
     

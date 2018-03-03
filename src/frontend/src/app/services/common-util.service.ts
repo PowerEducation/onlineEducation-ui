@@ -16,10 +16,12 @@ public importQuestionView:boolean;
 public addQuestionView:boolean;
 public manageEntityView:boolean;
 public testManagerView:boolean;
+public allTestsView:boolean;
 public testProductView:boolean;
 public isUserLoggedIn:boolean = false;
 public userInfo:UsersInfo;
 public userRole:string;
+public isTestResumed:any=[];
   // Select2 Theme Starts Here
 public optionSelectMultipleTag={
   tags:true,
@@ -68,6 +70,9 @@ viewSwitch(type){
     case this.definedConstants.TEST_CATEGORY_VIEW:
          this.testProductView = true;
          break;
+    case this.definedConstants.ALL_TEST_VIEW:
+          this.allTestsView = true;
+          break;
   }
 }
   resetAll(){
@@ -80,6 +85,7 @@ viewSwitch(type){
     this.manageEntityView=false;
     this.testManagerView=false;
     this.testProductView =false;
+    this.allTestsView=false;
   }
 
   setUser(response){
@@ -110,5 +116,9 @@ viewSwitch(type){
   findUniqueFromList(formattedData,itemToSearch){
      const constCurrent = formattedData.map(data => data.itemToSearch);
     return(constCurrent.filter((x, i, a) => x && a.indexOf(x) === i));
+  }
+
+  parseAutoId(parsingString){
+    return parsingString.split("/")[4];
   }
 }

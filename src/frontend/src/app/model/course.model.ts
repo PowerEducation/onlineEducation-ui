@@ -54,9 +54,10 @@ export class Test{
 	public testName:string;
 	public testDesc:string;
 	public basePriceTest:string;
-	public status:number;
+	public status:string;
 	public percentNegative:number;
 	public totalMarks:number;
 	public category:string;
 	public testProduct:string;
+  public addIfNotExists:boolean;
 }

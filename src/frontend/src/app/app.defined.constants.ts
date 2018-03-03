@@ -31,6 +31,8 @@ public API_TEST_CATEGORY =  "/testProducts";
 //TEST API
 public API_TEST =  "/tests";
 public API_FIND_BY_TEST_NAME="/tests/search/findByTestName?testName=";
+public API_ADD_TO_TEST = "/secure/power/addQuestionToTest";
+public API_FIND_TEST_BY_CATE = "/tests/search/findByCategory?category=";
 
 // Static Data to Populate
 public DATA_QUESTION_CHOICE =[{"value":"sc","viewValue":"Single Choice"},{"value":"mc","viewValue":"Multiple Choice"}];
@@ -48,6 +50,7 @@ public TEST_CATEGORY_VIEW="addProductView";
 public Q_Manager_View ="questionManager";
 public Q_IMPORT_VIEW="importQuestionView";
 public Q_ENTITY_VIEW="manageEntityView";
+public ALL_TEST_VIEW="allTestsView";
 public ADD_QUESTIONS_VIEW="addQuestionsView";
 public ADD_COURSE = "Add COURSE";
 public ADD_SUBJECT = "Add Subject";
@@ -63,4 +66,9 @@ public ROLE_ADMIN="A";
 public ROLE_STUDENT="S";
 public ROLE_TEACHER="T";
 public ROLE_UNKNOWN="U";
+
+// Status
+public STATUS_PENDING="Pending";
+public STATUS_ACTIVE="Active";
+public STATUS_INACTIVE="In-Active";
 }

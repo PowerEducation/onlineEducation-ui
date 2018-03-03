@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { DefinedConstants } from '../../app.defined.constants';
 import {CommonUtilService} from '../../services/common-util.service';
 import {CommonApiService} from '../../services/common-api.service';
 import { SingleValuedModalComponent } from '../modal/single-valued-modal/single-valued-modal.component';
 import {MatDialog} from '@angular/material';
-import { Courses, Subjects, Topic } from '../../model/course.model';
+import { Courses, Subjects, Topic, Test} from '../../model/course.model';
 import swal from 'sweetalert2';
 
 @Component({
@@ -21,6 +21,7 @@ export class QuestionManagerComponentComponent implements OnInit {
 
   @Input() source:string;
   @Input() testValues;
+  @Output() testQuestionData =  new EventEmitter();
    public selectedSubject: string="";
    public selectedChoice:string="";
    public selectedTopic:string="";
@@ -229,7 +230,20 @@ deleteQuestion(question,index){
     this.router.navigate(['/home'], { queryParams: { page:'addQuestionsView',view:'Edit'  } });
     
   }
-  addToTest(){
-    console.log(this.testValues)
+  addToTest(question,index){
+    let questionIds:any= [];
+    questionIds.push({"id":this.utilService.parseAutoId(question._links.self.href),
+                      "qText":question.question});
+    let test =  new Test();
+    test.category = this.testValues.testCategory;
+    test.testName = this.testValues.testName;
+    test.diificultyLevel  = this.testValues.
+    diffLevel;
+    test.duration  = this.testValues.duration;
+    test.totalMarks  = this.testValues.totM;
+    test.qCount  = this.testValues.totQ;
+    test.questionIds = btoa(JSON.stringify(questionIds));
+    test.addIfNotExists = true;
+    this.testQuestionData.emit(test);
   }
 }
