@@ -39,10 +39,15 @@ export class MainComponent implements OnInit {
   private router:Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    console.log("Trace")
     this.utilService.getUserInformation();
    
     this.subscription = this.route.queryParams.subscribe(
-      queryParam => this.param = queryParam['page']
+      queryParam =>{ 
+        this.param = queryParam['page'];
+        this.utilService.viewSwitch(this.param);
+        console.log("SEEEE"+this.param);
+      }
     )
     if(this.param ==undefined)
       this.utilService.viewSwitch(this.definedConstants.MAIN_PAGE_VIEW);

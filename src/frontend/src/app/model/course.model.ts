@@ -20,9 +20,9 @@ export class Topic{
 }
 
 export class Question{
-  public question:string;
+  public question:any;
   public optionType:string;
-  public answers;
+  public answers:any;
   public difficultyLevel;
   public langCd:string;
   public expln:string;
@@ -32,9 +32,16 @@ export class Question{
   public correctAns:string;
 }
 
+export class EnteredQuestion{
+  public textH:string;
+  public textE:string;
+}
+
 export class Answers{
-  public text:string;
-  public index
+  public textE:string;
+  public textH:string;
+  public index:number;
+  public isC:boolean=false;
 }
 
 export class Category{
@@ -60,4 +67,12 @@ export class Test{
 	public category:string;
 	public testProduct:string;
   public addIfNotExists:boolean;
+  public _links:any;
+}
+export class QAnsLang{
+  public eng: any;
+  public hin:any;
+  public imageEng:any;
+  public imageHin:any;
+  public qAnsId;
 }

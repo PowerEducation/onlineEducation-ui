@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {CommonUtilService} from '../../services/common-util.service';
 import {CommonApiService} from '../../services/common-api.service';
 import {DefinedConstants} from "../../app.defined.constants";
-import { Question,Answers } from '../../model/course.model';
+import { Question,Answers,QAnsLang } from '../../model/course.model';
 import * as XLSX from 'xlsx';
 import swal from 'sweetalert2';
 import quill from 'Quill';
@@ -27,7 +27,7 @@ public data: any;
 public formattedData:any=[];
 public isAllQSaved:boolean=false;
 public isLoading:boolean=false;
-  
+public isRefresh:boolean = true;  
 	wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
 	fileName: string = 'SheetJS.xlsx';
 
@@ -67,8 +67,9 @@ public isLoading:boolean=false;
 	}
   
   formatData(data){
+    this.isRefresh= false;
     if(data !==null && data.length>1){
-     if(data[0].length==15){
+     if(data[0].length==22){
       let tempData=data.splice(0,1);
       
       data.forEach(element => {
@@ -82,7 +83,8 @@ public isLoading:boolean=false;
         this.formattedData.push(tempquestion);
       });
      }else{
-       swal("","Invalid Excel Sheet. Please try again with proper Header","error")
+       swal("","Invalid Excel Sheet. Please try again with proper Header","error");
+       this.isRefresh= true;
      }
 
      // for(let counter=0;counter<data.length;counter++){
@@ -100,9 +102,8 @@ public isLoading:boolean=false;
   }
   save(){
     console.log(JSON.stringify(this.formattedData))
-    
     this.formattedData.forEach((data,index)=>{
-      if(data.SUBJECTNAME!=undefined && data.SUBJECTNAME!=null && data.SUBJECTNAME!=""){
+      if(data.SUBJECTNAME!=undefined && data.SUBJECTNAME!=null && data.SUBJECTNAME!="" && data.SUBJECTNAME!="NA"){
         //Find Subject Name or API Name
         let apiString=this.definedConstants.API_BASE_URL+this.definedConstants.API_SUBJECT_BY_NAME_FIND +data.SUBJECTNAME;
         this.apiService.genericGet(apiString).subscribe(
@@ -112,22 +113,73 @@ public isLoading:boolean=false;
           resTopic=>{
             // return resTopic._embedded.topics;
             if(resTopic._embedded.topics.length==0){
-               this.formattedData[index].errorText ="Subject doesn't have any topic."
+               this.formattedData[index].errorText ="Subject doesn't have any topic in backend database."
                this.formattedData[index].hasError =true;
-            }else{
+            }else if(data.TOPICNAME==undefined || data.TOPICNAME==null || data.TOPICNAME=="" || data.TOPICNAME=="NA"){
+              this.formattedData[index].errorText ="Topic name is undefined or blank."
+              this.formattedData[index].hasError =true;
+            }else if(data.OPTION1==undefined || data.OPTION1==null || data.OPTION1=="" || data.OPTION1=="NA" || 
+                     data.OPTION2==undefined || data.OPTION2==null || data.OPTION2=="" || data.OPTION2=="NA" ){
+              this.formattedData[index].errorText ="At least two answers options must present."
+              this.formattedData[index].hasError =true;
+            }
+            else{
               if(resTopic._embedded.topics.find(topic=>topic.tNm==data.TOPICNAME)){
                 let question = new Question();
-                question.question = btoa(encodeURIComponent(data.QUESTIONTEXT));
+                let quesText =  new QAnsLang();
+                quesText.eng= data.QUESTIONTEXT;
+                quesText.hin= data.QUESTIONTEXTH;
+                question.question = this.utilService.encodeLOB(JSON.stringify(quesText));
                 question.subject =resSub._links.self.href;
                 question.topic = (resTopic._embedded.topics.filter(topic=>topic.tNm==data.TOPICNAME))[0]._links.self.href;
+                
                 let answers:any = [];
-                answers.push({"text":data.OPTION1,"index":0});
-                answers.push({"text":data.OPTION2,"index":1});
-                answers.push({"text":data.OPTION3,"index":2});
-                answers.push({"text":data.OPTION4,"index":3});
-                answers.push({"text":data.OPTION5,"index":4});
-                answers.push({"text":data.OPTION6,"index":5});
-                question.answers = btoa(encodeURIComponent(JSON.stringify(answers)));
+                answers.push({"textE":data.OPTION1,"index":0,"textH":data.OPTION1H});
+                answers.push({"textE":data.OPTION2,"index":1,"textH":data.OPTION2H});
+                if(data.OPTION3!=undefined && data.OPTION3!=null && data.OPTION3 !="" && data.OPTION3 !="NA"){
+                  if(data.OPTION3H!=undefined && data.OPTION3H!=null && data.OPTION3H !="" && data.OPTION3H !="NA")
+                      answers.push({"textE":data.OPTION3,"index":2,"textH":data.OPTION3H});
+                  else
+                    answers.push({"textE":data.OPTION3,"index":2});
+                }
+                if(data.OPTION4!=undefined && data.OPTION4!=null && data.OPTION4 !="" && data.OPTION4 !="NA"){
+                  if(data.OPTION4H!=undefined && data.OPTION4H !=null && data.OPTION4H !="" && data.OPTION4H !="NA")  
+                    answers.push({"textE":data.OPTION4,"index":3,"textH":data.OPTION4H});
+                  else
+                    answers.push({"textE":data.OPTION4,"index":3});
+                }
+                  
+                if(data.OPTION5!=undefined && data.OPTION5!=null && data.OPTION5 !="" && data.OPTION5 !="NA")  {
+                  if(data.OPTION5H !=undefined && data.OPTION5H !=null && data.OPTION5H !="" && data.OPTION5H !="NA")  
+                    answers.push({"textE":data.OPTION5,"index":4,"textH":data.OPTION5});
+                  else
+                    answers.push({"textE":data.OPTION5,"index":4});
+                }
+                  
+                if(data.OPTION6!=undefined && data.OPTION6!=null && data.OPTION6 !="" && data.OPTION6 !="NA")  {
+                  if(data.OPTION6H!=undefined && data.OPTION6H !=null && data.OPTION6H !="" && data.OPTION6H !="NA")  
+                    answers.push({"textE":data.OPTION6,"index":5,"textH":data.OPTION6});
+                  else
+                    answers.push({"textE":data.OPTION6,"index":5});
+                }
+                  
+                
+                // let answersH:any = [];
+                // answersH.push({"text":data.OPTION1H,"index":0});
+                // answersH.push({"text":data.OPTION2H,"index":1});
+                // if(data.OPTION3H!=undefined && data.OPTION3H!=null && data.OPTION3H !="" && data.OPTION3H !="NA")
+                //   answersH.push({"text":data.OPTION3H,"index":2});
+                // if(data.OPTION4H!=undefined && data.OPTION4H !=null && data.OPTION4H !="" && data.OPTION4H !="NA")  
+                //   answersH.push({"text":data.OPTION4H,"index":3});
+                // if(data.OPTION5H !=undefined && data.OPTION5H !=null && data.OPTION5H !="" && data.OPTION5H !="NA")  
+                //   answersH.push({"text":data.OPTION5H,"index":4});
+                // if(data.OPTION6H!=undefined && data.OPTION6H !=null && data.OPTION6H !="" && data.OPTION6H !="NA")  
+                //   answersH.push({"text":data.OPTION6H,"index":5});
+                
+                // let answer =  new QAnsLang();
+                // answer.eng = answers;
+                // answer.hin = answersH;
+                question.answers = this.utilService.encodeLOB(JSON.stringify(answers));
                 question.optionType=data.QUESTIONTYPE;
                 question.correctAns=data.CORRECTANSWER;
                 question.langCd="eng";
@@ -143,6 +195,9 @@ public isLoading:boolean=false;
                     swal("Issue in saving the Question")
                   });
                 console.log(JSON.stringify(question));
+              }else{
+                this.formattedData[index].hasError =true;
+                this.formattedData[index].errorText="Topic not found."
               }
 
             }

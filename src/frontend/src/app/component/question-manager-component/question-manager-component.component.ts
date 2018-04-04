@@ -32,7 +32,12 @@ export class QuestionManagerComponentComponent implements OnInit {
    public outputQuestions:any=[];
    public outputAnswers:any=[]
    public isLoading:boolean=false;
+   private subscription;
   ngOnInit() {
+    this.subscription =  this.route.queryParams.subscribe(
+      queryParam => {
+      }
+    )
     this.loadSubjects();
   }
 
@@ -84,6 +89,7 @@ export class QuestionManagerComponentComponent implements OnInit {
       resSubject=>{
         this.topics=[];
         this.selectedTopic="";
+        this.outputQuestions=[];
         resSubject._embedded.topics.forEach(topic=>{
           this.topics.push({value:topic._links.self.href,viewValue:topic.tNm});  
         })
@@ -119,10 +125,6 @@ topicChanged(){
   }
 
   fetchQuestions(){
-  //  public selectedSubject: string;
-  //  public selectedChoice:string;
-  //  public selectedTopic:string;
-  //  public tags:string="";
   let apiString:string;
   if(this.tags!==""){
     apiString=this.definedConstants.API_FIND_QUESTION_BY_TAG +this.tags;
@@ -154,20 +156,13 @@ topicChanged(){
     }
   }else
     swal("","Enter a Valid Selection","success")
-  // if(this.tags!=="" && this.selectedSubject!="" && this.selectedSubject!=this.definedConstants.ADD_SUBJECT
-  //          && this.selectedTopic!=this.definedConstants.ADD_TOPIC && this.selectedTopic!=""){
-  //   apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TOPIC_A_TAG +this.selectedSubject + "&topic="+this.selectedTopic+"&tagId="+this.tags;
-  // } else if(this.tags!=="" && this.selectedSubject!="" && this.selectedSubject!=this.definedConstants.ADD_SUBJECT){
-  //   apiString=this.definedConstants.API_FIND_QUESTION_BY_SUBJECT_A_TAG +this.selectedSubject + "&tagId="+this.tags;
-  // } 
-    
-    
-    
     this.apiService.genericGet(this.definedConstants.API_BASE_URL+apiString).subscribe(
       response=>{
         response._embedded.questions.map(quet=>{
-          quet.question = decodeURIComponent(atob(quet.question));
-          quet.answers = JSON.parse(decodeURIComponent(atob(quet.answers)))
+          quet.question = JSON.parse(this.utilService.decodeLOB(quet.question));
+          quet.subjectHref = this.selectedSubject;
+          quet.subject = (this.subjects.filter(subject=>subject.value==this.selectedSubject))[0].viewValue;
+          quet.answers = JSON.parse(this.utilService.decodeLOB(quet.answers));
         });
         this.outputQuestions = response._embedded.questions;
         
@@ -233,7 +228,8 @@ deleteQuestion(question,index){
   addToTest(question,index){
     let questionIds:any= [];
     questionIds.push({"id":this.utilService.parseAutoId(question._links.self.href),
-                      "qText":question.question});
+                      "qText":question.question,
+                      "subject":question.subject});
     let test =  new Test();
     test.category = this.testValues.testCategory;
     test.testName = this.testValues.testName;
@@ -242,7 +238,7 @@ deleteQuestion(question,index){
     test.duration  = this.testValues.duration;
     test.totalMarks  = this.testValues.totM;
     test.qCount  = this.testValues.totQ;
-    test.questionIds = btoa(JSON.stringify(questionIds));
+    test.questionIds = this.utilService.encodeLOB(JSON.stringify(questionIds));
     test.addIfNotExists = true;
     this.testQuestionData.emit(test);
   }

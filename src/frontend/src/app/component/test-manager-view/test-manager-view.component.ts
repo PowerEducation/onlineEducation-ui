@@ -28,13 +28,14 @@ export class TestManagerViewComponent implements OnInit {
   public isTestResumed:boolean=false;
   public questionIdsCount:number;
   public testUpdated:Test;
+  public testLink:string;
 
   constructor(private _formBuilder: FormBuilder, private definedConstants: DefinedConstants,private utilService:CommonUtilService,
           private apiService:CommonApiService, private router: Router, private route: ActivatedRoute) { }
 
-ngOnDestroy(){
- this.utilService.isTestResumed = [];
-}
+  ngOnDestroy(){
+   this.utilService.isTestResumed = [];
+  }
   ngOnInit() {
     this.createNewTest = this._formBuilder.group({
       testName: this.testName,
@@ -61,9 +62,12 @@ ngOnDestroy(){
     this.isTestResumed=true;
     this.questionIdsCount = this.utilService.isTestResumed[1].questionIds.length;
     this.testUpdated = this.utilService.isTestResumed[1];
+    this.testLink = this.testUpdated._links.self.href;
   }
-  }
-public userNameError:boolean=false;
+}
+/**
+ * Sav the Progress of current Question.
+ */
 saveProgress(){
   if(this.isTestNameExists){
     swal('','Test name exists. Please use another name.','error');
@@ -76,7 +80,7 @@ saveProgress(){
     test.duration  = this.createNewTest.value.duration;
     test.totalMarks  = this.createNewTest.value.totM;
     test.qCount  = this.createNewTest.value.totQ;
-    test.questionIds = btoa(encodeURIComponent(questionId));
+    test.questionIds = this.utilService.encodeLOB(JSON.stringify(questionId));
     test.status=this.definedConstants.STATUS_PENDING;
     this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_TEST,test).subscribe( 
       response=>{
@@ -92,22 +96,37 @@ saveProgress(){
     swal('','Missing out something in the form. Resolve them first.','error');
   }
 }
+
+/**
+ * It Updates the existing test Update.
+ */
 updateProgress(){
-  console.log("Update the Progress.."+JSON.stringify(this.testUpdated));
-    this.testUpdated.category = this.createNewTest.value.testCategory;
-    this.testUpdated.testName = this.createNewTest.value.testName;
-    this.testUpdated.diificultyLevel  = this.createNewTest.value.diffLevel;
-    this.testUpdated.duration  = this.createNewTest.value.duration;
-    this.testUpdated.totalMarks  = this.createNewTest.value.totM;
-    this.testUpdated.qCount  = this.createNewTest.value.totQ;
-     this.apiService.genericPut(this.testUpdated._links.self.href, this.testUpdated).subscribe( 
+  if(this.createNewTest.value.totQ < this.testUpdated.questionIds.length){
+     swal("","Question count can't be less than total added questions.",'error');
+  }
+  else{
+    let tempTest= new Test(); 
+    tempTest.category = this.createNewTest.value.testCategory;
+    tempTest.testName = this.createNewTest.value.testName;
+    tempTest.diificultyLevel  = this.createNewTest.value.diffLevel;
+    tempTest.duration  = this.createNewTest.value.duration;
+    tempTest.totalMarks  = this.createNewTest.value.totM;
+    tempTest.qCount  = this.createNewTest.value.totQ;
+    tempTest.questionIds = this.utilService.encodeLOB(JSON.stringify(this.testUpdated.questionIds));
+    tempTest.status = this.testUpdated.status;
+    this.apiService.genericPut(this.testLink, tempTest).subscribe( 
       response=>{
-          swal("","Updated the Test",'success');
-          this.testUpdated = response;
+        swal("","Updated the Test",'success');
+        this.testUpdated = response;
       },error=>{
         console.error("","Error in Saving the Test Progress","error")
-      })
+    })
+  }
 }
+
+/**
+ * This Method validate the test name.
+ */
 validateTestName(){
   if(!this.isTestResumed){
    this.apiService.genericGet(this.definedConstants.API_BASE_URL +
@@ -132,24 +151,57 @@ validateTestName(){
      )
   }
 }
+/**
+ * Question is Added to Test
+ */
 addToTest(test){
   this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_ADD_TO_TEST,test).subscribe( 
     response=>{
         console.log("Added to Test",response);
         swal("",response.message,response.type);
         if(response.type==="success"){
-          this.questionIdsCount = JSON.parse(atob(test.questionIds)).length;
+          this.questionIdsCount = response.qCount;
+          this.testLink = this.definedConstants.API_BASE_URL+this.definedConstants.API_TEST +"/"+response.test;
         }
       },error=>{
         console.error("");
   })
 }
  publishTest(){
-   console.log(this.createNewTest.value);
+  console.log(this.createNewTest.value);
   console.log(this.questionIdsCount)
-   if(this.questionIdsCount == this.createNewTest.value.totQ)
-     swal('','Successfully Published','success')
+   if(this.questionIdsCount == this.createNewTest.value.totQ){
+     let test = new Object();
+     test["status"]=this.definedConstants.STATUS_ACTIVE;
+     test["testAutoId"] = this.utilService.parseAutoId(this.testLink);
+     console.log(test);
+     swal({
+       title:"Publishing the test.",
+       text:"Please wait...",
+       allowOutsideClick:false,
+       onOpen:function(){
+         swal.showLoading();
+       }
+     })
+      this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_UPDATE_TEST_STATUS,test).subscribe(
+        response=>{
+          swal.hideLoading();
+        },error=>{
+          swal("","Issue in publishing the test","error")
+        })
+      swal('','Successfully Published','success')
+   }
+   
   else
-    swal('',"Question count don't match with Added questions",'warning')
+    swal('',"Question count can't be less than total added questions.",'warning')
+ }
+ validateTotalQuestion(){
+   if(this.createNewTest.value.totQ == 0){
+      swal("","Question count should be greater than 0",'error');
+      this.createNewTest.patchValue({totQ:""});
+   }else if(this.isTestResumed && this.createNewTest.value.totQ < this.testUpdated.questionIds.length){
+        this.createNewTest.patchValue({totQ:this.testUpdated.qCount});
+        swal("","Question count can't be less than total added questions. Resetting the Value",'error');
+   }
  }
 }

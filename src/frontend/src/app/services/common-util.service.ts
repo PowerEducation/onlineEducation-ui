@@ -17,6 +17,7 @@ public addQuestionView:boolean;
 public manageEntityView:boolean;
 public testManagerView:boolean;
 public allTestsView:boolean;
+public beginTestView:boolean;
 public testProductView:boolean;
 public isUserLoggedIn:boolean = false;
 public userInfo:UsersInfo;
@@ -73,6 +74,9 @@ viewSwitch(type){
     case this.definedConstants.ALL_TEST_VIEW:
           this.allTestsView = true;
           break;
+    case this.definedConstants.TEST_PREVIEW:
+          this.beginTestView = true;
+          break;
   }
 }
   resetAll(){
@@ -86,6 +90,7 @@ viewSwitch(type){
     this.testManagerView=false;
     this.testProductView =false;
     this.allTestsView=false;
+    this.beginTestView=false;
   }
 
   setUser(response){
@@ -121,4 +126,16 @@ viewSwitch(type){
   parseAutoId(parsingString){
     return parsingString.split("/")[4];
   }
+
+  encodeLOB(str) {
+   return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, p1) {
+     return String.fromCharCode(parseInt('0x' + p1, 16));
+   }));
+ }
+
+ decodeLOB(str) {
+   return decodeURIComponent(atob(str).split('').map(function (c) {
+     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+   }).join(''));
+ }
 }

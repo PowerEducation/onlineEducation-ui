@@ -32,19 +32,27 @@ public API_TEST_CATEGORY =  "/testProducts";
 public API_TEST =  "/tests";
 public API_FIND_BY_TEST_NAME="/tests/search/findByTestName?testName=";
 public API_ADD_TO_TEST = "/secure/power/addQuestionToTest";
+public API_UPDATE_TEST_STATUS = "/secure/power/updateTestStatus";
+public API_REMOVE_FROM_TEST = "/secure/power/removeQuestionFromTest";
 public API_FIND_TEST_BY_CATE = "/tests/search/findByCategory?category=";
+public API_FIND_TEST_BY_TESTNAME="/tests/search/findByTestName?testName=";
+public API_FIND_TEST_BY_TESTNAME_CATE="/tests/search/findByTestNameAndCategory?testName=";
+public API_TEST_UPLOAD="/secure/power/uploadImage";
+public API_TEST_FIND_STATUS="/tests/search/findByStatus?status=";
+public API_GET_ALL_QUESTION_FROM_TEST="/secure/power/getAllQuestionFromTest";
 
 // Static Data to Populate
 public DATA_QUESTION_CHOICE =[{"value":"sc","viewValue":"Single Choice"},{"value":"mc","viewValue":"Multiple Choice"}];
 public DATA_LANGUAGES =[{"value":"eng","viewValue":"English"}];
 public DATA_DIFFICULTY_LEVEL =[{"value":"beginner","viewValue":"Beginner"},{"value":"intermediate","viewValue":"Intermediate"},{"value":"pro","viewValue":"Pro"}];
 public sscCourseList = ["CGL","CHSL","MTS"];
-public QUESTIONS_HEADER=["SNo","QUESTIONTEXT","SUBJECTNAME","TOPICNAME","QUESTIONTYPE","OPTION1","OPTION2","OPTION3","OPTION4","OPTION5","OPTION6","CORRECTANSWER","EXPLANATION","DIFFICULTYLEVEL","QUESTIONTAGS"];
+public QUESTIONS_HEADER=["SNo","QUESTIONTEXT","QUESTIONTEXTH","SUBJECTNAME","TOPICNAME","QUESTIONTYPE","OPTION1","OPTION1H","OPTION2","OPTION2H","OPTION3","OPTION3H","OPTION4","OPTION4H","OPTION5","OPTION5H","OPTION6","OPTION6H","CORRECTANSWER","EXPLANATION","DIFFICULTYLEVEL","QUESTIONTAGS"];
 public slaCourseList = ["PO","Clerk","Assistant"];
 public bfsiCourseList = ["Rajsthan","Delhi"];
 public MAIN_PAGE_VIEW = "mainPageView";
 public COURSE_VIEW =  "browseCourses";
 public TEST_SERIES_VIEW = "testSeries";
+public TEST_PREVIEW="beginTestView";
 public TEST_MANAGER_VIEW="testManagerView";
 public TEST_CATEGORY_VIEW="addProductView";
 public Q_Manager_View ="questionManager";

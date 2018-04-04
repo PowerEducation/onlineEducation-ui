@@ -45,6 +45,19 @@ genericPost(urlString:string,payLoad:any){
         .catch(this.handleError);
   }
 
+  fileUploadPost(urlString:string,selectedFile:File){
+    const uploadData = new FormData();
+    // uploadData.append('uploadFile', selectedFile, selectedFile.name);
+    uploadData.append("file", selectedFile);
+    uploadData.append("ad",JSON.stringify(selectedFile));
+    let headers = new Headers();
+    headers.append('enctype','multipart/form-data')
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(urlString, uploadData,options)
+     .map(res => res.json())
+     .catch(this.handleError);
+  }
+
   genericPut(urlString:string,payLoad:any){
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });

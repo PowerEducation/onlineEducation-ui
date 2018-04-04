@@ -1,3 +1,9 @@
+<div style="padding: 1px">
+      <button mat-raised-button color="primary" (click)="switchLang('hindi')" *ngIf="langSelected == 'english'">Switch to Hindi</button> 
+      <button mat-raised-button color="accent" (click)="switchLang('english')" *ngIf="langSelected == 'hindi'">Back to English</button> 
+      <input   style="display: none"   type="file" (change)="onFileChanged($event)"   #fileInput>
+      <button mat-raised-button color="accent"  (click)="fileInput.click()">Upload File</button>
+  </div>
 <div>
   <div class="example-container" >
     <mat-form-field style="border-style: groove;"> 
@@ -19,26 +25,36 @@
       <span class="col-md-4">{{index+1}}</span>
       <span class="col-md-8">
         <div *ngIf="questionType==='sc' || questionType==='tf'">
-          <mat-radio-button class="example-container" (change)="correctAnswerSelection(index)" >
+          <mat-radio-button class="example-container" (change)="correctAnswerSelection(index)" [checked]="answer.isC" >
           </mat-radio-button>
        </div>
        <div *ngIf="questionType==='mc'">
-         <mat-checkbox (change)="correctAnswerSelection(index)"></mat-checkbox>
+         <mat-checkbox (change)="correctAnswerSelection(index)" [checked]="answer.isC"></mat-checkbox>
          </div>
 
       </span>
       
        
     </div>
-    <div class="example-container">
+    <div class="example-container" *ngIf="this.langSelected=='english'">
       <mat-form-field style="border-style: groove;"> 
         <textarea matInput placeholder="Enter Your Answer"
-            matTextareaAutosize required  [(ngModel)]="answer.text"
+            matTextareaAutosize required  [(ngModel)]="answer.textE"
             matAutosizeMinRows="1"
             matAutosizeMaxRows="2"></textarea>
       </mat-form-field>
+      
       <!--<p-editor [(ngModel)]="answer.text" [style]="{'height':'80px'}" placeholder="Enter Your Answer*"></p-editor>-->
-       <button mat-raised-button color="primary" (click)="deleteAnswer(index)">Delete</button>
+       <button mat-raised-button color="primary" (click)="deleteAnswer(index)" *ngIf="this.langSelected=='english'">Delete</button>
+    </div>
+
+    <div class="example-container" *ngIf="this.langSelected=='hindi'">
+      <mat-form-field style="border-style: groove;"> 
+        <textarea matInput placeholder="Enter Your Answer"
+            matTextareaAutosize required  [(ngModel)]="answer.textH"
+            matAutosizeMinRows="1"
+            matAutosizeMaxRows="2"></textarea>
+      </mat-form-field>
     </div>
     
   </div>
@@ -56,7 +72,7 @@
   </mat-radio-button>
 </mat-radio-group>
 </div>-->
-<div class="col-md-12">
+<div class="col-md-12" *ngIf="this.langSelected=='english'">
   <div class="col-md-8"></div>
   <div class="col-md-4" style="margin-top: 4px">   
     <button mat-raised-button color="primary" (click)="addAnswer()">Add More Answers</button>
@@ -95,7 +111,10 @@
     <div class="col-md-12"> 
       <div class="col-md-4"></div>
       <div class="col-md-4" >
-        <button mat-raised-button color="accent" (click)="saveQuestion()">Save Question</button>
+        <button mat-raised-button color="accent" (click)="saveQuestion()">
+          <span *ngIf="!isUpdateMode">Save </span>
+          <span *ngIf="isUpdateMode">Update </span>Question
+          </button>
       </div>
       <div class="col-md-4"></div>
       </div>

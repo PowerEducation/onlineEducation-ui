@@ -31,8 +31,9 @@ export class AddQuestionsComponent implements OnInit {
    public topics:any=[]
    public tags:string="";
    private subscription: Subscription;
-   public param:string;
+   public param:string="";
    public question:any;
+   public isResetTriggered:boolean=false;
 
   ngOnInit() {
    
@@ -40,10 +41,14 @@ export class AddQuestionsComponent implements OnInit {
       queryParam=>{
         this.param =queryParam['view']
       });
-      if(this.param !== undefined){
+      if(this.param !== undefined && this.param =="Edit"){
         this.question = JSON.parse(sessionStorage.getItem("tempQuestion"));
-        console.log(""+JSON.stringify(this.question))
+        this.selectedChoice = this.question.optionType;
       
+      //  this.subjects.push({value:this.question._links.subject.href,viewValue:this.question.subject})
+      //  this.selectedSubject =this.question._links.subject.href;
+       this.selectedDiffLevel = this.question.difficultyLevel;
+       
         this.apiService.genericGet(this.question._links.subject.href).subscribe( 
           res=>{
             this.subjects.push({value:res._links.subject.href,viewValue:res.subjectName})
@@ -58,9 +63,22 @@ export class AddQuestionsComponent implements OnInit {
       }else{
         this.loadSubjects();
       }
-      
+    // this.tempTest();
   }
 
+// tempTest(){
+
+//   var file1 = window.URL.createObjectURL("F:\\Photos\\IMG_0185.JPG");//new File(['Blob'],"F:\\Photos\\IMG_0185.JPG",{
+// //     type: "images/*" // optional - default = ''
+// // });
+// // var file = new File([],file1)
+// console.log(file1)
+//   // this.apiService.fileUploadPost(this.definedConstants.API_BASE_URL + this.definedConstants.API_TEST_UPLOAD, file)
+//   //   .subscribe(
+//   //     response=>{
+//   //       console.log("Response")
+//   //   });
+// }
 /**
  * Loads the Subjects from the Database
  */ 
@@ -92,10 +110,11 @@ export class AddQuestionsComponent implements OnInit {
         let subject =  new Subjects();
         subject.subjectName = result.value;
         console.log("Saved the Subject");
-        this.selectedSubject =  result.value;
-        this.subjects[this.subjects.length-1].value =  result.link;
+         this.subjects[this.subjects.length-1].value =  result.link;
         this.subjects[this.subjects.length-1].viewValue =  result.value;
-        this.subjects.push({value:this.definedConstants.ADD_SUBJECT,viewValue:this.definedConstants.ADD_SUBJECT})
+        this.subjects.push({value:this.definedConstants.ADD_SUBJECT,viewValue:this.definedConstants.ADD_SUBJECT});
+        this.selectedSubject =  result.value;
+       
         swal("Subject Saved","Success")
       } 
     });
@@ -128,10 +147,10 @@ topicChanged(){
         let topic =  new Topic();
         topic.tNm = result.value;
         topic.subject = this.selectedSubject;
-        this.selectedTopic= result.value;
-        this.topics[this.topics.length-1].value =  result.links;
+        this.topics[this.topics.length-1].value =  result.link;
         this.topics[this.topics.length-1].viewValue =  result.value;
-        this.topics.push({value:this.definedConstants.ADD_TOPIC,viewValue:this.definedConstants.ADD_TOPIC})
+        this.topics.push({value:this.definedConstants.ADD_TOPIC,viewValue:this.definedConstants.ADD_TOPIC});
+        this.selectedTopic= result.value;
         swal("Saved the Topic","success")
       }
      });
@@ -150,16 +169,30 @@ topicChanged(){
    question.subject = this.selectedSubject;
    question.topic = this.selectedTopic;
    question.optionType = this.selectedChoice;
-   question.langCd = this.selectedLang;
+  //  question.langCd = this.selectedLang;
    question.difficultyLevel = this.selectedDiffLevel;
-   console.log(JSON.stringify(question))
-   this.apiService.genericPost(this.definedConstants.API_BASE_URL +this.definedConstants.API_QUESTIONS,question).subscribe(
+   if(this.param !== undefined && this.param =="Edit"){
+     console.log(this.question._links.self.href  )
+     console.log(question)
+     this.apiService.genericPut(this.question._links.self.href,question).subscribe(
      response=>{
+       this.isResetTriggered=true;
+       console.log("Response",response);
+       swal("Updated the Question","success")
+     },error=>{
+       swal("Issue in updating the Code..","error")
+     });
+   }else{
+    this.apiService.genericPost(this.definedConstants.API_BASE_URL +this.definedConstants.API_QUESTIONS,question).subscribe(
+     response=>{
+       this.isResetTriggered=true;
        console.log("Response",response);
        swal("Saved the Question","success")
      },error=>{
        swal("Issue in saving the Code..","error")
      });
+   }
+   
     console.log(JSON.stringify(question));
   }
 

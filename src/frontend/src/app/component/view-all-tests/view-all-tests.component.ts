@@ -21,14 +21,9 @@ export class ViewAllTestsComponent implements OnInit {
 
   @Input() source:string;
   @Input() testValues;
-   public selectedSubject: string="";
-   public selectedChoice:string="";
-   public selectedTopic:string="";
-   public subjects:any = [];
    public tests:any = [];
-   public choices:any=[];
-   public topics:any=[]
    public category:string="";
+   public testName:string="";
    public outputQuestions:any=[];
    public outputAnswers:any=[]
    public isLoading:boolean=false;
@@ -45,7 +40,7 @@ export class ViewAllTestsComponent implements OnInit {
       response=>{
         response._embedded.tests.map(test=>{
           if(test.questionIds!=="")
-            test.questionIds = JSON.parse(atob(test.questionIds));
+            test.questionIds = JSON.parse(this.utilService.decodeLOB(test.questionIds));
         })
         this.tests = response._embedded.tests;
       },error=>{
@@ -69,8 +64,33 @@ export class ViewAllTestsComponent implements OnInit {
 
   }
    deleteTest(test,index){
-    
-   }
+    swal({
+    title: "Are you sure?",
+    text: "You will not be able to recover this Test!",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: "btn-danger",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel plx!"
+  }).then((result)=>{
+   if(result===true){
+     this.isLoading=true;
+     console.log("Deleting")
+     this.apiService.genericDelete(test._links.self.href).subscribe(
+       response=>{
+         this.tests.splice(index,1);
+         this.isLoading=false;
+        swal("Deleted!", "Your Test has been deleted.", "success");
+       }
+     ,error=>{
+       console.error("Error in Deleting:"+error);
+       this.isLoading=false;
+     })
+     }
+   })
+  }
+   
+   
 
   /**
    * Resume the Test In Case status is Pending
@@ -83,4 +103,80 @@ export class ViewAllTestsComponent implements OnInit {
     this.router.navigate(['/home'], { queryParams: { page:this.definedConstants.TEST_MANAGER_VIEW  } });
   }
 
+  /**
+   * Remove Question from the Test.
+   */
+  removeQuestion(test,question,index){
+  this.isLoading=true;
+    let temObj=  new Object();
+    temObj["testAutoId"]=this.utilService.parseAutoId(test._links.self.href);
+    temObj["questionAutoId"]=question.id;
+    temObj["index"]=index;
+    temObj["status"]=this.definedConstants.STATUS_PENDING;
+    if(test.status==this.definedConstants.STATUS_ACTIVE){
+      this.isLoading=false;
+      swal({
+        title: 'Are you sure?',
+        text: "Test is already published. Removal of questions, will set the status to pending.",
+        type: 'warning',
+        confirmButtonColor: '#3085d6',
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'delete it!',
+        cancelButtonText: 'No, cancel!',
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then((result) => {
+          if (result == true) {
+            this.isLoading=true;
+            this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_REMOVE_FROM_TEST,temObj).subscribe(
+              response=>{
+                this.isLoading=false;
+                swal("sucess","Test Is marked as Pending. "+response.message,response.type)
+                // this.tests.questionIds.splice(index,1);
+            },error=>{
+               this.isLoading=false;
+                swal("","Error in removing the question from test. something went wrong.","error");
+            });
+          } else  {
+              swal('Cancelled','Nothing Changed','warning')
+          }
+        })
+    }else{
+      // this.isLoading=true;
+      this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_REMOVE_FROM_TEST,temObj).subscribe(
+      response=>{
+        // this.tests.questionIds.splice(index,1);
+        this.isLoading=false;
+        swal("",response.message,response.type)
+      },error=>{
+         this.isLoading=false;
+        swal("","Error in removing the question from test. something went wrong.","error");
+      });
+    }
+  }
+  /**
+   * It fetches the Tests for meeting criteria.
+   */
+  fetchTests(){
+    let apiString:string="";
+    if(this.category!=="" && this.testName!=""){
+      apiString=this.definedConstants.API_FIND_TEST_BY_TESTNAME_CATE+this.testName+
+      "&category="+this.category;
+    }else if(this.testName!="")
+      apiString=this.definedConstants.API_FIND_TEST_BY_TESTNAME+this.testName;
+    else if(this.category!="")
+      apiString=this.definedConstants.API_FIND_TEST_BY_CATE+this.category;
+    this.apiService.genericGet(this.definedConstants.API_BASE_URL + apiString).subscribe(
+      response=>{
+        console.log(response);
+         response._embedded.tests.map(test=>{
+          if(test.questionIds!=="")
+            test.questionIds = JSON.parse(this.utilService.decodeLOB(test.questionIds));
+        })
+        this.tests = response._embedded.tests;
+    },error=>{
+      swal("","Error in finding the Test. Possibly Network Error.","error")
+    });
+  }
 }

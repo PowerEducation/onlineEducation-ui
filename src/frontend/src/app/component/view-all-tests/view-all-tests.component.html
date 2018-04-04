@@ -4,7 +4,14 @@
     <div class="col-md-4 float-right" ></div>
 </div>
 <div class="col-md-12">
-  <div class="col-md-11">
+  <div class="col-md-5">
+       <mat-form-field class="example-full-width" >
+          <input matInput  maxlength="32" placeholder="Enter Test Name" [(ngModel)]="testName">
+          <mat-hint align="end">{{testName.length}} / 32</mat-hint>
+          
+        </mat-form-field>
+  </div>
+  <div class="col-md-6">
        <mat-form-field class="example-full-width" >
           <input matInput  maxlength="32" placeholder="Enter Category" [(ngModel)]="category">
           <mat-hint align="end">{{category.length}} / 32</mat-hint>
@@ -12,7 +19,7 @@
         </mat-form-field>
   </div>
   <div class="col-md-1">
-    <button mat-raised-button class="float-right" color="primary" (click)="fetchQuestions()">Apply</button>
+    <button mat-raised-button class="float-right" color="primary" (click)="fetchTests()">Apply</button>
   </div>
 </div>
 <div class="col-md-12 container-fluid">
@@ -48,26 +55,26 @@
            </div>
         </ng-template>
         </p-column>
-        <ng-template let-question pTemplate="rowexpansion">
-          <div class="table-responsive">
-
+        <ng-template let-test pTemplate="rowexpansion">
+          <div *ngIf="test.questionIds.length==0"> No Question Added So far in the Test. 
+             <a (click)="resumeTest(test,index)">Click here</a>
+             to keep edit.</div>
+            <div class="table-responsive" *ngIf="test.questionIds.length!=0">
                   <table class="table table-striped table-hover">
                     <tr>
                     <th> S.No. </th>
+                    <th> Subject </th>
                     <th> Question Text </th>
                     <th>Action </th>
                     </tr>
-                    <tr *ngFor="let quest of question.questionIds;let index=index">
-                      <td> {{index +1}}</td><td>{{quest.qText}}</td>
-                      <td><button type="button"  mat-raised-button color="primary" (click)="deleteQuestion(question,index)">Remove</button>
-                      <button type="button"  mat-raised-button color="primary" (click)="editQuestion(question,index)">Edit</button>
+                    <tr *ngFor="let quest of test.questionIds;let indexQ=index">
+                      <td> {{indexQ +1}}</td><td>{{quest.subject}}</td><td>{{quest.qText.eng}}</td>
+                      <td><button type="button"  mat-raised-button color="primary" (click)="removeQuestion(test,quest,indexQ)">Remove</button>
+                      <!--<button type="button"  mat-raised-button color="primary" (click)="editQuestion(test,indexQ)">Edit</button>-->
                       </td>
                     </tr>
                   </table>
-</div>
-
-                 
-                
+                </div>
           </ng-template>
       </p-dataTable>
   </div> 

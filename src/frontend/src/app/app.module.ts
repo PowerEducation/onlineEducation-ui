@@ -16,7 +16,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-modialog';
 import { BootstrapModalModule } from 'ngx-modialog/plugins/bootstrap';
 import { LoginModalComponent } from './component/modal/login-modal/login-modal.component';
-import {routes} from './app.router';
+import {AppRoutingModule} from './app.router';
 import { BrowseCoursesViewComponent } from './component/browse-courses-view/browse-courses-view.component';
 import { HomePageComponent } from './component/home-page/home-page.component';
 import { MasterPageComponent } from './component/master-page/master-page.component';
@@ -29,7 +29,7 @@ import { StartExamModalComponent } from './component/modal/start-exam-modal/star
 import { BeginTestComponentComponent } from './component/begin-test-component/begin-test-component.component';
 import { AdminPanelComponentComponent } from './component/admin-panel-component/admin-panel-component.component';
 import {MatButtonModule, MatSelectModule, MatInputModule, MatSidenavModule, MatSnackBarModule, MatToolbarModule, MatRadioModule, MatTooltipModule,
-       MatCheckboxModule, MatMenuModule, MatCardModule, MatIconModule,MatDialogModule, MatButtonToggleModule, MatStepperModule} from '@angular/material';
+       MatCheckboxModule, MatMenuModule, MatCardModule, MatIconModule,MatDialogModule, MatButtonToggleModule, MatStepperModule,MatProgressBarModule} from '@angular/material';
 import { QuestionManagerComponentComponent } from './component/question-manager-component/question-manager-component.component';
 import { SingleValuedModalComponent } from './component/modal/single-valued-modal/single-valued-modal.component';
 import { AddQuestionsComponent } from './component/add-questions/add-questions.component';
@@ -39,7 +39,8 @@ import { ImportQuestionsXlsComponent } from './component/import-questions-xls/im
 import { ManageEntityComponent } from './component/manage-entity/manage-entity.component';
 import { TestManagerViewComponent } from './component/test-manager-view/test-manager-view.component';
 import { TestCategogyViewComponent } from './component/test-categogy-view/test-categogy-view.component';
-import { ViewAllTestsComponent } from './component/view-all-tests/view-all-tests.component'
+import { ViewAllTestsComponent } from './component/view-all-tests/view-all-tests.component';
+import { AddProductViewComponent } from './component/add-product-view/add-product-view.component'
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ViewAllTestsComponent } from './component/view-all-tests/view-all-tests
     ManageEntityComponent,
     TestManagerViewComponent,
     TestCategogyViewComponent,
-    ViewAllTestsComponent
+    ViewAllTestsComponent,
+    AddProductViewComponent
   ],
   entryComponents:[
     LoginModalComponent,
@@ -79,13 +81,13 @@ import { ViewAllTestsComponent } from './component/view-all-tests/view-all-tests
     ReactiveFormsModule,
     HttpModule,
     // RouterModule.forRoot(api_routes, {useHash:false}),
-    routes,
+    AppRoutingModule,
     ModalModule.forRoot(),
     BootstrapModalModule,
     CaptchaModule,DataTableModule, SharedModule,EditorModule, ProgressSpinnerModule,
     GalleriaModule,
     MatButtonModule, MatMenuModule,
-    MatCardModule, MatIconModule,
+    MatCardModule, MatIconModule, MatProgressBarModule,
     MatDialogModule, MatSelectModule, MatRadioModule,       MatTooltipModule,
     MatInputModule, MatSidenavModule, MatButtonToggleModule,MatStepperModule, 
     MatSnackBarModule, MatToolbarModule, MatCheckboxModule

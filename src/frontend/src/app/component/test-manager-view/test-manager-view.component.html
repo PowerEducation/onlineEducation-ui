@@ -52,7 +52,7 @@
         <div class="col-md-12">
             <div class="col-md-6">
              <mat-form-field>
-            <input matInput placeholder="Total Question" formControlName="totQ" required pattern="[0-9]*">
+            <input matInput placeholder="Total Question" formControlName="totQ" required pattern="[0-9]*"  (blur)="validateTotalQuestion()">
             <mat-error *ngIf="totQ.hasError('pattern')">Only numbers allowed</mat-error>
               </mat-form-field>
           </div>

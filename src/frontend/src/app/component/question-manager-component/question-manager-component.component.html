@@ -73,7 +73,7 @@
        
     </p-header>
             <p-column expander="true" styleClass="col-icon" [style]="{'width':'25px'}"></p-column>
-        <p-column field="question" header="Question" [editable]="true" [style]=" {'overflow':'visible' }"
+        <p-column field="question.eng" header="Question" [editable]="true" [style]=" {'overflow':'visible' }"
         [sortable]="true"></p-column>
         <p-column field="difficultyLevel" header="Difficulty Level" [sortable]="true"></p-column>
         <p-column field="tagId" header="Tag" [sortable]="true"></p-column>
@@ -94,7 +94,7 @@
         <ng-template let-question pTemplate="rowexpansion">
           
                   <table>
-                    <tr *ngFor="let ans of question.answers;let index=index">
+                    <tr *ngFor="let ans of question.answers.eng;let index=index">
                       <td>Option {{index +1}}</td><td>{{ans.text}}</td>
                     </tr>
                   </table>

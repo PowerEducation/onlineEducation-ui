@@ -6,7 +6,7 @@
 
 <!--<div id="drop" (drop)="onDrop($event)"
     (dragover)="onDragOver($event)"> Drop a File    </div>-->
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="isRefresh">
         <div class="col-md-6"><input type="file" (change)="onFileChange($event)"  multiple="false" /> </div>
         <div class="col-md-6">   
             <a href="../../../assets/samples/sampleUpload.xlsx" mat-raised-button>Download Sample</a></div>
@@ -50,14 +50,22 @@
                 <p-column field="SNo" header="S. No."  [style]="{'width':'30px'}"></p-column>
                 <p-column field="QUESTIONTEXT" header="Question Text" [editable]="true" [style]="{'width':'250px'}"
                  [sortable]="true" [filter]="true" filterPlaceholder="Search"></p-column>
+                 <p-column field="QUESTIONTEXTH" header="Question Text (Hindi)" [editable]="true" [style]="{'width':'250px'}"
+                 [sortable]="true" [filter]="true" filterPlaceholder="Search"></p-column>
                 <p-column field="SUBJECTNAME" header="Subject Name" [editable]="true" [style]="{'width':'250px'}"  [sortable]="true"></p-column>
                 <p-column field="TOPICNAME" header="Topic Name" [editable]="true" [style]="{'width':'150px'}"  [sortable]="true"></p-column>
                 <p-column field="OPTION1" header="Ans. Option1" [editable]="true" [style]="{'width':'150px'}"></p-column>
+                <p-column field="OPTION1H" header="Ans. Option1(Hindi)" [editable]="true" [style]="{'width':'150px'}"></p-column>
                 <p-column field="OPTION2" header="Ans. Option2" [editable]="true" [style]="{'width':'150px'}"></p-column>
+                <p-column field="OPTION2H" header="Ans. Option2(Hindi)" [editable]="true" [style]="{'width':'150px'}"></p-column>
                 <p-column field="OPTION3" header="Ans. Option3" [editable]="true" [style]="{'width':'150px'}"></p-column>
+                <p-column field="OPTION3H" header="Ans. Option3(Hindi)" [editable]="true" [style]="{'width':'150px'}"></p-column>
                 <p-column field="OPTION4" header="Ans. Option4" [editable]="true" [style]="{'width':'150px'}"></p-column>
+                <p-column field="OPTION4H" header="Ans. Option4(Hindi)" [editable]="true" [style]="{'width':'150px'}"></p-column>
                 <p-column field="OPTION5" header="Ans. Option5" [editable]="true" [style]="{'width':'150px'}"></p-column>
+                <p-column field="OPTION5H" header="Ans. Option5(Hindi)" [editable]="true" [style]="{'width':'150px'}"></p-column>
                 <p-column field="OPTION6" header="Ans. Option6" [editable]="true" [style]="{'width':'150px'}"></p-column>
+                <p-column field="OPTION6H" header="Ans. Option6(Hindi)" [editable]="true" [style]="{'width':'150px'}"></p-column>
                 <p-column field="CORRECTANSWER" header="Correct Answer" [editable]="true" [style]="{'width':'150px'}"></p-column>
                 <p-column field="EXPLANATION" header="Explanation" [editable]="true" [style]="{'width':'150px'}"></p-column>
                 <p-column field="DIFFICULTYLEVEL" header="Diff Level" [editable]="true" [style]="{'width':'150px'}"></p-column>
