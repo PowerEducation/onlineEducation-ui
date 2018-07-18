@@ -25,14 +25,14 @@
     </div>
 </div>-->
 
-<div class="col-md-12" *ngIf="!isTestStarted">
+<div class="col-md-12" *ngIf="!isTestStarted && !showInstructions">
  <div class="col-md-1"></div>
  <div class="col-md-10">
 <p-dataTable [value]="activeTests"  [rows]="10" sortMode="multiple" exportFilename="cars" 
                    [paginator]="true" [pageLinks]="3" [responsive]="true" [stacked]="stacked"
                    [globalFilter]="gb" #dt  expandableRows="true" (onRowExpand)="rowExpand()">
         
-        <p-column expander="true" styleClass="col-icon" [style]="{'width':'25px'}"></p-column>
+        <!--<p-column expander="true" styleClass="col-icon" [style]="{'width':'25px'}"></p-column>-->
         <p-column field="testName" header="Test Name" [editable]="true" [style]=" {'overflow':'visible' }"
         [sortable]="true"></p-column>
         <p-column field="qCount" header="qCount" [sortable]="true"></p-column>
@@ -53,72 +53,141 @@
  </div>
  <div class="col-md-1"></div> 
 </div> 
+<div *ngIf="showInstructions">
+  Instruction Page:: Put all the Instruction:
+  <div *ngIf="distanceP==0;else elseBlock">
+    <button mat-raised-button color="primary" (click)="beginTest()">Start Test</button>
+  </div>
+  <ng-template #elseBlock>
+    <button mat-raised-button color="primary" (click)="beginTest()">Resume Test</button>
+  </ng-template>
+
+</div>
 <div *ngIf="isTestStarted" class="sideNav">
    <button type="button"  mat-raised-button color="primary" (click)="isTestStarted=false" disableClose="true" >Go Back</button>
    <mat-sidenav-container>
          <mat-sidenav #sideNav role="navigation"  opened="true" mode="side">
-            <div *ngFor="let question of questions;let index = index" fxFlex fxLayout>
-              <button mat-raised-button color="primary" (click)="selectQuestion(question,index)">{{index + 1 }}</button>
-            </div>
-
+            <span *ngFor="let question of questions;let index = index" fxFlex fxLayout>
+              <button mat-mini-fab color={{question.colorButton}} (click)="selectQuestion(question,index)">{{index + 1 }} </button>
+            </span>
+             <div class="col-md-12" style="margin-top: 10px">
+               <!--<div class="col-md-12" style="margin-top: 10px">
+                 Question Time Spend:
+               </div>
+               <div class="col-md-12" style="margin-top: 10px">{{stopWatchQ}}</div>-->
+                <div class="col-md-12" style="margin-top: 10px">
+                 Over All Time Spend:
+               </div>
+               <div class="col-md-12" style="margin-top: 10px">{{stopWatchP}}</div>
+              </div> 
+              <div class="col-md-12">
+                <div class="col-md-12" style="text-align: center"> 
+                  <button mat-raised-button color="primary" (click)="showInstruction()">Show Instruction</button>
+                </div>
+                <div class="col-md-12" style="text-align: center"> <button mat-raised-button color="primary" (click)=submitTest()>Submit Test</button></div>
+              </div>
          </mat-sidenav>
          <mat-sidenav-content>
            <!--<button mat-icon-button (click)="sideNav.toggle()">
               <mat-icon>menu</mat-icon>
            </button>-->
-           <div *ngIf="selectedQuestion!=undefined" >
+           <div *ngIf="selectedQuestion!=undefined">
            <div class="col-md-12">
-             
               <div class="col-md-6">
                 <p  style="margin: 10px 5px 20px 5px">
                    Q {{selectedQuestion.index}}: {{selectedQuestion.questions.eng}}
                </p>
-                <p *ngFor="let ansEng of selectedQuestion.answers;let indexAns = index">
-                 A {{indexAns + 1}} : 
-                 <span *ngIf="selectedQuestion.optionType=='MC' || selectedQuestion.optionType=='mc'">
-                  <mat-checkbox (change)="correctAnswerSelection(selectedQuestion,index)" ></mat-checkbox></span>
-                  <span *ngIf="selectedQuestion.optionType=='SC' || selectedQuestion.optionType=='sc' ">
-                   <mat-radio-button  (change)="correctAnswerSelection(selectedQuestion,index)" [checked]="correctAnswerIndex[0] == index" >
-                     </mat-radio-button>
-                  </span>
-                 {{ansEng.textE}}
-                </p>
               </div>
-               
-                
               <div class="col-md-6">
                 <p  style="margin: 10px 5px 20px 5px">
                   Q {{selectedQuestion.index}}: {{selectedQuestion.questions.hin}}
                 </p>
-                <p *ngFor="let ansEng of selectedQuestion.answers;let indexAns = index">
-                  <span *ngIf="selectedQuestion.optionType=='MC' || selectedQuestion.optionType=='mc'">
-                  <mat-checkbox (change)="correctAnswerSelection(selectedQuestion,index)" ></mat-checkbox></span>
-                   <span *ngIf="selectedQuestion.optionType=='SC' || selectedQuestion.optionType=='sc' ">
-                    <mat-radio-button  (change)="correctAnswerSelection(selectedQuestion,index)" [checked]="correctAnswerIndex[0] == index" >
-                      </mat-radio-button>
-                  </span>
-                 A {{indexAns + 1}} : {{ansEng.textH}}
-                </p>
               </div>
-                
            </div>
-                
-           </div>
-            <div class="col-md-12">
-              <div class="col-md-4">
-                <button mat-raised-button color="primary" [disabled]="!previousEnabled" (click)="nextQuestion(-1)"><<</button>
+           
+           <div class="col-md-12">
+                 
+                 <span *ngIf="selectedQuestion.optionType=='MC' || selectedQuestion.optionType=='mc'">
+                   <div *ngFor="let ansEng of selectedQuestion.answers;let indexAns = index">
+                    
+                    <div class="col-md-6">
+                      <mat-checkbox 
+                      (change)="correctAnswerSelection(selectedQuestion,indexAns)" 
+                      [value]="ansEng.userAns"
+                       [checked]="ansEng.userAns">
+                        A {{indexAns + 1}} :  {{ansEng.textE}}
+                      </mat-checkbox>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-checkbox 
+                        (change)="correctAnswerSelection(selectedQuestion,indexAns)"
+                        [value]="ansEng.userAns"
+                        [checked]="ansEng.userAns"
+                        >
+                          {{indexAns + 1}} :  {{ansEng.textH}}
+                      </mat-checkbox>
+                    </div>
+                   </div>
+                  </span>
+                  <span *ngIf="selectedQuestion.optionType=='SC' || selectedQuestion.optionType=='sc'">
+                    
+               
+                    <div class="col-md-12">
+                      <div  *ngFor="let ansEng of selectedQuestion.answers;let indexAns = index">
+                        <div class="col-md-6">
+                          <mat-radio-group>
+                        <mat-radio-button 
+                        (change)="correctAnswerSelection(selectedQuestion,indexAns)" 
+                       
+                        [value]="ansEng"
+                        [checked]="ansEng.userAns">
+                            {{indexAns + 1}} :  {{ansEng.textE}}
+                      </mat-radio-button>
+                      </mat-radio-group>
+                        </div>
+                        <div class="col-md-6">
+                          <!--<mat-radio-group>
+                       <mat-radio-button  
+                            (change)="correctAnswerSelection(selectedQuestion,indexAns)" 
+                            *ngFor="let ansEng of selectedQuestion.answers;let indexAns = index"
+                            [checked]="ansEng.userAns">
+                                A {{indexAns + 1}} :  {{ansEng.textH}}{{ansEng.userAns}}
+                          </mat-radio-button>
+                          </mat-radio-group>-->
+                            <mat-radio-group>
+                        <mat-radio-button 
+                        (change)="correctAnswerSelection(selectedQuestion,indexAns)" 
+                       
+                        [value]="ansEng"
+                        [checked]="ansEng.userAns">
+                            A {{indexAns + 1}} :  {{ansEng.textH}}
+                      </mat-radio-button>
+                      </mat-radio-group>
+                        </div>
+                      </div>      
+                      </div>
+                  </span>
+                 
+              </div>
+           </div>     
+           
+           
+            <div class="col-md-12" style="margin-top: 10px">
+               <div class="col-md-12">
+              <div class="col-md-4" >
+                <button mat-raised-button color="primary" [disabled]="!previousEnabled" (click)="nextQuestion(-1)">Previous Question</button>
               </div>
               <div class="col-md-4">
                 <button mat-raised-button color="primary"(click)="nextQuestion(1)">Skip</button>
-                <button mat-raised-button color="primary">Submit Answer</button>
+                <button mat-raised-button color="primary"(click)="clearAnswer()">Clear Answer</button>
+                <button mat-raised-button color="primary" (click)="tagQuestion(true)" *ngIf="selectedQuestion.status !== 'tagged'">Tag Question</button>
+                <button mat-raised-button color="primary" (click)="tagQuestion(false)" *ngIf="selectedQuestion.status == 'tagged'">Un-Tag Question</button>
               </div>
               <div class="col-md-4"><div class="col-md-4">
-                <button mat-raised-button color="primary" [disabled]="!nextEnabled" (click)="nextQuestion(0)">>></button>
+                <button mat-raised-button color="primary" [disabled]="!nextEnabled" (click)="nextQuestion(0)">Next Question</button>
               </div></div>
             </div>
-            <div class="col-md-12" style="margin-top: 10px">
-             
-              <div class="col-md-10" style="text-align: center"> <button mat-raised-button color="primary">Submit Test</button></div>
+              
              </div>
          </mat-sidenav-content>
   </mat-sidenav-container>

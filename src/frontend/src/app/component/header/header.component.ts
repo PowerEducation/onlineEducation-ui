@@ -94,7 +94,8 @@ export class HeaderComponent implements OnInit {
       let navParams : NavigationExtras;
       navParams = {
         queryParams:{
-          'page': 'browseCourses'
+          'page': 'browseCourses',
+          'view':  subType
         }
       }
       this.router.navigate(['/home'],navParams);

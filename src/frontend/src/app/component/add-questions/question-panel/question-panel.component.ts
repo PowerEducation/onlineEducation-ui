@@ -168,7 +168,7 @@ export class QuestionPanelComponent implements OnInit {
     this.answers.map(ans=>{
       ans.index= index++;
       if(ans.isC)
-        this.correctAnswerIndex.push(ans.index);
+        this.correctAnswerIndex.push(ans.index+1);
     });
     if(this.isFormvalidated()){
       let question = new Question();

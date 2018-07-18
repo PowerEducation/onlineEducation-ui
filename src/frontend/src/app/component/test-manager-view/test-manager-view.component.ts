@@ -155,6 +155,7 @@ validateTestName(){
  * Question is Added to Test
  */
 addToTest(test){
+  console.log(test)
   this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_ADD_TO_TEST,test).subscribe( 
     response=>{
         console.log("Added to Test",response);

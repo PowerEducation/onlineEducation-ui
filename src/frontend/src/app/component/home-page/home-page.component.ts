@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, animate, transition, style } from '@angular/animations';
+import {CommonUtilService} from '../../services/common-util.service';
+import {CommonApiService} from '../../services/common-api.service';
+import {DefinedConstants} from "../../app.defined.constants";
 
 @Component({
   selector: 'app-home-page',
@@ -21,7 +24,8 @@ import { trigger, state, animate, transition, style } from '@angular/animations'
 export class HomePageComponent implements OnInit {
 
 
-  constructor() { }
+  constructor(private definedConstants: DefinedConstants, private utilService: CommonUtilService, 
+  private apiService: CommonApiService) { }
   state ='small';
   ngOnInit() {
   }

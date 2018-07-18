@@ -2,11 +2,12 @@ import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 import { UsersInfo } from '../model/users.model';
 import { Injectable } from '@angular/core';
 import { DefinedConstants } from '../app.defined.constants';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 @Injectable()
 export class CommonUtilService {
 
-  constructor(private definedConstants: DefinedConstants) { }
+  constructor(private definedConstants: DefinedConstants,private router: Router) { }
 public mainPageView:boolean;
 public browseCoursesView:boolean;
 public testSeries:boolean;
@@ -137,5 +138,25 @@ viewSwitch(type){
    return decodeURIComponent(atob(str).split('').map(function (c) {
      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
    }).join(''));
+ }
+
+/**
+ * This will route your application to correct page. 
+ * @param type 
+ * @param subType 
+ */
+ navigateTo(type:string, subType:string){
+    this.resetAll();
+    if(type=="browseCourses"){
+      this.browseCoursesView =true;
+      let navParams : NavigationExtras;
+      navParams = {
+        queryParams:{
+          'page': 'browseCourses',
+          'view':  subType
+        }
+      }
+      this.router.navigate(['/home'],navParams);
+  }
  }
 }

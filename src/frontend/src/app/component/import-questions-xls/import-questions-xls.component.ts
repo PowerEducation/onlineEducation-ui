@@ -132,35 +132,35 @@ public isRefresh:boolean = true;
                 question.question = this.utilService.encodeLOB(JSON.stringify(quesText));
                 question.subject =resSub._links.self.href;
                 question.topic = (resTopic._embedded.topics.filter(topic=>topic.tNm==data.TOPICNAME))[0]._links.self.href;
-                
+
                 let answers:any = [];
-                answers.push({"textE":data.OPTION1,"index":0,"textH":data.OPTION1H});
-                answers.push({"textE":data.OPTION2,"index":1,"textH":data.OPTION2H});
+                answers.push({"textE":data.OPTION1,"index":0,"textH":data.OPTION1H,"isC":false});
+                answers.push({"textE":data.OPTION2,"index":1,"textH":data.OPTION2H,"isC":false});
                 if(data.OPTION3!=undefined && data.OPTION3!=null && data.OPTION3 !="" && data.OPTION3 !="NA"){
                   if(data.OPTION3H!=undefined && data.OPTION3H!=null && data.OPTION3H !="" && data.OPTION3H !="NA")
-                      answers.push({"textE":data.OPTION3,"index":2,"textH":data.OPTION3H});
+                      answers.push({"textE":data.OPTION3,"index":2,"textH":data.OPTION3H,"isC":false});
                   else
-                    answers.push({"textE":data.OPTION3,"index":2});
+                    answers.push({"textE":data.OPTION3,"index":2,"isC":false});
                 }
                 if(data.OPTION4!=undefined && data.OPTION4!=null && data.OPTION4 !="" && data.OPTION4 !="NA"){
                   if(data.OPTION4H!=undefined && data.OPTION4H !=null && data.OPTION4H !="" && data.OPTION4H !="NA")  
-                    answers.push({"textE":data.OPTION4,"index":3,"textH":data.OPTION4H});
+                    answers.push({"textE":data.OPTION4,"index":3,"textH":data.OPTION4H,"isC":false});
                   else
-                    answers.push({"textE":data.OPTION4,"index":3});
+                    answers.push({"textE":data.OPTION4,"index":3,"isC":false});
                 }
                   
                 if(data.OPTION5!=undefined && data.OPTION5!=null && data.OPTION5 !="" && data.OPTION5 !="NA")  {
                   if(data.OPTION5H !=undefined && data.OPTION5H !=null && data.OPTION5H !="" && data.OPTION5H !="NA")  
-                    answers.push({"textE":data.OPTION5,"index":4,"textH":data.OPTION5});
+                    answers.push({"textE":data.OPTION5,"index":4,"textH":data.OPTION5,"isC":false});
                   else
-                    answers.push({"textE":data.OPTION5,"index":4});
+                    answers.push({"textE":data.OPTION5,"index":4,"isC":false});
                 }
                   
                 if(data.OPTION6!=undefined && data.OPTION6!=null && data.OPTION6 !="" && data.OPTION6 !="NA")  {
                   if(data.OPTION6H!=undefined && data.OPTION6H !=null && data.OPTION6H !="" && data.OPTION6H !="NA")  
-                    answers.push({"textE":data.OPTION6,"index":5,"textH":data.OPTION6});
+                    answers.push({"textE":data.OPTION6,"index":5,"textH":data.OPTION6,"isC":false});
                   else
-                    answers.push({"textE":data.OPTION6,"index":5});
+                    answers.push({"textE":data.OPTION6,"index":5,"isC":false});
                 }
                   
                 
@@ -179,6 +179,20 @@ public isRefresh:boolean = true;
                 // let answer =  new QAnsLang();
                 // answer.eng = answers;
                 // answer.hin = answersH;
+                let correctAnswer:any=[];
+                if(data.QUESTIONTYPE.toLowerCase()=="sc"){
+                  correctAnswer.push(data.CORRECTANSWER);
+                  answers[data.CORRECTANSWER-1].isC=true;
+                }
+                  
+                else if(data.QUESTIONTYPE.toLowerCase()=="mc"){
+                  data.CORRECTANSWER.split(",").map(ans=>
+                  {
+                    correctAnswer.push(ans);
+                    answers[ans-1].isC=true;
+                  })
+                }
+
                 question.answers = this.utilService.encodeLOB(JSON.stringify(answers));
                 question.optionType=data.QUESTIONTYPE;
                 question.correctAns=data.CORRECTANSWER;

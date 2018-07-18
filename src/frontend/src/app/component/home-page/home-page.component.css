@@ -1,4 +1,4 @@
-p {
+p-card {
     width:200px;
     background:lightgray;
     margin: 100px auto;
@@ -6,3 +6,22 @@ p {
     padding:20px;
     font-size:1.5em;
   }
+
+  .example-card {
+  max-width: 400px;
+}
+
+.example-railway-image {
+  background-image: url('../../../assets/image/railway_cover.jpg');
+  background-size: cover;
+}
+
+.example-ibps-image {
+  background-image: url('../../../assets/image/ibps_cover.jpg');
+  background-size: cover;
+}
+
+.example-ssc-image {
+  background-image: url('../../../assets/image/ssc_cover.jpg');
+  background-size: cover;
+}

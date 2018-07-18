@@ -55,7 +55,7 @@
            </div>
         </ng-template>
         </p-column>
-        <ng-template let-test pTemplate="rowexpansion">
+        <ng-template let-test  let-index="rowIndex"  pTemplate="rowexpansion">
           <div *ngIf="test.questionIds.length==0"> No Question Added So far in the Test. 
              <a (click)="resumeTest(test,index)">Click here</a>
              to keep edit.</div>
@@ -69,7 +69,7 @@
                     </tr>
                     <tr *ngFor="let quest of test.questionIds;let indexQ=index">
                       <td> {{indexQ +1}}</td><td>{{quest.subject}}</td><td>{{quest.qText.eng}}</td>
-                      <td><button type="button"  mat-raised-button color="primary" (click)="removeQuestion(test,quest,indexQ)">Remove</button>
+                      <td><button type="button"  mat-raised-button color="primary" (click)="removeQuestion(test,index,quest,indexQ)">Remove</button>
                       <!--<button type="button"  mat-raised-button color="primary" (click)="editQuestion(test,indexQ)">Edit</button>-->
                       </td>
                     </tr>

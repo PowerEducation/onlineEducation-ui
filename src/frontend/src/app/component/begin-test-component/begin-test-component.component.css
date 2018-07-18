@@ -28,3 +28,20 @@ mat-sidenav-container {
    width: 100%;
    min-width: 100%;
 }
+
+.mat-ans {
+    background-color: green;
+    color: #fff;
+}
+.mat-ansTagged {
+    background-color: blue;
+    color: #fff;
+}
+.mat-tagged {
+    background-color: orange;
+    color: #fff;
+}
+.mat-unAns {
+    background-color: grey;
+    color: #fff;
+}

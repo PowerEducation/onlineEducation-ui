@@ -79,4 +79,10 @@ public ROLE_UNKNOWN="U";
 public STATUS_PENDING="Pending";
 public STATUS_ACTIVE="Active";
 public STATUS_INACTIVE="In-Active";
+
+public BUTTON_UNANS="unAns";
+public BUTTON_ANS="ans";
+public BUTTON_TAGGED="tagged";
+public BUTTON_SKIPPED="skipped";
+public BUTTON_TAGGED_ANSWERED="primary";
 }

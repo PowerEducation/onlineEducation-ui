@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 
 @Component({
@@ -9,12 +10,20 @@ import { NgClass } from '@angular/common';
 })
 export class BrowseCoursesViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   public type;
   public typeOfDetails;
+  private subscription;
+  private pageView:string=""; 
   ngOnInit() {
     this.initialize();
+    this.subscription =  this.route.queryParams.subscribe(
+      queryParam => {
+        this.pageView=queryParam.view;
+        console.log("queryParam",queryParam)
+      }
+    )
   }
   initialize(){
     this.type = 'examInfo';

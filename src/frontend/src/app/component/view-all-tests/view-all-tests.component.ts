@@ -106,7 +106,7 @@ export class ViewAllTestsComponent implements OnInit {
   /**
    * Remove Question from the Test.
    */
-  removeQuestion(test,question,index){
+  removeQuestion(test,testIndex,question,index){
   this.isLoading=true;
     let temObj=  new Object();
     temObj["testAutoId"]=this.utilService.parseAutoId(test._links.self.href);
@@ -131,9 +131,10 @@ export class ViewAllTestsComponent implements OnInit {
             this.isLoading=true;
             this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_REMOVE_FROM_TEST,temObj).subscribe(
               response=>{
+                this.tests[testIndex].questionIds.splice(index,1);
                 this.isLoading=false;
                 swal("sucess","Test Is marked as Pending. "+response.message,response.type)
-                // this.tests.questionIds.splice(index,1);
+                
             },error=>{
                this.isLoading=false;
                 swal("","Error in removing the question from test. something went wrong.","error");
@@ -146,7 +147,7 @@ export class ViewAllTestsComponent implements OnInit {
       // this.isLoading=true;
       this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_REMOVE_FROM_TEST,temObj).subscribe(
       response=>{
-        // this.tests.questionIds.splice(index,1);
+        this.tests[testIndex].questionIds.splice(index,1);
         this.isLoading=false;
         swal("",response.message,response.type)
       },error=>{

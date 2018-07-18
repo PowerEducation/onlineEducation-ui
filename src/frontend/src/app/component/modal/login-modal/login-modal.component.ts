@@ -17,13 +17,15 @@ import { Users, UsersInfo } from '../../../model/users.model';
 })
 export class LoginModalComponent implements OnInit {
 
-  @ViewChild('loginForm') loginForm:NgForm;
+  // @ViewChild('loginForm') loginForm:NgForm;
+  public loginForm: FormGroup;
   public signUpForm:FormGroup;
   public userName;
+  public password;
   public  pwd;
   public cPwd;
   public viewType:string;
-  public loginError="false";
+  public loginError:any = [];
   public hasErrors =false;
   // constructor(public dialog: DialogRef<CustomModalContext>,private apiService:CommonApiService,
   //   public definedConstants:DefinedConstants,private commonService: CommonUtilService) {
@@ -33,16 +35,20 @@ export class LoginModalComponent implements OnInit {
   // }
 
   constructor(public dialog: MatDialogRef<LoginModalComponent>, @Inject(MAT_DIALOG_DATA) public data:string,private apiService:CommonApiService,
-    public definedConstants:DefinedConstants,private utilService: CommonUtilService) {
+    public definedConstants:DefinedConstants,private utilService: CommonUtilService,private _formBuilder: FormBuilder) {
     // this.context = this.dialog.context;
     // this.dialog.setCloseGuard(this);
      this.viewType="signIn";
   }
 
   ngOnInit() {
-  this.viewType="signIn";
-  
-}
+    this.loginForm = this._formBuilder.group({
+      userName: this.userName,
+      password: this.password
+    });    
+    this.viewType="signIn";
+    this.loginError.push({"cPasswordError":""},{"loginError":""},{"signUpError":""},{"hasErrors":false},{"hasPErrors":true});
+  }
 
 close(){
     let userRole = this.definedConstants.ROLE_UNKNOWN;
@@ -71,7 +77,7 @@ close(){
     },
     error=>{
       this.hasErrors = true;
-      this.loginError="User Name do not exists. Sign up first."
+      this.loginError[0].loginError = "Login Failed. User Id or password is not correct.";
       console.log("Error in creating");
     });
   }
@@ -112,14 +118,31 @@ save(){
     this.apiService.genericGet(this.definedConstants.API_BASE_URL+this.definedConstants.API_FINDBY_USERID+this.signUpForm.value.uNm).subscribe(
       response=>{
           this.hasErrors =true;
-          this.loginError="User Name Exists. Try with different user name.";
+          this.loginError[0].signUpError = "User Name Exists. Try with different user name.";
           return true;
       },
       error=>{
-        this.hasErrors =false;
+        this.hasErrors =true;
+        this.loginError[0].signUpError = "";
         return false;
       }
     );
+  }
+
+  validatePassword(){
+    if(this.signUpForm.value.pwd == this.signUpForm.value.cPwd){
+      this.hasErrors =true;
+      this.loginError[0].cPasswordError = "";
+      this.loginError[0].hasPErrors = true;
+    }else{
+      this.hasErrors =false;
+      this.loginError[0].hasPErrors = false;
+      this.loginError[0].cPasswordError = "Password don't matches.";
+    }
+    console.log("password>>"+this.signUpForm.value.pwd)
+    console.log("password>>"+this.signUpForm.value.cPwd)
+    
+    
   }
 
 }

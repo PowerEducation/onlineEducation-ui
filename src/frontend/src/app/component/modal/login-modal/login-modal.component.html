@@ -8,10 +8,10 @@
     <div class="modal-body" >
       <div *ngIf="viewType=='signIn'">
  
-    <form (ngSubmit)="signIn()" #loginForm="ngForm">
+    <!--<form (ngSubmit)="signIn()" #loginForm="ngForm">
   <div class="form-group">  
     <span class="help-block" class="text-danger"
-              *ngIf="loginError!=='false'"> {{loginError}}<hr></span>
+              *ngIf="loginError[0].hasErrors!==false"> {{loginError[0].loginError}}<hr></span>
               
      <label for="email">User Name</label>
           <input type="text" class="form-control" id="userName"
@@ -33,7 +33,29 @@
         
       </div>
     </div>
-    </form>
+    </form>-->
+    <div class="example-container">
+      <form [formGroup]="loginForm">
+      <mat-form-field>
+        <input matInput placeholder="Enter User Name" formControlName="userName" name="userName" minlength="3" maxlength="25" > 
+        <mat-error *ngIf="loginError[0].hasErrors!==false"> {{loginError[0].loginError}}</mat-error>
+      </mat-form-field>
+
+    <mat-form-field>
+      <input type="password" name="password" formControlName="password" matInput placeholder="Enter Password" required minlength="3" maxlength="25"/>
+    </mat-form-field>
+     <div class="row" *ngIf="hasErrors" style="color: red;">
+          <span *ngIf="loginError[0].loginError!==''" class="pull-left">{{loginError[0].loginError}}</span>
+        </div>
+      <div class="modal-footer">
+       
+        <div class="row">
+          <button class="btn btn-success" [disabled]="!loginForm.valid" (click)="signIn()">Sign In</button>
+          <button class="btn btn-info pull-left" (click)="signup()">Sign Up</button>
+        </div>
+      </div>
+  </form>
+</div>
         
       </div>
       <div *ngIf="viewType=='signUp'">
@@ -74,7 +96,7 @@
             <span class="col-md-6">
             <!--<label  for="Last Name" class="col-md-10 pull-right">Confirm Password</label>-->
             <input type="password" class="form-control col-md-6 pull-right" id="cPwd"  
-            formControlName="cPwd" placeholder="Confirm Password">
+            formControlName="cPwd" placeholder="Confirm Password" (change)="validatePassword()">
             </span>
           
           </div>
@@ -86,10 +108,11 @@
         </div>
      <div class="modal-footer">
        <div class="row pull-left" *ngIf="hasErrors" style="color: red">
-          {{loginError}}
+          {{loginError[0].signUpError}}
+          {{loginError[0].cPasswordError}}
        </div>
       <div class="row">
-        <button class="btn btn-success" [disabled]="!signUpForm.valid && hasErrors">Save</button>
+        <button class="btn btn-success" [disabled]="!signUpForm.valid && hasErrors && loginError[0].hasPErrors">Save</button>
       </div>
     </div>
   </form>
