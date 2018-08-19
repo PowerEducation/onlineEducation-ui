@@ -29,9 +29,9 @@ type AOA = any[][];
 })
 export class TestSeriesComponent implements OnInit {
 
-  constructor(private utilService :CommonUtilService, private definedConstants: DefinedConstants,
-              private apiService : CommonApiService,private modal:Modal,
-              private router: Router, private route: ActivatedRoute ) {
+  constructor(public utilService :CommonUtilService, public definedConstants: DefinedConstants,
+              public apiService : CommonApiService,public modal:Modal,
+              public router: Router, public route: ActivatedRoute ) {
     }
 
 

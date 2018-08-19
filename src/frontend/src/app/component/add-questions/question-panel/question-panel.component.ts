@@ -11,8 +11,8 @@ import swal from 'sweetalert2';
 })
 export class QuestionPanelComponent implements OnInit {
 
-  constructor(private definedConstants: DefinedConstants, private utilService:CommonUtilService,
-  private apiServie:CommonApiService) { }
+  constructor(public definedConstants: DefinedConstants, public utilService:CommonUtilService,
+  public apiServie:CommonApiService) { }
 
   @Input() questionType:string;
   @Input() isResetTriggered:boolean;
@@ -172,6 +172,10 @@ export class QuestionPanelComponent implements OnInit {
     });
     if(this.isFormvalidated()){
       let question = new Question();
+      if(this.questionText==undefined)
+        this.questionText = new Object();
+      this.questionText.eng = this.enteredQuestion;
+      // this.questionText.
       question.question = this.utilService.encodeLOB(JSON.stringify(this.questionText));
       question.expln = this.explanationValue;
       question.tagId = this.tagValue;
@@ -181,6 +185,7 @@ export class QuestionPanelComponent implements OnInit {
     }
   }
   isFormvalidated(){
+    this.enteredQuestion = this.parseImageTag(this.enteredQuestion)
     let unAnsweredCount:number = 0;
     this.answers.forEach(element => {
     if(element.text=="")
@@ -247,16 +252,44 @@ export class QuestionPanelComponent implements OnInit {
     }
     selectedFile: File;
     onFileChanged(event) {
-      this.selectedFile = event.target.files[0];
+      this.selectedFile = event.target.files;
       console.log(event);
       console.log(event.target);
 
       console.log(this.selectedFile);
-    this.apiServie.fileUploadPost(this.definedConstants.API_BASE_URL + this.definedConstants.API_TEST_UPLOAD, this.selectedFile)
-    .subscribe(
-      response=>{
-        console.log("Response")
-    });
+      let i=0;
+      for(let i=0;i<event.target.files.length;i++) {
+        this.apiServie.fileUploadPost(this.definedConstants.API_BASE_URL + this.definedConstants.API_TEST_UPLOAD, event.target.files[i])
+        .subscribe( response=>{
+          console.log("Response")
+      });    
+      };
+    
   }
-
+  /**
+   * 
+   * @param tag Parsing the Image Tag if there is a image.
+   */
+    parseImageTag(tag:string):string{
+    var occu = tag.indexOf("<input");
+    if(occu !==-1){
+      var imageTag=tag.substring(occu,tag.indexOf("/>",occu) +2).replace("<input","<img").slice(0,-15)+"/>";
+      var width = ""; var heigth="";
+      if(imageTag.indexOf(" width:")!==-1)
+       width = imageTag.substring(imageTag.indexOf(" width:")+7,imageTag.indexOf("px",imageTag.indexOf(" width:"))).trim();
+      else
+        width = imageTag.substring(imageTag.indexOf("width:")+7,imageTag.indexOf("px",imageTag.indexOf("width:"))).trim();
+      if(imageTag.indexOf(" height:")!==-1)
+        heigth =imageTag.substring(imageTag.indexOf(" height:")+8,imageTag.indexOf("px",imageTag.indexOf(" height:"))).trim();
+      else
+        heigth =imageTag.substring(imageTag.indexOf("height:")+8,imageTag.indexOf("px",imageTag.indexOf("height:"))).trim();
+        
+      var imageTag1 = imageTag.slice(0,imageTag.indexOf("style="))+"width=\""+width +"px\" heigth=\""+heigth+"px\" />";
+      var finalTag=tag.slice(0,occu)+imageTag1+tag.slice(tag.indexOf("/>",occu) +2);
+      return finalTag;
+    }else{
+      return tag;
+    }
+    
+  }
 }

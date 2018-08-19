@@ -13,8 +13,8 @@ import swal from 'sweetalert2';
 })
 export class BeginTestComponentComponent implements OnInit {
 
-  constructor(private utilService :CommonUtilService, private definedConstants: DefinedConstants,
-              private apiService : CommonApiService) { }
+  constructor(public utilService :CommonUtilService, public definedConstants: DefinedConstants,
+              public apiService : CommonApiService) { }
 
   public qAns:any=[];
   public currentQAns:any=null;
@@ -291,7 +291,7 @@ export class BeginTestComponentComponent implements OnInit {
     } else if(unAnswered != 0){
       messageString = "You have un-answered questions:"+unAnswered;
     }else{
-      messageString = "You have tagged questions:"+tagged;
+      messageString = "You have tagged questions:"+tagged +"<br> Do you want to submit?";
     }
     swal(messageString)
     console.log(unAnswered)

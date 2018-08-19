@@ -24,8 +24,8 @@ import {DefinedConstants} from "../../app.defined.constants";
 export class HomePageComponent implements OnInit {
 
 
-  constructor(private definedConstants: DefinedConstants, private utilService: CommonUtilService, 
-  private apiService: CommonApiService) { }
+  constructor(public definedConstants: DefinedConstants, public utilService: CommonUtilService, 
+  public apiService: CommonApiService) { }
   state ='small';
   ngOnInit() {
   }

@@ -10,12 +10,12 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 })
 export class BrowseCoursesViewComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(public router: Router, public route: ActivatedRoute) { }
 
   public type;
   public typeOfDetails;
-  private subscription;
-  private pageView:string=""; 
+  public subscription;
+  public pageView:string=""; 
   ngOnInit() {
     this.initialize();
     this.subscription =  this.route.queryParams.subscribe(

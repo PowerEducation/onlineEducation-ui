@@ -26,17 +26,17 @@ import {Subscription} from 'rxjs/Rx';
 })
 export class MainComponent implements OnInit {
 
-  private subscription: Subscription;
-  private param:string;
+  public subscription: Subscription;
+  public param:string;
 
   @ViewChildren('childView') childViews
   self = this;
 
   @ViewChild(BrowseCoursesViewComponent)
-  private browseCoursesViewComponent: BrowseCoursesViewComponent;
+  public browseCoursesViewComponent: BrowseCoursesViewComponent;
 
-  constructor(private utilService :CommonUtilService, private definedConstants: DefinedConstants,
-  private router:Router, private route: ActivatedRoute) { }
+  constructor(public utilService :CommonUtilService, public definedConstants: DefinedConstants,
+  public router:Router, public route: ActivatedRoute) { }
 
   ngOnInit() {
     console.log("Trace")

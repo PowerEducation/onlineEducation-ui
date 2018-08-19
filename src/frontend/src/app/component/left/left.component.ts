@@ -6,8 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./left.component.css']
 })
 export class LeftComponent implements OnInit {
-private fontWidth;
-private toggleBar:boolean=true;
+public fontWidth;
+public toggleBar:boolean=true;
   constructor() { }
 
   ngOnInit() {

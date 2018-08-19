@@ -1,9 +1,14 @@
-<div style="padding: 1px">
+ <input   style="display: none"   type="file" (change)="onFileChanged($event)"   accept="image/*" #fileInput multiple>
+ <button mat-raised-button color="accent"  (click)="fileInput.click()">Upload File</button>
+  <input type="file" name="files" (change)="onFileChanged($event)" accept="image/x-png,image/gif,image/jpeg" multiple/>
+<!--
+  Moving to  one language only..
+  <div style="padding: 1px">
       <button mat-raised-button color="primary" (click)="switchLang('hindi')" *ngIf="langSelected == 'english'">Switch to Hindi</button> 
       <button mat-raised-button color="accent" (click)="switchLang('english')" *ngIf="langSelected == 'hindi'">Back to English</button> 
       <input   style="display: none"   type="file" (change)="onFileChanged($event)"   #fileInput>
       <button mat-raised-button color="accent"  (click)="fileInput.click()">Upload File</button>
-  </div>
+  </div>-->
 <div>
   <div class="example-container" >
     <mat-form-field style="border-style: groove;"> 
@@ -13,6 +18,30 @@
           matAutosizeMaxRows="10"></textarea>
     </mat-form-field>
     <!--<p-editor [(ngModel)]="enteredQuestion" [style]="{'height':'80px'}" placeholder="Enter Your Question*"></p-editor>-->
+<!-- CK Editor with all the options..
+  <ckeditor
+    [(ngModel)]="enteredQuestion"
+    [config]="{uiColor: '#99000'}"
+    [readonly]="false"
+    (change)="onChange($event)"
+    (editorChange)="onEditorChange($event)"
+    (ready)="onReady($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    (contentDom)="onContentDom($event)"
+    (fileUploadRequest)="onFileUploadRequest($event)"
+    (fileUploadResponse)="onFileUploadResponse($event)"
+    (paste)="onPaste($event)"
+    (drop)="onDrop($event)"
+    debounce="500">
+  </ckeditor>-->
+<ckeditor
+    [(ngModel)]="enteredQuestion"
+    [config]="{uiColor: '#99000'}"
+    [readonly]="false"
+    debounce="500">
+    </ckeditor>
+
   </div>
 
 <div  class="col-md-12" style="margin-top:5px">

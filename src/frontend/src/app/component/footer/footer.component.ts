@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-// private LOGO = require("../1.jpg");
+// public LOGO = require("../1.jpg");
   constructor() { }
 
   ngOnInit() {

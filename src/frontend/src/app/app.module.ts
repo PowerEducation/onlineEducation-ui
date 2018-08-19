@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { CKEditorModule } from 'ng2-ckeditor';
 import {CommonApiService} from './services/common-api.service';
 import {CommonUtilService} from './services/common-util.service';
 import {DefinedConstants} from './app.defined.constants';
@@ -80,6 +81,7 @@ import { AddProductViewComponent } from './component/add-product-view/add-produc
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+     CKEditorModule,
     // RouterModule.forRoot(api_routes, {useHash:false}),
     AppRoutingModule,
     ModalModule.forRoot(),

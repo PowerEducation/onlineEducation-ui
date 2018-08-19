@@ -9,10 +9,10 @@ import {DefinedConstants} from '../app.defined.constants';
 @Injectable()
 export class CommonApiService {
 
-  constructor(private http:Http, public definedConstants: DefinedConstants) {
+  constructor(public http:Http, public definedConstants: DefinedConstants) {
   }
 
- private handleError(error:Response) {
+ public handleError(error:Response) {
     if (error.status == 401) {
       return Observable.throw(error);
     }

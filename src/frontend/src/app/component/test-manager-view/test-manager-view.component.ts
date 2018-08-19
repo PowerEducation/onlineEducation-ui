@@ -29,9 +29,10 @@ export class TestManagerViewComponent implements OnInit {
   public questionIdsCount:number;
   public testUpdated:Test;
   public testLink:string;
+  public userNameError:string;
 
-  constructor(private _formBuilder: FormBuilder, private definedConstants: DefinedConstants,private utilService:CommonUtilService,
-          private apiService:CommonApiService, private router: Router, private route: ActivatedRoute) { }
+  constructor(public _formBuilder: FormBuilder, public definedConstants: DefinedConstants,public utilService:CommonUtilService,
+          public apiService:CommonApiService, public router: Router, public route: ActivatedRoute) { }
 
   ngOnDestroy(){
    this.utilService.isTestResumed = [];

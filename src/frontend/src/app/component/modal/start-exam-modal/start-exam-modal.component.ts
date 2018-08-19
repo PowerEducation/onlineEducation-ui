@@ -7,8 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StartExamModalComponent implements OnInit {
 
-  constructor() { }
+  public signIn;
+  public signup;
+  public close;
 
+  constructor() { }
+  public loginError:string="";
   ngOnInit() {
   }
 

@@ -15,7 +15,7 @@ import {CommonApiService} from '../../../services/common-api.service';
 export class SingleValuedModalComponent implements OnInit {
 
   constructor(public dialog: MatDialogRef<SingleValuedModalComponent>, @Inject(MAT_DIALOG_DATA) public data:any,
-  private definedConstants: DefinedConstants, private utilService: CommonUtilService, private apiService: CommonApiService,) 
+  public definedConstants: DefinedConstants, public utilService: CommonUtilService, public apiService: CommonApiService,) 
   { }
   public typeInput="";
   public typeError:boolean=false;

@@ -64,8 +64,9 @@
 
 </div>
 <div *ngIf="isTestStarted" class="sideNav">
+  
    <button type="button"  mat-raised-button color="primary" (click)="isTestStarted=false" disableClose="true" >Go Back</button>
-   <mat-sidenav-container>
+   <mat-sidenav-container class="sideNav-container" autosize style="height: 500px">
          <mat-sidenav #sideNav role="navigation"  opened="true" mode="side">
             <span *ngFor="let question of questions;let index = index" fxFlex fxLayout>
               <button mat-mini-fab color={{question.colorButton}} (click)="selectQuestion(question,index)">{{index + 1 }} </button>
@@ -79,12 +80,21 @@
                  Over All Time Spend:
                </div>
                <div class="col-md-12" style="margin-top: 10px">{{stopWatchP}}</div>
-              </div> 
-              <div class="col-md-12">
-                <div class="col-md-12" style="text-align: center"> 
+              </div>
+
+              <div class="col-md-12 align-center">
+                <div class="col-md-6"> <button mat-mini-fab color={{definedConstants.BUTTON_UNANS}}></button> Un Answered </div>
+                <div class="col-md-6"> <button mat-mini-fab color={{definedConstants.BUTTON_ANS}}></button> Answered </div>
+                <div class="col-md-6"> <button mat-mini-fab color={{definedConstants.BUTTON_TAGGED}}></button> Tagged </div>
+                <div class="col-md-6"> <button mat-mini-fab color={{definedConstants.BUTTON_SKIPPED}}></button> Skipped </div>
+                <div class="col-md-6"> <button mat-mini-fab color={{definedConstants.BUTTON_TAGGED_ANSWERED}}></button> Tagged and Answered </div>
+                
+              </div>
+              <div class="row align-bottom">
+                <div class="col-md-12 align-center"> 
                   <button mat-raised-button color="primary" (click)="showInstruction()">Show Instruction</button>
                 </div>
-                <div class="col-md-12" style="text-align: center"> <button mat-raised-button color="primary" (click)=submitTest()>Submit Test</button></div>
+                <div class="col-md-12 align-center"> <button mat-raised-button color="primary" (click)=submitTest()>Submit Test</button></div>
               </div>
          </mat-sidenav>
          <mat-sidenav-content>
@@ -93,16 +103,16 @@
            </button>-->
            <div *ngIf="selectedQuestion!=undefined">
            <div class="col-md-12">
-              <div class="col-md-6">
+              <!--<div class="col-md-12">-->
                 <p  style="margin: 10px 5px 20px 5px">
-                   Q {{selectedQuestion.index}}: {{selectedQuestion.questions.eng}}
+                   Q {{selectedQuestion.index}}: <span [innerHTML]="selectedQuestion.questions.eng"></span>
                </p>
-              </div>
-              <div class="col-md-6">
+              <!--</div>-->
+              <!--<div class="col-md-6">
                 <p  style="margin: 10px 5px 20px 5px">
-                  Q {{selectedQuestion.index}}: {{selectedQuestion.questions.hin}}
+                  Q {{selectedQuestion.index}}: <span [innerHTML]="selectedQuestion.questions.hin"></span> {{selectedQuestion.questions.hin}}
                 </p>
-              </div>
+              </div>-->
            </div>
            
            <div class="col-md-12">
@@ -110,15 +120,16 @@
                  <span *ngIf="selectedQuestion.optionType=='MC' || selectedQuestion.optionType=='mc'">
                    <div *ngFor="let ansEng of selectedQuestion.answers;let indexAns = index">
                     
-                    <div class="col-md-6">
+                    <!--<div class="col-md-6">-->
                       <mat-checkbox 
                       (change)="correctAnswerSelection(selectedQuestion,indexAns)" 
                       [value]="ansEng.userAns"
                        [checked]="ansEng.userAns">
                         A {{indexAns + 1}} :  {{ansEng.textE}}
+                      
                       </mat-checkbox>
-                    </div>
-                    <div class="col-md-6">
+                    <!--</div>-->
+                    <!--<div class="col-md-6">
                       <mat-checkbox 
                         (change)="correctAnswerSelection(selectedQuestion,indexAns)"
                         [value]="ansEng.userAns"
@@ -126,7 +137,7 @@
                         >
                           {{indexAns + 1}} :  {{ansEng.textH}}
                       </mat-checkbox>
-                    </div>
+                    </div>-->
                    </div>
                   </span>
                   <span *ngIf="selectedQuestion.optionType=='SC' || selectedQuestion.optionType=='sc'">
@@ -134,7 +145,7 @@
                
                     <div class="col-md-12">
                       <div  *ngFor="let ansEng of selectedQuestion.answers;let indexAns = index">
-                        <div class="col-md-6">
+                        <!--<div class="col-md-6">-->
                           <mat-radio-group>
                         <mat-radio-button 
                         (change)="correctAnswerSelection(selectedQuestion,indexAns)" 
@@ -144,8 +155,8 @@
                             {{indexAns + 1}} :  {{ansEng.textE}}
                       </mat-radio-button>
                       </mat-radio-group>
-                        </div>
-                        <div class="col-md-6">
+                        <!--</div>-->
+                        <!--<div class="col-md-6">-->
                           <!--<mat-radio-group>
                        <mat-radio-button  
                             (change)="correctAnswerSelection(selectedQuestion,indexAns)" 
@@ -154,7 +165,7 @@
                                 A {{indexAns + 1}} :  {{ansEng.textH}}{{ansEng.userAns}}
                           </mat-radio-button>
                           </mat-radio-group>-->
-                            <mat-radio-group>
+                            <!--<mat-radio-group>
                         <mat-radio-button 
                         (change)="correctAnswerSelection(selectedQuestion,indexAns)" 
                        
@@ -163,7 +174,7 @@
                             A {{indexAns + 1}} :  {{ansEng.textH}}
                       </mat-radio-button>
                       </mat-radio-group>
-                        </div>
+                        </div>-->
                       </div>      
                       </div>
                   </span>
@@ -172,7 +183,7 @@
            </div>     
            
            
-            <div class="col-md-12" style="margin-top: 10px">
+            <div class="col-md-12 align-bottom" style="margin-top: 10px">
                <div class="col-md-12">
               <div class="col-md-4" >
                 <button mat-raised-button color="primary" [disabled]="!previousEnabled" (click)="nextQuestion(-1)">Previous Question</button>

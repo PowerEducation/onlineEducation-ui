@@ -27,15 +27,15 @@ export class LoginModalComponent implements OnInit {
   public viewType:string;
   public loginError:any = [];
   public hasErrors =false;
-  // constructor(public dialog: DialogRef<CustomModalContext>,private apiService:CommonApiService,
-  //   public definedConstants:DefinedConstants,private commonService: CommonUtilService) {
+  // constructor(public dialog: DialogRef<CustomModalContext>,public apiService:CommonApiService,
+  //   public definedConstants:DefinedConstants,public commonService: CommonUtilService) {
   //   this.context = this.dialog.context;
   //   // this.dialog.setCloseGuard(this);
   //    this.viewType="signIn";
   // }
 
-  constructor(public dialog: MatDialogRef<LoginModalComponent>, @Inject(MAT_DIALOG_DATA) public data:string,private apiService:CommonApiService,
-    public definedConstants:DefinedConstants,private utilService: CommonUtilService,private _formBuilder: FormBuilder) {
+  constructor(public dialog: MatDialogRef<LoginModalComponent>, @Inject(MAT_DIALOG_DATA) public data:string,public apiService:CommonApiService,
+    public definedConstants:DefinedConstants,public utilService: CommonUtilService,public _formBuilder: FormBuilder) {
     // this.context = this.dialog.context;
     // this.dialog.setCloseGuard(this);
      this.viewType="signIn";

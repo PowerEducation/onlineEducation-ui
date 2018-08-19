@@ -15,9 +15,9 @@ import swal from 'sweetalert2';
 })
 export class ViewAllTestsComponent implements OnInit {
 
-  constructor( private definedConstants: DefinedConstants, private utilService: CommonUtilService, 
-  private apiService: CommonApiService, private router: Router, private route: ActivatedRoute,
-  private dialog: MatDialog) { }
+  constructor( public definedConstants: DefinedConstants, public utilService: CommonUtilService, 
+  public apiService: CommonApiService, public router: Router, public route: ActivatedRoute,
+  public dialog: MatDialog) { }
 
   @Input() source:string;
   @Input() testValues;

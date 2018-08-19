@@ -12,14 +12,17 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 })
 export class TestCategogyViewComponent implements OnInit {
 
-  constructor(private _formBuilder: FormBuilder, private definedConstants: DefinedConstants,private utilService:CommonUtilService,
-          private apiService:CommonApiService, private router: Router, private route: ActivatedRoute) { }
+  constructor(public _formBuilder: FormBuilder, public definedConstants: DefinedConstants,public utilService:CommonUtilService,
+          public apiService:CommonApiService, public router: Router, public route: ActivatedRoute) { }
 
 createNewCategory: FormGroup;
 secondFormGroup: FormGroup;
 thirdFormGroup: FormGroup;
+testCategory:string;
+categories:string;
 
   ngOnInit() {
+
        this.createNewCategory = this._formBuilder.group({
       testName: ['', Validators.required],
       testCategory: ['', Validators.required]
@@ -31,5 +34,10 @@ thirdFormGroup: FormGroup;
       thirdCtrl: ['', Validators.required]
     });
   }
+
+categoryChanged(){
+
+}
+
 
 }

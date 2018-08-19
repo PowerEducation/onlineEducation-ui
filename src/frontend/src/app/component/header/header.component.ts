@@ -14,14 +14,14 @@ import {DefinedConstants} from "../../app.defined.constants";
 })
 export class HeaderComponent implements OnInit {
 
-  // constructor(private modal:Modal, vcRef:ViewContainerRef,private commonService: CommonUtilService,
-  //             private router: Router, private route: ActivatedRoute,private defineConstants: DefinedConstants) {
+  // constructor(public modal:Modal, vcRef:ViewContainerRef,public commonService: CommonUtilService,
+  //             public router: Router, public route: ActivatedRoute,public defineConstants: DefinedConstants) {
   //   modal.defaultViewContainer = vcRef;
   //  }
 
-  constructor(private utilService: CommonUtilService,public modal: Modal,
-  private dialog: MatDialog,private router: Router, private route: ActivatedRoute,
-  private defineConstants: DefinedConstants) {
+  constructor(public utilService: CommonUtilService,public modal: Modal,
+  public dialog: MatDialog,public router: Router, public route: ActivatedRoute,
+  public defineConstants: DefinedConstants) {
    }
 
   public typeCourse;

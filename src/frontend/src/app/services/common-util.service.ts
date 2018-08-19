@@ -7,7 +7,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 @Injectable()
 export class CommonUtilService {
 
-  constructor(private definedConstants: DefinedConstants,private router: Router) { }
+  constructor(public definedConstants: DefinedConstants,public router: Router) { }
 public mainPageView:boolean;
 public browseCoursesView:boolean;
 public testSeries:boolean;

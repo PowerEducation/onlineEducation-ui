@@ -29,7 +29,7 @@
   </div>
 </div>-->
 			<ul class="nav navbar-nav">
-				<li> <a style="cursor:pointer" (click)="navigateTo()">Shop</a></li>
+				<li> <a style="cursor:pointer" (click)="navigateTo('','')">Shop</a></li>
 				<li class="dropdown"> <!-- *ngIf="utilService.isUserLoggedIn && utilService.userInfo.role==='A';">
 					<a class="dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">Admin
   						<span class="caret"></span></a>
@@ -85,8 +85,8 @@
     </mat-card-content>
 				</li>
 		
-				<li> <a style="cursor:pointer" (click)="navigateTo('')">About us</a></li>
-				<li> <a style="cursor:pointer" (click)="navigateTo('')">Contact us</a></li>
+				<li> <a style="cursor:pointer" (click)="navigateTo('','')">About us</a></li>
+				<li> <a style="cursor:pointer" (click)="navigateTo('','')">Contact us</a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right" >

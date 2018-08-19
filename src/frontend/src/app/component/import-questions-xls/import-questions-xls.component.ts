@@ -15,8 +15,8 @@ import quill from 'Quill';
   styleUrls: ['./import-questions-xls.component.css']
 })
 export class ImportQuestionsXlsComponent implements OnInit {
- constructor( private utilService :CommonUtilService, private definedConstants: DefinedConstants,
-              private apiService : CommonApiService) {
+ constructor( public utilService :CommonUtilService, public definedConstants: DefinedConstants,
+              public apiService : CommonApiService) {
     }
 
 
@@ -69,7 +69,7 @@ public isRefresh:boolean = true;
   formatData(data){
     this.isRefresh= false;
     if(data !==null && data.length>1){
-     if(data[0].length==22){
+     if(data[0].length==this.definedConstants.QUESTIONS_HEADER.length){
       let tempData=data.splice(0,1);
       
       data.forEach(element => {
@@ -128,37 +128,44 @@ public isRefresh:boolean = true;
                 let question = new Question();
                 let quesText =  new QAnsLang();
                 quesText.eng= data.QUESTIONTEXT;
-                quesText.hin= data.QUESTIONTEXTH;
+                // quesText.hin= data.QUESTIONTEXTH;
                 question.question = this.utilService.encodeLOB(JSON.stringify(quesText));
                 question.subject =resSub._links.self.href;
                 question.topic = (resTopic._embedded.topics.filter(topic=>topic.tNm==data.TOPICNAME))[0]._links.self.href;
 
                 let answers:any = [];
-                answers.push({"textE":data.OPTION1,"index":0,"textH":data.OPTION1H,"isC":false});
-                answers.push({"textE":data.OPTION2,"index":1,"textH":data.OPTION2H,"isC":false});
+                // answers.push({"textE":data.OPTION1,"index":0,"textH":data.OPTION1H,"isC":false});
+                // answers.push({"textE":data.OPTION2,"index":1,"textH":data.OPTION2H,"isC":false});
+                answers.push({"textE":data.OPTION1,"index":0,"isC":false});
+                answers.push({"textE":data.OPTION2,"index":1,"isC":false});
+
                 if(data.OPTION3!=undefined && data.OPTION3!=null && data.OPTION3 !="" && data.OPTION3 !="NA"){
                   if(data.OPTION3H!=undefined && data.OPTION3H!=null && data.OPTION3H !="" && data.OPTION3H !="NA")
-                      answers.push({"textE":data.OPTION3,"index":2,"textH":data.OPTION3H,"isC":false});
+                      // answers.push({"textE":data.OPTION3,"index":2,"textH":data.OPTION3H,"isC":false});
+                      answers.push({"textE":data.OPTION3,"index":2,"isC":false});
                   else
                     answers.push({"textE":data.OPTION3,"index":2,"isC":false});
                 }
                 if(data.OPTION4!=undefined && data.OPTION4!=null && data.OPTION4 !="" && data.OPTION4 !="NA"){
                   if(data.OPTION4H!=undefined && data.OPTION4H !=null && data.OPTION4H !="" && data.OPTION4H !="NA")  
-                    answers.push({"textE":data.OPTION4,"index":3,"textH":data.OPTION4H,"isC":false});
+                      answers.push({"textE":data.OPTION4,"index":3,"isC":false});
+                    // answers.push({"textE":data.OPTION4,"index":3,"textH":data.OPTION4H,"isC":false});
                   else
                     answers.push({"textE":data.OPTION4,"index":3,"isC":false});
                 }
                   
                 if(data.OPTION5!=undefined && data.OPTION5!=null && data.OPTION5 !="" && data.OPTION5 !="NA")  {
                   if(data.OPTION5H !=undefined && data.OPTION5H !=null && data.OPTION5H !="" && data.OPTION5H !="NA")  
-                    answers.push({"textE":data.OPTION5,"index":4,"textH":data.OPTION5,"isC":false});
+                    answers.push({"textE":data.OPTION5,"index":4,"isC":false});
+                    // answers.push({"textE":data.OPTION5,"index":4,"textH":data.OPTION5,"isC":false});
                   else
                     answers.push({"textE":data.OPTION5,"index":4,"isC":false});
                 }
                   
                 if(data.OPTION6!=undefined && data.OPTION6!=null && data.OPTION6 !="" && data.OPTION6 !="NA")  {
                   if(data.OPTION6H!=undefined && data.OPTION6H !=null && data.OPTION6H !="" && data.OPTION6H !="NA")  
-                    answers.push({"textE":data.OPTION6,"index":5,"textH":data.OPTION6,"isC":false});
+                    // answers.push({"textE":data.OPTION6,"index":5,"textH":data.OPTION6,"isC":false});
+                    answers.push({"textE":data.OPTION6,"index":5,"isC":false});
                   else
                     answers.push({"textE":data.OPTION6,"index":5,"isC":false});
                 }

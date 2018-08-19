@@ -16,8 +16,8 @@ import {Subscription} from "rxjs/Rx";
 })
 export class AddQuestionsComponent implements OnInit {
 
-  constructor(private definedConstants: DefinedConstants, private utilService: CommonUtilService, 
-  private apiService: CommonApiService, private dialog: MatDialog,private router: Router, private route: ActivatedRoute) {
+  constructor(public definedConstants: DefinedConstants, public utilService: CommonUtilService, 
+  public apiService: CommonApiService, public dialog: MatDialog,public router: Router, public route: ActivatedRoute) {
    
   }
  
@@ -30,7 +30,7 @@ export class AddQuestionsComponent implements OnInit {
    public choices:any=[];
    public topics:any=[]
    public tags:string="";
-   private subscription: Subscription;
+   public subscription: Subscription;
    public param:string="";
    public question:any;
    public isResetTriggered:boolean=false;
