@@ -58,6 +58,7 @@ export class BeginTestComponentComponent implements OnInit {
       response=>{
         response.map(res=>{
            res.questions = JSON.parse(res.questions);
+           res.questions.eng = this.apiService.sanitizeUrl(res.questions.eng);
            res.answers = JSON.parse( res.answers);
            res.answers.map(ans=>{
              ans.userAns=false;
@@ -178,11 +179,11 @@ export class BeginTestComponentComponent implements OnInit {
   }
   correctAnswerSelection (question,index){
     this.isScLoading = true;
-    if(question.optionType=="sc"){
+    if(question.optionType=="sc" ||question.optionType=="SC"){
       question.answers.map(ans=>ans.userAns=false);
       question.answers[index].userAns = true;
       this.isScLoading = false;
-    }else if(question.optionType=="mc"){
+    }else if(question.optionType=="mc" || question.optionType=="MC"){
       if(question.answers[index].userAns)
         question.answers[index].userAns=false;
       else

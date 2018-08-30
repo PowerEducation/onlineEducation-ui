@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
@@ -16,6 +16,10 @@ export class BrowseCoursesViewComponent implements OnInit {
   public typeOfDetails;
   public subscription;
   public pageView:string=""; 
+  // @Input() questionType:string;
+  // @Input() isResetTriggered:boolean;
+  // @Input() quesionData:any;
+  // @Output() qData = new EventEmitter();
   ngOnInit() {
     this.initialize();
     this.subscription =  this.route.queryParams.subscribe(

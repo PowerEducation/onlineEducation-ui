@@ -21,6 +21,7 @@ export class QuestionManagerComponentComponent implements OnInit {
 
   @Input() source:string;
   @Input() testValues;
+  @Input() questionAdded;
   @Output() testQuestionData =  new EventEmitter();
    public selectedSubject: string="";
    public selectedChoice:string="";
@@ -33,12 +34,14 @@ export class QuestionManagerComponentComponent implements OnInit {
    public outputAnswers:any=[]
    public isLoading:boolean=false;
    public subscription;
+   public selectAll:boolean=false;
   ngOnInit() {
     this.subscription =  this.route.queryParams.subscribe(
       queryParam => {
       }
     )
     this.loadSubjects();
+    console.log(this.testValues)
   }
 
 
@@ -165,6 +168,8 @@ topicChanged(){
           quet.answers = JSON.parse(this.utilService.decodeLOB(quet.answers));
         });
         this.outputQuestions = response._embedded.questions;
+        if(this.utilService.testManagerView)
+          this.outputQuestions.map(question=>question.checked=false)
         
     })
     
@@ -241,5 +246,52 @@ deleteQuestion(question,index){
     test.questionIds = this.utilService.encodeLOB(JSON.stringify(questionIds));
     test.addIfNotExists = true;
     this.testQuestionData.emit(test);
+  }
+  selectQuestions(selectedQuestion,indexAns){
+    if(this.outputQuestions[indexAns].checked)
+      this.outputQuestions[indexAns].checked = false;
+    else
+      this.outputQuestions[indexAns].checked = true; 
+    // console.log(this.outputQuestions[indexAns].checked ?false:true)
+    //  this.outputQuestions[indexAns].checked = this.outputQuestions[indexAns].checked ?false:true;
+     console.log(this.outputQuestions[indexAns].checked);
+  }
+  selectAllQuestion(isSelectAll){
+    if(isSelectAll){
+       this.outputQuestions.map(question=>question.checked=true);
+       this.selectAll =true;
+    }
+    else{
+        this.outputQuestions.map(question=>question.checked=false);
+        this.selectAll =false;
+    }
+      
+    
+  }
+  saveSelectedQuestion(){
+     let questionCount = 0;
+     this.outputQuestions.map(question=>{
+       if(question.checked)
+         questionCount++;
+      });
+      if(questionCount + this.questionAdded <= this.testValues.totQ){
+        console.log("Saving questions");
+        let counter=0;
+        this.outputQuestions.map(question=>{
+        
+          if(question.checked){
+            this.addToTest(question,counter);
+          }
+          counter++;
+        })
+      }else{
+        console.log("Can't Add Questions");
+        let tempString  = "Can't add "+questionCount +" questions. Increase the question count or remove some question from test."
+         swal("Warning",tempString,"warning")
+      }
+
+    console.log(this.outputQuestions);
+    console.log(this.questionAdded);
+    console.log(this.testValues.totQ);
   }
 }

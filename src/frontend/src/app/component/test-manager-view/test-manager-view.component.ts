@@ -156,18 +156,22 @@ validateTestName(){
  * Question is Added to Test
  */
 addToTest(test){
-  console.log(test)
-  this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_ADD_TO_TEST,test).subscribe( 
+  console.log(JSON.stringify(test));
+  if(test.qCount == this.questionIdsCount){
+    swal("Warning","No More questions can be added. Increase the question count or remove some question from test.","warning")
+  }else{
+    this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_ADD_TO_TEST,test).subscribe( 
     response=>{
         console.log("Added to Test",response);
-        swal("",response.message,response.type);
+          swal("",response.message,response.type);
         if(response.type==="success"){
           this.questionIdsCount = response.qCount;
           this.testLink = this.definedConstants.API_BASE_URL+this.definedConstants.API_TEST +"/"+response.test;
         }
       },error=>{
         console.error("");
-  })
+     })
+  }
 }
  publishTest(){
   console.log(this.createNewTest.value);

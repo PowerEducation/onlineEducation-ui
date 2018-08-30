@@ -7,6 +7,7 @@ import {CommonUtilService} from '../../services/common-util.service';
 import {CommonApiService} from '../../services/common-api.service';
 import {Subscription} from 'rxjs/Rx';
 
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -34,9 +35,10 @@ export class MainComponent implements OnInit {
 
   @ViewChild(BrowseCoursesViewComponent)
   public browseCoursesViewComponent: BrowseCoursesViewComponent;
-
+  
   constructor(public utilService :CommonUtilService, public definedConstants: DefinedConstants,
-  public router:Router, public route: ActivatedRoute) { }
+  public router:Router, public route: ActivatedRoute) { 
+  }
 
   ngOnInit() {
     console.log("Trace")
@@ -46,7 +48,6 @@ export class MainComponent implements OnInit {
       queryParam =>{ 
         this.param = queryParam['page'];
         this.utilService.viewSwitch(this.param);
-        console.log("SEEEE"+this.param);
       }
     )
     if(this.param ==undefined)
@@ -56,4 +57,5 @@ export class MainComponent implements OnInit {
      console.log("this.param>>"+this.param)
      console.log("CateGory View"+this.utilService.testProductView)
   }
+
 }

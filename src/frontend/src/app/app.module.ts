@@ -42,6 +42,9 @@ import { TestManagerViewComponent } from './component/test-manager-view/test-man
 import { TestCategogyViewComponent } from './component/test-categogy-view/test-categogy-view.component';
 import { ViewAllTestsComponent } from './component/view-all-tests/view-all-tests.component';
 import { AddProductViewComponent } from './component/add-product-view/add-product-view.component'
+// import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'; // this includes the core NgIdleModule but includes keepalive providers for easy wireup
+import {NgIdleModule} from '@ng-idle/core';
+import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
 
 @NgModule({
   declarations: [
@@ -92,7 +95,8 @@ import { AddProductViewComponent } from './component/add-product-view/add-produc
     MatCardModule, MatIconModule, MatProgressBarModule,
     MatDialogModule, MatSelectModule, MatRadioModule,       MatTooltipModule,
     MatInputModule, MatSidenavModule, MatButtonToggleModule,MatStepperModule, 
-    MatSnackBarModule, MatToolbarModule, MatCheckboxModule
+    MatSnackBarModule, MatToolbarModule, MatCheckboxModule,
+    NgIdleModule.forRoot()
   ],
   providers: [DefinedConstants,
   CommonApiService,

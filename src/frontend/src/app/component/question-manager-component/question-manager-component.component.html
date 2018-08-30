@@ -66,12 +66,26 @@
     <input #gb type="text" pInputText size="50" placeholder="Global Filter">
     <button type="button" icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:right">Download</button>
 </div>
-      <p-dataTable [value]="outputQuestions"  [rows]="10" sortMode="multiple" exportFilename="cars" 
+      <p-dataTable [value]="outputQuestions"  [rows]="10" sortMode="multiple" exportFilename="questions" 
                    [paginator]="true" [pageLinks]="3" [responsive]="true" [stacked]="stacked"
-                   [globalFilter]="gb" #dt  expandableRows="true" (onRowExpand)="rowExpand()">
-         <p-header>
-       
-    </p-header>
+                   [globalFilter]="gb" #dt  expandableRows="true" (onRowExpand)="rowExpand()" 
+                   [(selection)]="selectedquestions"  dataKey="question.eng">
+         <p-footer>
+           <div *ngIf="utilService.testManagerView">
+             <!--<div>-->
+              <button type="button"  mat-raised-button color="primary" (click)="selectAllQuestion(true)" *ngIf="!selectAll">Select All</button>
+              <button type="button"  mat-raised-button color="primary" (click)="selectAllQuestion(false)" *ngIf="selectAll">De-Select All </button>
+              <button type="button"  mat-raised-button color="primary" (click)="saveSelectedQuestion(question)" >Save selected </button>
+           </div>
+          
+        </p-footer>
+            <p-column [style]="{'width':'40px'}" *ngIf="utilService.testManagerView">
+            <!--<p-column [style]="{'width':'40px'}">  [value]="question.checked"  (change)="selectQuestions(question,index)" -->
+              <ng-template let-question="rowData" let-index="rowIndex"  pTemplate="body" >
+                <mat-checkbox [(ngModel)]="question.checked">
+                </mat-checkbox>
+              </ng-template>     
+            </p-column>
             <p-column expander="true" styleClass="col-icon" [style]="{'width':'25px'}"></p-column>
         <p-column field="question.eng" header="Question" [editable]="true" [style]=" {'overflow':'visible' }"
         [sortable]="true"></p-column>

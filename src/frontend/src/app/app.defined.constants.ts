@@ -1,5 +1,7 @@
 export class DefinedConstants {
 
+public homePageURL="http://localhost:4200/home"
+// public API_BASE_URL="http://103.50.212.118:9082";
 public API_BASE_URL="http://localhost:9082";
 public API_PROFILE = "/profile";
 public API_USER_LOGIN="/userLogins";
@@ -7,6 +9,8 @@ public API_USER_SIGNUP ="/secure/logon/signUp";
 public API_USER_SIGNIN ="/secure/logon/signIn";
 public API_FINDBY_USERID="/userLogins/search/findByuserID?userID=";
 public API_COURSES="/courses";
+public idleTimeOut=600; //in Sec
+public finalTimOut=30;
 // Subjects API
 public API_SUBJECTS="/subjects";
 public API_SUBJECT_BY_NAME_FIND="/subjects/search/findBysubjectName?subjectName=";

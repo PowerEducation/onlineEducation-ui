@@ -41,7 +41,7 @@
 							
 					    <li><a (click)="navigateTo()">Set Paper</a></li>
 					  </ul>-->
-		<mat-card-content *ngIf="userRole == this.defineConstants.ROLE_ADMIN">
+		<mat-card-content *ngIf="utilService.userInfo.role == this.defineConstants.ROLE_ADMIN">
 			<button mat-raised-button color="white" [matMenuTriggerFor]="menu">Admin</button>
 			<mat-menu #menu="matMenu" [overlapTrigger]="false"> 
 				<button mat-menu-item> 

@@ -4,7 +4,8 @@
     width: 100%;
     background-color: cornflowerblue;
     text-decoration-color: white;
-    bottom: -480px
+    bottom: -50px;
+    position: relative;
 }
 .footerTitle{
     text-align: left !important;

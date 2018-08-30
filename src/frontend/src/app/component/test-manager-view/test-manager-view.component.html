@@ -93,7 +93,12 @@
   <mat-step [stepControl]="addQuestion">
     <form [formGroup]="addQuestion">
       <ng-template matStepLabel>Add Question</ng-template>
-     <app-question-manager-component [source]="definedConstants.SOURCE_TEST_M" [testValues]="createNewTest.value"  (testQuestionData)="addToTest($event)" ></app-question-manager-component>
+     <app-question-manager-component 
+        [source]="definedConstants.SOURCE_TEST_M" 
+        [testValues]="createNewTest.value"
+        [questionAdded]="questionIdsCount"
+        (testQuestionData)="addToTest($event)">
+    </app-question-manager-component>
       <div>
         <button mat-button mat-raised-button  color="primary" matStepperPrevious>Back</button>
         <button mat-button mat-raised-button  color="primary" matStepperNext>Next</button>

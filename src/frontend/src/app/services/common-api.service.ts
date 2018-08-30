@@ -1,15 +1,16 @@
+import { sanitizeUrl } from '@angular/platform-browser/src/security/url_sanitizer';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
-import "rxjs/add/operator/catch";
+import 'rxjs/add/operator/catch';
 import {Observable} from "rxjs/Rx";
 import {Headers, Http, Response, RequestOptions} from "@angular/http";
 import {DefinedConstants} from '../app.defined.constants';
-
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()
 export class CommonApiService {
 
-  constructor(public http:Http, public definedConstants: DefinedConstants) {
+  constructor(public http:Http, public definedConstants: DefinedConstants,private sanitizer: DomSanitizer) {
   }
 
  public handleError(error:Response) {
@@ -74,4 +75,8 @@ genericPost(urlString:string,payLoad:any){
       observer.next(mockedObjectName);
     });
   }
+  sanitizeUrl(url) {
+    // return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    return this.sanitizer.bypassSecurityTrustHtml (url);
+    }
 }

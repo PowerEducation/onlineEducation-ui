@@ -111,12 +111,16 @@ viewSwitch(type){
       this.isUserLoggedIn =true;
     }else{
       this.isUserLoggedIn =false;
+      this.userInfo = new UsersInfo();
+      this.userInfo.role = this.definedConstants.ROLE_UNKNOWN;
     }
   }
   loggedOutUser(){
     sessionStorage.removeItem("userInfo");
-    this.userInfo = undefined;
+    this.userInfo.role = this.definedConstants.ROLE_UNKNOWN;;
+    this.userInfo = new UsersInfo();
     this.isUserLoggedIn = false;
+     
   }
 
   findUniqueFromList(formattedData,itemToSearch){

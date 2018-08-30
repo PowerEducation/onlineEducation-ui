@@ -71,6 +71,12 @@
             matTextareaAutosize required  [(ngModel)]="answer.textE"
             matAutosizeMinRows="1"
             matAutosizeMaxRows="2"></textarea>
+             <ckeditor
+                      [(ngModel)]="answer.textE"
+                      [config]="{uiColor: '#99000'}"
+                      [readonly]="false"
+                      debounce="500">
+                      </ckeditor>
       </mat-form-field>
       
       <!--<p-editor [(ngModel)]="answer.text" [style]="{'height':'80px'}" placeholder="Enter Your Answer*"></p-editor>-->
@@ -119,6 +125,12 @@
                   matTextareaAutosize required  [(ngModel)]="explanationValue"
                   matAutosizeMinRows="1"
                   matAutosizeMaxRows="2"></textarea>
+                  <ckeditor
+                      [(ngModel)]="explanationValue"
+                      [config]="{uiColor: '#99000'}"
+                      [readonly]="false"
+                      debounce="500">
+                      </ckeditor>
             </mat-form-field>
           </div>
     </div>

@@ -121,11 +121,11 @@
                    <div *ngFor="let ansEng of selectedQuestion.answers;let indexAns = index">
                     
                     <!--<div class="col-md-6">-->
-                      <mat-checkbox 
+                      {{indexAns + 1}} :<mat-checkbox 
                       (change)="correctAnswerSelection(selectedQuestion,indexAns)" 
                       [value]="ansEng.userAns"
                        [checked]="ansEng.userAns">
-                        A {{indexAns + 1}} :  {{ansEng.textE}}
+                          {{ansEng.textE}}
                       
                       </mat-checkbox>
                     <!--</div>-->
@@ -146,13 +146,14 @@
                     <div class="col-md-12">
                       <div  *ngFor="let ansEng of selectedQuestion.answers;let indexAns = index">
                         <!--<div class="col-md-6">-->
+                        {{indexAns + 1}} :
                           <mat-radio-group>
                         <mat-radio-button 
                         (change)="correctAnswerSelection(selectedQuestion,indexAns)" 
                        
                         [value]="ansEng"
                         [checked]="ansEng.userAns">
-                            {{indexAns + 1}} :  {{ansEng.textE}}
+                              {{ansEng.textE}}
                       </mat-radio-button>
                       </mat-radio-group>
                         <!--</div>-->
