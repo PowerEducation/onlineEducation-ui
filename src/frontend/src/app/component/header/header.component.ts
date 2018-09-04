@@ -126,6 +126,16 @@ export class HeaderComponent implements OnInit {
   }else if(type==this.defineConstants.TEST_PREVIEW){
     this.utilService.beginTestView =true;
     this.router.navigate(['/home'], { queryParams: { page:this.defineConstants.TEST_PREVIEW  } });
+  }else if(type==this.defineConstants.USER_HOME){
+    this.utilService.candidateHomePageView = true;
+      let navParams : NavigationExtras;
+      navParams = {
+        queryParams:{
+          'page': this.defineConstants.USER_HOME ,
+          'view':  subType
+        }
+      }
+      this.router.navigate(['/home'],navParams);
   }
   else{
       sessionStorage.setItem('course',type);

@@ -15,7 +15,7 @@ import swal from 'sweetalert2';
 })
 export class ViewAllTestsComponent implements OnInit {
 
-  constructor( public definedConstants: DefinedConstants, public utilService: CommonUtilService, 
+  constructor(public definedConstants: DefinedConstants, public utilService: CommonUtilService, 
   public apiService: CommonApiService, public router: Router, public route: ActivatedRoute,
   public dialog: MatDialog) { }
 

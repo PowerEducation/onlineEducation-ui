@@ -34,7 +34,9 @@ export class BeginTestComponentComponent implements OnInit {
   public resetP;
   public isScLoading:boolean=false;
   public showInstructions=false;
-
+  public isLoading:boolean=false;
+  public activelyRunningTest;
+  public finalScoreString:string="NA";
   ngOnInit() {
     this.getQAns();
     this.getAllActiveTest();
@@ -52,6 +54,7 @@ export class BeginTestComponentComponent implements OnInit {
   }
 
   startTest(test){
+    this.activelyRunningTest= test;
     let questionIds =  JSON.parse(this.utilService.decodeLOB(test.questionIds));
     this.apiService.genericPost(this.definedConstants.API_BASE_URL+
     this.definedConstants.API_GET_ALL_QUESTION_FROM_TEST,test).subscribe(
@@ -164,6 +167,7 @@ export class BeginTestComponentComponent implements OnInit {
   selectQuestion(question,index){
     console.log("question>>",question)
     this.selectedQuestion = question;
+    this.selectedQuestion.status = "";
     this.selectedQuestion.index = index+1;
     if(index==0){
       this.previousEnabled =false;
@@ -286,17 +290,88 @@ export class BeginTestComponentComponent implements OnInit {
     })
     let messageString:string;
     if(tagged ==0 && unAnswered == 0){
-      messageString = "You answered all Questions"
+      messageString = "You Answered all Questions"
+      swal({
+        type:"success",
+        title:"Status before submission",
+        text:messageString,
+        allowOutsideClick:false})
     }else if(tagged !==0 && unAnswered !== 0){
-      messageString = "You have un-answered questions:"+unAnswered + " and tagged questions:"+tagged;
-    } else if(unAnswered != 0){
-      messageString = "You have un-answered questions:"+unAnswered;
-    }else{
-      messageString = "You have tagged questions:"+tagged +"<br> Do you want to submit?";
-    }
-    swal(messageString)
+        messageString = "You have un-answered questions:"+unAnswered + " and tagged questions:"+tagged +" Do you want to submit test?";
+      } else if(unAnswered != 0){
+        messageString = "You have un-answered questions:"+unAnswered + " Do you want to submit test?";
+      }else{
+        messageString = "You have tagged questions:"+tagged +" Do you want to submit test?";
+      }
+      swal({
+        type:"info",
+        title:"Status",
+        text:messageString,
+        allowOutsideClick:false,
+        showCancelButton: true,
+        confirmButtonText: 'Submit it!',
+        cancelButtonText: 'No, cancel!',
+
+      }).then((result) => {
+        if (result) {
+          swal({
+            title:'Submitted!',
+            text:'Your test has been submitted. Please wait While we prepare yur result.',
+            type:'success',
+            showConfirmButton: false,
+            timer: 3000,
+             onClose: () => {
+                this.isLoading=true;
+            },
+            onOpen: () => {
+              swal.showLoading();
+              this.prepareResult(unAnswered);
+            }
+          })
+
+        } else 
+        // if (
+          
+        //   // Read more about handling dismissals
+        //   // result.dismiss === swal.DismissReason.cancel
+        // )
+         {
+           
+          swal(
+            'Cancelled',
+            'Please continue to answer. :)',
+            'error'
+          )
+        }
+    })
     console.log(unAnswered)
     console.log(tagged)
+  }
+
+  prepareResult(unAnsweredQ){
+    console.log(this.questions);
+    let finalResult;
+    let correctAnswers=0;
+    let negativeMarks=0;
+    this.questions.map(question=>{
+      let resultAnswer:boolean=true;
+      question.answers.map(answer=>{
+        if(answer.isC!==answer.userAns)
+          resultAnswer=false;
+      });
+     this.questions.resultAnswer=resultAnswer;
+     console.log("this.questions.resultAnswer>>",this.questions.resultAnswer)
+     if(this.questions.resultAnswer){
+      correctAnswers++;
+     }
+    })
+    let perQuestionMarks = this.activelyRunningTest.totalMarks/this.activelyRunningTest.qCount;
+    if(this.activelyRunningTest.percentNegative!=null && this.activelyRunningTest.percentNegative!=0)
+      negativeMarks = (this.activelyRunningTest.qCount - correctAnswers + unAnsweredQ)*this.activelyRunningTest.percentNegative*perQuestionMarks ;
+    finalResult = perQuestionMarks*correctAnswers -negativeMarks;
+    console.log(this.activelyRunningTest)
+    console.log("finalResult>",finalResult);
+    this.finalScoreString = "Here is your final score :"+finalResult+"%";
   }
   
 }

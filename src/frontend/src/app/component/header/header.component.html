@@ -78,7 +78,7 @@
 				<button mat-menu-item>Product Link</button>
 			</mat-menu>
 			<mat-menu #CMenu="matMenu">
-				<button mat-menu-item>Add Candidate</button>
+				<button mat-menu-item (click)="navigateTo('candidateHomePageView','search')">Add Candidate</button>
 				<button mat-menu-item>Add Group</button>
 				<button mat-menu-item>Import Data</button>
 			</mat-menu>

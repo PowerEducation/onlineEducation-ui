@@ -30,7 +30,8 @@ import { StartExamModalComponent } from './component/modal/start-exam-modal/star
 import { BeginTestComponentComponent } from './component/begin-test-component/begin-test-component.component';
 import { AdminPanelComponentComponent } from './component/admin-panel-component/admin-panel-component.component';
 import {MatButtonModule, MatSelectModule, MatInputModule, MatSidenavModule, MatSnackBarModule, MatToolbarModule, MatRadioModule, MatTooltipModule,
-       MatCheckboxModule, MatMenuModule, MatCardModule, MatIconModule,MatDialogModule, MatButtonToggleModule, MatStepperModule,MatProgressBarModule} from '@angular/material';
+       MatCheckboxModule, MatMenuModule, MatCardModule, MatIconModule,MatDialogModule, MatButtonToggleModule, MatStepperModule,MatProgressBarModule, 
+       MatExpansionModule} from '@angular/material';
 import { QuestionManagerComponentComponent } from './component/question-manager-component/question-manager-component.component';
 import { SingleValuedModalComponent } from './component/modal/single-valued-modal/single-valued-modal.component';
 import { AddQuestionsComponent } from './component/add-questions/add-questions.component';
@@ -44,7 +45,11 @@ import { ViewAllTestsComponent } from './component/view-all-tests/view-all-tests
 import { AddProductViewComponent } from './component/add-product-view/add-product-view.component'
 // import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'; // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import {NgIdleModule} from '@ng-idle/core';
-import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
+import { MomentModule } from 'angular2-moment';
+import { CandidateHomeComponent } from './component/candidate-home/candidate-home.component';
+import { CandidateSearchComponent } from './component/candidate-home/candidate-search/candidate-search.component';
+import { CandidateProfileComponent } from './component/candidate-home/candidate-profile/candidate-profile.component';
+import { CandidateExamHistoryComponent } from './component/candidate-home/candidate-exam-history/candidate-exam-history.component'; // optional, provides moment-style pipes for date formatting
 
 @NgModule({
   declarations: [
@@ -72,7 +77,11 @@ import { MomentModule } from 'angular2-moment'; // optional, provides moment-sty
     TestManagerViewComponent,
     TestCategogyViewComponent,
     ViewAllTestsComponent,
-    AddProductViewComponent
+    AddProductViewComponent,
+    CandidateHomeComponent,
+    CandidateSearchComponent,
+    CandidateProfileComponent,
+    CandidateExamHistoryComponent
   ],
   entryComponents:[
     LoginModalComponent,
@@ -92,8 +101,8 @@ import { MomentModule } from 'angular2-moment'; // optional, provides moment-sty
     CaptchaModule,DataTableModule, SharedModule,EditorModule, ProgressSpinnerModule,
     GalleriaModule,
     MatButtonModule, MatMenuModule,
-    MatCardModule, MatIconModule, MatProgressBarModule,
-    MatDialogModule, MatSelectModule, MatRadioModule,       MatTooltipModule,
+    MatCardModule, MatIconModule, MatProgressBarModule,  MatExpansionModule,
+    MatDialogModule, MatSelectModule, MatRadioModule,    MatTooltipModule,
     MatInputModule, MatSidenavModule, MatButtonToggleModule,MatStepperModule, 
     MatSnackBarModule, MatToolbarModule, MatCheckboxModule,
     NgIdleModule.forRoot()

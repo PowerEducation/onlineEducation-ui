@@ -1,0 +1,14 @@
+<div class="col-md-12">
+  <div lass=""col-md-1></div> 
+  <div lass=""col-md-10>
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" [ngClass]="{'active':type=='search'}"  ><a (click)="getDetails('search')">Find User</a></li>
+      <li role="presentation" [ngClass]="{'active':type=='profile'}"><a  (click)="getDetails('profile')">User Profile</a></li>
+      <li role="presentation" [ngClass]="{'active':type=='history'}" ><a (click)="getDetails('history')">Exam History</a></li>
+    </ul>
+    <app-candidate-search *ngIf="type=='search'"></app-candidate-search>
+    <app-candidate-profile *ngIf="type=='profile'"></app-candidate-profile>
+    <app-candidate-exam-history *ngIf="type=='history'"></app-candidate-exam-history>
+  </div>
+  <div lass=""col-md-1></div>
+</div>

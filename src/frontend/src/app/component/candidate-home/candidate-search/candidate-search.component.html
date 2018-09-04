@@ -1,0 +1,42 @@
+<div class="container-fluid"> 
+  <div class="col-md-12" style="margin-top: 10px">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <div class="col-md-3"> <input matInput  placeholder="Serach User ID/First & Last Name" required [(ngModel)]="searchString" />
+      </div>
+      <div class="col-md-3"><button mat-raised-button color="primary" color="primary" (click)="searchUser()">Find User</button>
+      </div>
+        
+
+    <p-dataTable [value]="allUsers"  [rows]="10" sortMode="multiple" exportFilename="cars" 
+                   [paginator]="true" [pageLinks]="3" [responsive]="true" [stacked]="stacked"
+                   [globalFilter]="gb" #dt  expandableRows="true" (onRowExpand)="rowExpand()" *ngIf="allUsers.length!=0"
+                   [rows]="10" [paginator]="true">
+      
+      <p-column field="userID" header="User ID" [filter]="true" [style]=" {'overflow':'visible' }"
+        [sortable]="true"></p-column>
+     
+      <p-column field="fName" header="First Name" [filter]="true" [style]=" {'overflow':'visible' }"
+        [sortable]="true"></p-column>
+      <p-column field="lName" header="Last Name" [filter]="true" [style]=" {'overflow':'visible' }"
+        [sortable]="true"></p-column>
+      
+       <p-column>
+         <ng-template pTemplate="header">
+            Action
+        </ng-template>
+         <ng-template let-user="rowData" let-index="rowIndex"  pTemplate="body" >
+           <div>
+              <button type="button"  mat-raised-button color="primary" (click)="viewProfile('profile',user,index)" >View Profile</button>
+              <button type="button"  mat-raised-button color="primary" (click)="viewProfile('history',user,index)" >View Exam</button>
+               <button type="button"  mat-raised-button color="primary" (click)="delete(user,index)" *ngIf="utilService.userInfo.role=='A' && utilService.userInfo.userId!=user.userID">Delete</button>
+           </div>
+        </ng-template>
+        </p-column>
+        
+
+    </p-dataTable>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>

@@ -24,6 +24,7 @@ export class TestManagerViewComponent implements OnInit {
   public duration  = new FormControl('',[Validators.required]);
   public totQ = new FormControl('',[Validators.required]);
   public totM = new FormControl('',[Validators.required]);
+  public percentNegative = new FormControl('',[Validators.required]);
   public isTestNameExists:boolean = false;
   public isTestResumed:boolean=false;
   public questionIdsCount:number;
@@ -45,6 +46,7 @@ export class TestManagerViewComponent implements OnInit {
       duration: this.duration,
       totQ: this.totQ,
       totM: this.totM,
+      percentNegative:this.percentNegative,
     });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
@@ -59,6 +61,7 @@ export class TestManagerViewComponent implements OnInit {
        duration : this.utilService.isTestResumed[1].duration,
        totQ:this.utilService.isTestResumed[1].qCount,
        totM:this.utilService.isTestResumed[1].totalMarks,
+       percentNegative:this.utilService.isTestResumed[1].percentNegative,
     });
     this.isTestResumed=true;
     this.questionIdsCount = this.utilService.isTestResumed[1].questionIds.length;
@@ -66,10 +69,42 @@ export class TestManagerViewComponent implements OnInit {
     this.testLink = this.testUpdated._links.self.href;
   }
 }
+
+saveNextProgress(){
+//  if(this.isTestResumed){
+//   swal({
+//   title: 'Are you sure?',
+//   text: "You won't be able to revert this!",
+//   type: 'warning',
+//   showCancelButton: true,
+//   confirmButtonText: 'Yes, delete it!',
+//   cancelButtonText: 'No, cancel!',
+//   reverseButtons: true
+// }).then((result) => {
+//   console.log("result is >>",result)
+//   if (result.value) {
+//     swal(
+//       'Deleted!',
+//       'Your file has been deleted.',
+//       'success'
+//     )
+//   } else {
+//     swal(
+//       'Cancelled',
+//       'Your imaginary file is safe :)',
+//       'error'
+//     )
+//   }
+//  })}
+//  else{
+
+//   }
+}
 /**
  * Sav the Progress of current Question.
  */
 saveProgress(){
+
   if(this.isTestNameExists){
     swal('','Test name exists. Please use another name.','error');
   }else if(this.createNewTest.valid){
@@ -81,6 +116,7 @@ saveProgress(){
     test.duration  = this.createNewTest.value.duration;
     test.totalMarks  = this.createNewTest.value.totM;
     test.qCount  = this.createNewTest.value.totQ;
+    test.percentNegative = this.createNewTest.value.percentNegative;
     test.questionIds = this.utilService.encodeLOB(JSON.stringify(questionId));
     test.status=this.definedConstants.STATUS_PENDING;
     this.apiService.genericPost(this.definedConstants.API_BASE_URL+this.definedConstants.API_TEST,test).subscribe( 
@@ -113,6 +149,7 @@ updateProgress(){
     tempTest.duration  = this.createNewTest.value.duration;
     tempTest.totalMarks  = this.createNewTest.value.totM;
     tempTest.qCount  = this.createNewTest.value.totQ;
+    tempTest.percentNegative  = this.createNewTest.value.percentNegative;
     tempTest.questionIds = this.utilService.encodeLOB(JSON.stringify(this.testUpdated.questionIds));
     tempTest.status = this.testUpdated.status;
     this.apiService.genericPut(this.testLink, tempTest).subscribe( 

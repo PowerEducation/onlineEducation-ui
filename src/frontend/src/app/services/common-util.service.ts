@@ -19,11 +19,13 @@ public manageEntityView:boolean;
 public testManagerView:boolean;
 public allTestsView:boolean;
 public beginTestView:boolean;
+public candidateHomePageView:boolean;
 public testProductView:boolean;
 public isUserLoggedIn:boolean = false;
 public userInfo:UsersInfo;
 public userRole:string;
 public isTestResumed:any=[];
+public userHomeProfile:any;
   // Select2 Theme Starts Here
 public optionSelectMultipleTag={
   tags:true,
@@ -78,6 +80,9 @@ viewSwitch(type){
     case this.definedConstants.TEST_PREVIEW:
           this.beginTestView = true;
           break;
+    case this.definedConstants.USER_HOME:
+         this.candidateHomePageView = true;
+         break;
   }
 }
   resetAll(){
@@ -92,6 +97,7 @@ viewSwitch(type){
     this.testProductView =false;
     this.allTestsView=false;
     this.beginTestView=false;
+    this.candidateHomePageView=false;
   }
 
   setUser(response){
@@ -150,17 +156,15 @@ viewSwitch(type){
  * @param subType 
  */
  navigateTo(type:string, subType:string){
-    this.resetAll();
-    if(type=="browseCourses"){
-      this.browseCoursesView =true;
+    this.viewSwitch(type);
       let navParams : NavigationExtras;
       navParams = {
         queryParams:{
-          'page': 'browseCourses',
+          'page': type,
           'view':  subType
         }
       }
       this.router.navigate(['/home'],navParams);
   }
- }
+ 
 }

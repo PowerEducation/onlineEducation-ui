@@ -101,7 +101,17 @@
            <!--<button mat-icon-button (click)="sideNav.toggle()">
               <mat-icon>menu</mat-icon>
            </button>-->
-           <div *ngIf="selectedQuestion!=undefined">
+           <div class="col-md-12" *ngIf="isLoading" >
+             <div style="align-content: center" *ngIf="finalScoreString=='NA'">
+               Please wait while we are preparing your result.
+              <p-progressSpinner [style]="{width: '75px', height: '75px'}" strokeWidth="4" fill="#EEEEEE" animationDuration="4s"></p-progressSpinner>
+            </div>
+            <div *ngIf="finalScoreString!='NA'">
+              {{finalScoreString}}
+            </div>
+
+           </div>
+           <div *ngIf="selectedQuestion!=undefined && !isLoading" >
            <div class="col-md-12">
               <!--<div class="col-md-12">-->
                 <p  style="margin: 10px 5px 20px 5px">
@@ -184,7 +194,7 @@
            </div>     
            
            
-            <div class="col-md-12 align-bottom" style="margin-top: 10px">
+            <div class="col-md-12 align-bottom" style="margin-top: 10px" *ngIf="!isLoading">
                <div class="col-md-12">
               <div class="col-md-4" >
                 <button mat-raised-button color="primary" [disabled]="!previousEnabled" (click)="nextQuestion(-1)">Previous Question</button>
@@ -199,7 +209,24 @@
                 <button mat-raised-button color="primary" [disabled]="!nextEnabled" (click)="nextQuestion(0)">Next Question</button>
               </div></div>
             </div>
-              
+            <!--<div class="col-md-12">
+              <div class="col-md-8">
+                <mat-card>
+                  <mat-card-content>
+                    <h2 class="example-h2">Result</h2>
+
+                    <section class="example-section">
+                      <mat-progress-bar
+                          class="example-margin"
+                          color="blue"
+                          mode="determinate"
+                          value="0.8">
+                      </mat-progress-bar>
+                    </section>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>-->
              </div>
          </mat-sidenav-content>
   </mat-sidenav-container>

@@ -44,6 +44,7 @@ public API_FIND_TEST_BY_TESTNAME_CATE="/tests/search/findByTestNameAndCategory?t
 public API_TEST_UPLOAD="/secure/power/uploadImage";
 public API_TEST_FIND_STATUS="/tests/search/findByStatus?status=";
 public API_GET_ALL_QUESTION_FROM_TEST="/secure/power/getAllQuestionFromTest";
+public API_FIND_USER_BY_NAME="/userInfoes/search/findByfNameLike?fName=";
 
 // Static Data to Populate
 public DATA_QUESTION_CHOICE =[{"value":"sc","viewValue":"Single Choice"},{"value":"mc","viewValue":"Multiple Choice"}];
@@ -65,6 +66,8 @@ public Q_IMPORT_VIEW="importQuestionView";
 public Q_ENTITY_VIEW="manageEntityView";
 public ALL_TEST_VIEW="allTestsView";
 public ADD_QUESTIONS_VIEW="addQuestionsView";
+public USER_HOME = "candidateHomePageView";
+
 public ADD_COURSE = "Add COURSE";
 public ADD_SUBJECT = "Add Subject";
 public ADD_TOPIC = "Add Topic";
