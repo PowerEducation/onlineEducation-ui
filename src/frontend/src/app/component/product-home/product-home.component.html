@@ -1,0 +1,19 @@
+<div class="col-md-12">
+  <div lass=""col-md-1></div> 
+  <div lass=""col-md-10>
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" [ngClass]="{'active':type=='view'}"  ><a (click)="getDetails('view')">All Products</a></li>
+      <li role="presentation" [ngClass]="{'active':type=='create'}"><a  (click)="getDetails('create')">Create New</a></li>
+      <li role="presentation" [ngClass]="{'active':type=='discounts'}" ><a (click)="getDetails('discounts')">Discounts/Coupon</a></li>
+      <!--<li role="presentation" [ngClass]="{'active':type=='history'}" ><a (click)="getDetails('history')">History</a></li>-->
+      <li role="presentation" *ngIf="utilService.userInfo.role==this.definedConstants.ROLE_ADMIN" [ngClass]="{'active':type=='payment'}" >
+        <a (click)="getDetails('payment')">Payments/Enrollmets</a>
+      </li>
+    </ul>
+    <app-view-all-product *ngIf="type=='view'"></app-view-all-product>
+    <app-add-new-product *ngIf="type=='create'"></app-add-new-product>
+    <app-product-discount *ngIf="type=='discounts'"></app-product-discount>
+    <app-product-payment *ngIf="type=='payment' && utilService.userInfo.role==this.definedConstants.ROLE_ADMIN"></app-product-payment> 
+  </div>
+  <div class=""col-md-1></div>
+</div>

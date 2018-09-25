@@ -70,7 +70,7 @@ export class TestManagerViewComponent implements OnInit {
   }
 }
 
-saveNextProgress(){
+saveNextProgress(type){
 //  if(this.isTestResumed){
 //   swal({
 //   title: 'Are you sure?',

@@ -1,0 +1,160 @@
+<div class="col-md-12"> 
+<div class="col-md-1"></div>
+<div class="col-md-9">
+<mat-horizontal-stepper [linear]=true #stepper="matHorizontalStepper">
+  <mat-step [stepControl]="createNewProduct">
+    <form [formGroup]="createNewProduct">
+      <ng-template matStepLabel>Create New Product</ng-template>
+     
+        <div class="col-md-12">
+          <div class="col-md-6">
+             <mat-form-field>
+            <input matInput placeholder="Product Name" formControlName="productName" required duplicate (blur)="validateTestName()">
+             <mat-error *ngIf="userNameError">Duplicate Subject Name</mat-error>
+              </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <!--<mat-form-field>
+              <mat-select placeholder="Select Category" [(ngModel)]="testCategory" name="testCategory" 
+              formControlName="testCategory" (change)="categoryChanged()">
+                <mat-option *ngFor="let category of categories" [value]="category.value">   
+                  {{category.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>-->
+            
+            <mat-form-field>
+                <input matInput placeholder="Product Category" formControlName="productCategory" required>
+             </mat-form-field>
+          </div>
+          
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6">
+             <!--<mat-form-field>
+            <input matInput placeholder="Difficulty Level" formControlName="diffLevel" required>
+              </mat-form-field>-->
+                <mat-form-field>
+                  <mat-select placeholder="Select Difficulty Level" name="choice" formControlName="diffLevel" required>
+                    <mat-option *ngFor="let choice of this.definedConstants.DATA_DIFFICULTY_LEVEL" [value]="choice.value">
+                      {{choice.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </div>
+          <div class="col-md-6">
+             <mat-form-field>
+            <input matInput placeholder="Duration(in min)" formControlName="duration" required pattern="[0-9]*">
+            <mat-error *ngIf="duration.hasError('pattern')">Only numbers allowed</mat-error>
+              </mat-form-field>
+          </div>
+          </div> 
+        <div class="col-md-12">
+            <div class="col-md-6">
+             <mat-form-field>
+            <input matInput placeholder="Total Question" formControlName="totQ" required pattern="[0-9]*"  (blur)="validateTotalQuestion()">
+            <mat-error *ngIf="totQ.hasError('pattern')">Only numbers allowed</mat-error>
+              </mat-form-field>
+          </div>
+          <div class="col-md-6">
+             <mat-form-field>
+            <input matInput placeholder="Total Marks" formControlName="totM" required pattern="[0-9]*">
+            <mat-error *ngIf="totM.hasError('pattern')">Only numbers allowed</mat-error>
+              </mat-form-field>
+          </div>
+          </div>
+          <div class="col-md-12"> 
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Marks Distribution
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Marks Distribution(Negative Marks if any)
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-form-field>
+                  <input formControlName="percentNegative" matInput placeholder="Percent of -ve Mark" required pattern="[0-9]*">
+                </mat-form-field>
+
+                
+              </mat-expansion-panel>
+              <!--<mat-expansion-panel (opened)="panelOpenState = true"
+                                  (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Self aware panel
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Currently I am {{panelOpenState ? 'open' : 'closed'}}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>I'm visible because I am open</p>
+              </mat-expansion-panel>-->
+            </mat-accordion>
+          </div>
+     
+      <div>
+        <button mat-raised-button color="primary" matStepperNext>Next</button>
+        <!-- (click)="saveNextProgress('next')"-->
+         
+        <span *ngIf="isTestResumed;else notResumedBlock">
+           <button mat-raised-button color="primary" (click)="updateProgress()" (disable)="createNewProduct.valid">Update</button>
+        </span>
+        <ng-template #notResumedBlock>
+                  <span>
+                     <button mat-raised-button color="primary" (click)="saveProgress()" (disable)="createNewProduct.valid">Save Progress</button>
+                  </span>
+        </ng-template>
+       
+      </div>
+    </form>
+  </mat-step>
+  <!--<mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Test Setting</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Address" formControlName="secondCtrl" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>-->
+  <mat-step [stepControl]="addQuestion">
+    <form [formGroup]="addQuestion">
+      <ng-template matStepLabel>Add Tests</ng-template>
+     <app-question-manager-component 
+        [source]="definedConstants.SOURCE_TEST_M" 
+        [testValues]="createNewProduct.value"
+        [questionAdded]="questionIdsCount"
+        (testQuestionData)="addToTest($event)">
+    </app-question-manager-component>
+      <div>
+        <button mat-button mat-raised-button  color="primary" matStepperPrevious>Back</button>
+        <button mat-button mat-raised-button  color="primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <!--<mat-step [stepControl]="questionsOption">
+    <form [formGroup]="questionsOption">
+    </form>
+  </mat-step>  -->
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are now done.
+    <div>
+      <button mat-button mat-raised-button  color="primary" matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" (click)="publishTest()">Publish</button>
+      <!--<button mat-button mat-raised-button (click)="stepper.reset()">Reset</button>-->
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
+</div>
+<div class="col-md-2">
+  Instructions For Test Preparation
+</div>
+</div>

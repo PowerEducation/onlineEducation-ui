@@ -2,12 +2,23 @@
   <div class="col-md-12" style="margin-top: 10px">
     <div class="col-md-1"></div>
     <div class="col-md-10">
-      <div class="col-md-3"> <input matInput  placeholder="Serach User ID/First & Last Name" required [(ngModel)]="searchString" />
+      <div class="col-md-3"> <input matInput  placeholder="Serach User ID/First & Last Name" class="fa fa-search" required [(ngModel)]="searchString" />
       </div>
-      <div class="col-md-3"><button mat-raised-button color="primary" color="primary" (click)="searchUser()">Find User</button>
-      </div>
-        
+      <div class="col-md-4">
+        <mat-radio-group [(ngModel)]="userType" >
+          <mat-radio-button value="A">Active User</mat-radio-button>
+          <mat-radio-button value="I">in-Active User</mat-radio-button>
+          <mat-radio-button value="ALL">All User</mat-radio-button>
+      </mat-radio-group>
 
+        
+      </div>
+      <div class="col-md-3"><button mat-raised-button color="primary" color="primary" (click)="searchUser()">Find User</button> </div>    
+      <div class="col-md-1"></div>
+    </div>
+    <div class="col-md-12" style="margin-top: 10px">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
     <p-dataTable [value]="allUsers"  [rows]="10" sortMode="multiple" exportFilename="cars" 
                    [paginator]="true" [pageLinks]="3" [responsive]="true" [stacked]="stacked"
                    [globalFilter]="gb" #dt  expandableRows="true" (onRowExpand)="rowExpand()" *ngIf="allUsers.length!=0"
@@ -29,7 +40,8 @@
            <div>
               <button type="button"  mat-raised-button color="primary" (click)="viewProfile('profile',user,index)" >View Profile</button>
               <button type="button"  mat-raised-button color="primary" (click)="viewProfile('history',user,index)" >View Exam</button>
-               <button type="button"  mat-raised-button color="primary" (click)="delete(user,index)" *ngIf="utilService.userInfo.role=='A' && utilService.userInfo.userId!=user.userID">Delete</button>
+               <button type="button"  mat-raised-button color="primary" (click)="delete(user,index,0)" *ngIf="utilService.userInfo.role==this.definedConstants.ROLE_ADMIN && utilService.userInfo.userId!=user.userID && user.status=='A'">Disable</button>
+               <button type="button"  mat-raised-button color="primary" (click)="delete(user,index,1)" *ngIf="user.status=='I'">Enable</button>
            </div>
         </ng-template>
         </p-column>

@@ -1,3 +1,108 @@
-<p>
-  candidate-profile works!
-</p>
+<div class="container-fluid">
+<form [formGroup]="userHome">
+  <div class="col-md-12">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="User ID" formControlName="userID" required duplicate (blur)="validateformField('userID')">
+          <!--<mat-error *ngIf="userIDError">Duplicate User ID</mat-error>-->
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Email ID" formControlName="mailid" required duplicate (blur)="validateformField('mailid')">
+          <!--<mat-error *ngIf="userIDError">Duplicate Mail id</mat-error>-->
+      </mat-form-field>
+    </div>
+          
+  </div>
+  <div class="col-md-12">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="First Name" formControlName="fName" required duplicate>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Last Name" formControlName="lName" required duplicate>
+      </mat-form-field>
+    </div>  
+  </div>
+  <div class="col-md-12">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="dob">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="year" ></mat-datepicker>
+      </mat-form-field>
+              <!--<input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Choose a date">
+               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+              -->
+    </div>
+    <div class="col-md-4">
+      <mat-form-field *ngIf="utilService.userInfo.role == this.definedConstants.ROLE_ADMIN">
+          <mat-select placeholder="select Role" 
+           [formControl]="role" required (change)="updateRole(event)">
+          <mat-option *ngFor="let role of definedConstants.ROLES" [value]="role.short">
+            {{role.full}}
+          </mat-option>
+  </mat-select>
+      </mat-form-field>
+    </div>  
+  </div>
+   
+  <div class="col-md-12">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Mobile Number" formControlName="cellNo" required pattern="[0-9]*" >
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Gender" formControlName="gender" required >
+      </mat-form-field>
+    </div>  
+  </div>
+  <div class="col-md-12"> 
+    <div class="col-md-8">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Address Information</mat-panel-title>
+            <mat-panel-description>
+              Address is Mandatory
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-form-field>
+            <input formControlName="addressLine1" matInput placeholder="Address Line 1" required>
+          </mat-form-field>
+           <mat-form-field>
+            <input formControlName="addressLine2" matInput placeholder="Address Line 2" required>
+          </mat-form-field>
+          <mat-form-field>
+            <input formControlName="city" matInput placeholder="City" required>
+          </mat-form-field>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+     
+    <div class="col-md-12">
+      
+      <span *ngIf="utilService.userHomeProfile!=undefined;else notResumedBlock">
+         <button mat-raised-button color="primary" (click)="saveProgress('update')" (disable)="userHome.valid">Update</button>
+      </span>
+      <ng-template #notResumedBlock>
+        <span>
+          <button mat-raised-button color="primary" (click)="saveProgress('next')" >Save</button>
+        </span>
+      </ng-template>
+     <span> <button mat-raised-button 
+           color="primary" 
+           *ngIf="utilService.userInfo.role==this.definedConstants.ROLE_ADMIN"
+           (click)="addNewUser()" 
+           (disable)="userHome.valid">Add New</button>
+     </span>
+    </div>
+    </form>
+</div>

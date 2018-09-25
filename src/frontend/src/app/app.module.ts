@@ -31,7 +31,7 @@ import { BeginTestComponentComponent } from './component/begin-test-component/be
 import { AdminPanelComponentComponent } from './component/admin-panel-component/admin-panel-component.component';
 import {MatButtonModule, MatSelectModule, MatInputModule, MatSidenavModule, MatSnackBarModule, MatToolbarModule, MatRadioModule, MatTooltipModule,
        MatCheckboxModule, MatMenuModule, MatCardModule, MatIconModule,MatDialogModule, MatButtonToggleModule, MatStepperModule,MatProgressBarModule, 
-       MatExpansionModule} from '@angular/material';
+       MatExpansionModule, MatNativeDateModule, MatDatepickerModule} from '@angular/material';
 import { QuestionManagerComponentComponent } from './component/question-manager-component/question-manager-component.component';
 import { SingleValuedModalComponent } from './component/modal/single-valued-modal/single-valued-modal.component';
 import { AddQuestionsComponent } from './component/add-questions/add-questions.component';
@@ -49,7 +49,13 @@ import { MomentModule } from 'angular2-moment';
 import { CandidateHomeComponent } from './component/candidate-home/candidate-home.component';
 import { CandidateSearchComponent } from './component/candidate-home/candidate-search/candidate-search.component';
 import { CandidateProfileComponent } from './component/candidate-home/candidate-profile/candidate-profile.component';
-import { CandidateExamHistoryComponent } from './component/candidate-home/candidate-exam-history/candidate-exam-history.component'; // optional, provides moment-style pipes for date formatting
+import { CandidateExamHistoryComponent } from './component/candidate-home/candidate-exam-history/candidate-exam-history.component';
+import { CandidatePaymentInfoComponent } from './component/candidate-home/candidate-payment-info/candidate-payment-info.component';
+import { ProductHomeComponent } from './component/product-home/product-home.component';
+import { AddNewProductComponent } from './component/product-home/add-new-product/add-new-product.component';
+import { ViewAllProductComponent } from './component/product-home/view-all-product/view-all-product.component';
+import { ProductDiscountComponent } from './component/product-home/product-discount/product-discount.component';
+import { ProductPaymentComponent } from './component/product-home/product-payment/product-payment.component'; // optional, provides moment-style pipes for date formatting
 
 @NgModule({
   declarations: [
@@ -81,7 +87,13 @@ import { CandidateExamHistoryComponent } from './component/candidate-home/candid
     CandidateHomeComponent,
     CandidateSearchComponent,
     CandidateProfileComponent,
-    CandidateExamHistoryComponent
+    CandidateExamHistoryComponent,
+    CandidatePaymentInfoComponent,
+    ProductHomeComponent,
+    AddNewProductComponent,
+    ViewAllProductComponent,
+    ProductDiscountComponent,
+    ProductPaymentComponent
   ],
   entryComponents:[
     LoginModalComponent,
@@ -99,12 +111,11 @@ import { CandidateExamHistoryComponent } from './component/candidate-home/candid
     ModalModule.forRoot(),
     BootstrapModalModule,
     CaptchaModule,DataTableModule, SharedModule,EditorModule, ProgressSpinnerModule,
-    GalleriaModule,
-    MatButtonModule, MatMenuModule,
-    MatCardModule, MatIconModule, MatProgressBarModule,  MatExpansionModule,
-    MatDialogModule, MatSelectModule, MatRadioModule,    MatTooltipModule,
+    MatButtonModule, MatMenuModule, GalleriaModule,
+    MatCardModule, MatIconModule, MatProgressBarModule, MatExpansionModule, MatNativeDateModule,
+    MatDialogModule, MatSelectModule, MatRadioModule, MatTooltipModule, 
     MatInputModule, MatSidenavModule, MatButtonToggleModule,MatStepperModule, 
-    MatSnackBarModule, MatToolbarModule, MatCheckboxModule,
+    MatSnackBarModule, MatToolbarModule, MatCheckboxModule, MatDatepickerModule,
     NgIdleModule.forRoot()
   ],
   providers: [DefinedConstants,

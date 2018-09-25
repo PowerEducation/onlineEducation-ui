@@ -20,12 +20,14 @@ public testManagerView:boolean;
 public allTestsView:boolean;
 public beginTestView:boolean;
 public candidateHomePageView:boolean;
+public productHomePageView:boolean;
 public testProductView:boolean;
 public isUserLoggedIn:boolean = false;
 public userInfo:UsersInfo;
 public userRole:string;
 public isTestResumed:any=[];
 public userHomeProfile:any;
+
   // Select2 Theme Starts Here
 public optionSelectMultipleTag={
   tags:true,
@@ -83,6 +85,9 @@ viewSwitch(type){
     case this.definedConstants.USER_HOME:
          this.candidateHomePageView = true;
          break;
+    case this.definedConstants.PRODUCT_HOME:
+         this.productHomePageView = true;
+         break;
   }
 }
   resetAll(){
@@ -98,6 +103,8 @@ viewSwitch(type){
     this.allTestsView=false;
     this.beginTestView=false;
     this.candidateHomePageView=false;
+    this.productHomePageView=false;
+
   }
 
   setUser(response){
@@ -106,7 +113,17 @@ viewSwitch(type){
     this.userInfo.fName = response.fName;
     this.userInfo.lName = response.lName;
     this.userInfo.role = response.role;
+    this.userInfo.dob = response.dob;
+    this.userInfo.mailID = response.mailID;
+    this.userInfo.cell_no = response.cell_no;
+    this.userInfo.gender = response.gender;
+    this.userInfo.address_line1 = response.addressLine1;
+    this.userInfo.address_line2 = response.addressLine2;
+    this.userInfo.city = response.city;
+    this.userInfo.zip = response.zip;
     this.isUserLoggedIn =true;
+    this.userHomeProfile = this.userInfo;
+    console.log(this.userInfo)
     sessionStorage.setItem("userInfo",JSON.stringify(response));
   }
 
@@ -126,6 +143,7 @@ viewSwitch(type){
     this.userInfo.role = this.definedConstants.ROLE_UNKNOWN;;
     this.userInfo = new UsersInfo();
     this.isUserLoggedIn = false;
+    this.userHomeProfile = new UsersInfo();
      
   }
 

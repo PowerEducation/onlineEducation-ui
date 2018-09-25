@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(public utilService: CommonUtilService,public modal: Modal,
   public dialog: MatDialog,public router: Router, public route: ActivatedRoute,
-  public defineConstants: DefinedConstants) {
+  public definedConstants: DefinedConstants) {
    }
 
   public typeCourse;
@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
       this.isLogin = true;
       this.userRole = this.utilService.userInfo.role;
     }else
-      this.userRole=this.defineConstants.ROLE_UNKNOWN;
+      this.userRole=this.definedConstants.ROLE_UNKNOWN;
   }
 
   signMeIn(){
@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
       if(result!==undefined){
         let userInfo = result;
         this.userRole = userInfo.userRole;
-        if(this.userRole == this.defineConstants.ROLE_ADMIN)
+        if(this.userRole == this.definedConstants.ROLE_ADMIN)
            this.router.navigate(['/admin-home'] );
       
       }
@@ -114,28 +114,18 @@ export class HeaderComponent implements OnInit {
       this.utilService.importQuestionView =true;
       this.router.navigate(['/home'], { queryParams: { page:'importQuestionView'  } });
       console.log("Moving to Q Manager");
-  }else if(type===this.defineConstants.Q_ENTITY_VIEW){
+  }else if(type===this.definedConstants.Q_ENTITY_VIEW){
     this.utilService.manageEntityView =true;
     this.router.navigate(['/home'], { queryParams: { page:'manageEntityView'  } });
-  }else if(type==this.defineConstants.TEST_MANAGER_VIEW){
+  }else if(type==this.definedConstants.TEST_MANAGER_VIEW){
      this.utilService.testManagerView =true;
-     this.router.navigate(['/home'], { queryParams: { page:this.defineConstants.TEST_MANAGER_VIEW  } });
-  }else if(type===this.defineConstants.ALL_TEST_VIEW){
+     this.router.navigate(['/home'], { queryParams: { page:this.definedConstants.TEST_MANAGER_VIEW  } });
+  }else if(type===this.definedConstants.ALL_TEST_VIEW){
     this.utilService.allTestsView =true;
-    this.router.navigate(['/home'], { queryParams: { page:this.defineConstants.ALL_TEST_VIEW  } });
-  }else if(type==this.defineConstants.TEST_PREVIEW){
+    this.router.navigate(['/home'], { queryParams: { page:this.definedConstants.ALL_TEST_VIEW  } });
+  }else if(type==this.definedConstants.TEST_PREVIEW){
     this.utilService.beginTestView =true;
-    this.router.navigate(['/home'], { queryParams: { page:this.defineConstants.TEST_PREVIEW  } });
-  }else if(type==this.defineConstants.USER_HOME){
-    this.utilService.candidateHomePageView = true;
-      let navParams : NavigationExtras;
-      navParams = {
-        queryParams:{
-          'page': this.defineConstants.USER_HOME ,
-          'view':  subType
-        }
-      }
-      this.router.navigate(['/home'],navParams);
+    this.router.navigate(['/home'], { queryParams: { page:this.definedConstants.TEST_PREVIEW  } });
   }
   else{
       sessionStorage.setItem('course',type);
@@ -146,25 +136,28 @@ export class HeaderComponent implements OnInit {
     }
     
   }
+  utilNavigateTo(type,subType){
+    this.utilService.navigateTo(type,subType);
+  }
 
   showMore(type){
     this.typeCourse = type;
     if(type==='ssc')
-      this.courseList = this.defineConstants.sscCourseList;
+      this.courseList = this.definedConstants.sscCourseList;
     else if(type==='bfsi')
-      this.courseList = this.defineConstants.bfsiCourseList;
+      this.courseList = this.definedConstants.bfsiCourseList;
     else if(type==='sla')
-      this.courseList = this.defineConstants.slaCourseList;
+      this.courseList = this.definedConstants.slaCourseList;
   }
 
   /**
  * Method to Log out the user
  */
   loggingOut(){
-    if(this.utilService.userInfo.role === this.defineConstants.ROLE_ADMIN){
+    if(this.utilService.userInfo.role === this.definedConstants.ROLE_ADMIN){
        this.router.navigate(['/home'] );
     }
-    this.userRole = this.defineConstants.ROLE_UNKNOWN;
+    this.userRole = this.definedConstants.ROLE_UNKNOWN;
     this.utilService.loggedOutUser();
     
   }

@@ -2,7 +2,7 @@ export class DefinedConstants {
 
 public homePageURL="http://localhost:4200/home"
 // public API_BASE_URL="http://103.50.212.118:9082";
-public API_BASE_URL="http://localhost:9082";
+public API_BASE_URL="https://localhost:9082";
 public API_PROFILE = "/profile";
 public API_USER_LOGIN="/userLogins";
 public API_USER_SIGNUP ="/secure/logon/signUp";
@@ -44,7 +44,12 @@ public API_FIND_TEST_BY_TESTNAME_CATE="/tests/search/findByTestNameAndCategory?t
 public API_TEST_UPLOAD="/secure/power/uploadImage";
 public API_TEST_FIND_STATUS="/tests/search/findByStatus?status=";
 public API_GET_ALL_QUESTION_FROM_TEST="/secure/power/getAllQuestionFromTest";
-public API_FIND_USER_BY_NAME="/userInfoes/search/findByfNameLike?fName=";
+
+//Users API
+public API_USER_INFO="/userInfoes";
+public API_FIND_ALL_USER_BY_NAME="/userInfoes/search/findByuserIDLike?userID=";
+public API_FIND_Active_USER_BY_NAME="/userInfoes/search/findByfNameLike?fName=";
+public API_FIND_In_Active_USER_BY_NAME="/userInfoes/search/findBylNameLike?lName=";
 
 // Static Data to Populate
 public DATA_QUESTION_CHOICE =[{"value":"sc","viewValue":"Single Choice"},{"value":"mc","viewValue":"Multiple Choice"}];
@@ -67,6 +72,7 @@ public Q_ENTITY_VIEW="manageEntityView";
 public ALL_TEST_VIEW="allTestsView";
 public ADD_QUESTIONS_VIEW="addQuestionsView";
 public USER_HOME = "candidateHomePageView";
+public PRODUCT_HOME = "productHomePageView";
 
 public ADD_COURSE = "Add COURSE";
 public ADD_SUBJECT = "Add Subject";
@@ -82,6 +88,8 @@ public ROLE_ADMIN="A";
 public ROLE_STUDENT="S";
 public ROLE_TEACHER="T";
 public ROLE_UNKNOWN="U";
+public ROLES=[{full:'Admin',short:'A'},{full:'Teacher',short:'T'},{full:'Question Setter',short:'Q'},
+ {full:'Test Setter',short:'TS'},{full:'Student',short:'S'}];
 
 // Status
 public STATUS_PENDING="Pending";

@@ -67,10 +67,18 @@ close(){
   this.apiService.genericPost(this.definedConstants.API_BASE_URL +this.definedConstants.API_USER_SIGNIN,user).subscribe(
     response =>{
       // if(response.password === this.loginForm.value.password){
-        console.log("Succesful Login..");
-        this.utilService.setUser(response);
+        console.log("Succesful Login..",response);
+        if(response.status=="A"){
+          this.utilService.setUser(response);
+          this.close();
+        }
+        else{
+          this.hasErrors = true;
+          this.loginError[0].loginError = "Your Profile is marked as In-Active. Please contact to Admin team.";
+          console.log("Error in creating");
+        }
         
-        this.close();
+        
       // }
       // else
       //   this.loginError="Password do not matches."

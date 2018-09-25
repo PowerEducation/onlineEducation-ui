@@ -41,7 +41,7 @@
 							
 					    <li><a (click)="navigateTo()">Set Paper</a></li>
 					  </ul>-->
-		<mat-card-content *ngIf="utilService.userInfo.role == this.defineConstants.ROLE_ADMIN">
+		<mat-card-content *ngIf="utilService.userInfo.role == this.definedConstants.ROLE_ADMIN">
 			<button mat-raised-button color="white" [matMenuTriggerFor]="menu">Admin</button>
 			<mat-menu #menu="matMenu" [overlapTrigger]="false"> 
 				<button mat-menu-item> 
@@ -71,16 +71,16 @@
 				<button mat-menu-item (click)="navigateTo('beginTestView','Q')">Preview Test</button>
 			</mat-menu>
 			<mat-menu #PMenu="matMenu">
-				<button mat-menu-item>Product</button>
-				<button mat-menu-item>Doscount</button>
-				<button mat-menu-item>Doscount Distribution</button>
-				<button mat-menu-item>Payment</button>
-				<button mat-menu-item>Product Link</button>
+				<button mat-menu-item (click)="utilNavigateTo('productHomePageView','view')">Product</button>
+				<button mat-menu-item [disabled]=true>Discount</button>
+				<button mat-menu-item [disabled]>Discount Distribution</button>
+				<button mat-menu-item [disabled]>Payment</button>
+				<button mat-menu-item [disabled]>Product Link</button>
 			</mat-menu>
 			<mat-menu #CMenu="matMenu">
-				<button mat-menu-item (click)="navigateTo('candidateHomePageView','search')">Add Candidate</button>
-				<button mat-menu-item>Add Group</button>
-				<button mat-menu-item>Import Data</button>
+				<button mat-menu-item (click)="utilNavigateTo('candidateHomePageView','search')">Add Candidate</button>
+				<button mat-menu-item (click)="utilNavigateTo('candidateHomePageView','profile')">Add Group</button>
+				<button mat-menu-item (click)="utilNavigateTo('candidateHomePageView','profile')">Import Data</button>
 			</mat-menu>
     </mat-card-content>
 				</li>
@@ -91,12 +91,15 @@
 			
 			<ul class="nav navbar-nav navbar-right" >
 						<!--<li *ngIf="utilService.userInfo.role==='A'"> Bookmark</li>-->
+						 <span class="glyphicon glyphicon-user" (click)="utilNavigateTo('candidateHomePageView','profile')">
+
+						 </span>
 						<li *ngIf="!utilService.isUserLoggedIn; else elseBlock">
-							<a (click)="signMeIn()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Log in</a>
+							<a (click)="signMeIn()" style="cursor:pointer">Log in</a>
 						</li>
 						<ng-template #elseBlock>
 							<li style="padding-top: 15px;"> Welcome {{utilService.userInfo.fName}} </li>
-					<li><a (click)="loggingOut()" style="cursor:pointer"> <span class="glyphicon glyphicon-user"></span>Log out</a></li>
+					<li><a (click)="loggingOut()" style="cursor:pointer">Log out</a></li>
 			</ng-template>
 			</ul>
 			

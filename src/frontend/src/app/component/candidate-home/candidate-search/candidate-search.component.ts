@@ -18,9 +18,18 @@ export class CandidateSearchComponent implements OnInit {
   }
  public searchString:string="";
  public allUsers:any=[];
+ public userType:string="ALL";
 
   searchUser(){
-     this.apiService.genericGet(this.definedConstants.API_BASE_URL+this.definedConstants.API_FIND_USER_BY_NAME+this.searchString).subscribe(
+    let APIStrig = "";
+    if(this.userType=="A")
+      APIStrig = this.definedConstants.API_FIND_Active_USER_BY_NAME;
+    else if(this.userType=="I")
+      APIStrig = this.definedConstants.API_FIND_In_Active_USER_BY_NAME;
+    else
+      APIStrig = this.definedConstants.API_FIND_ALL_USER_BY_NAME;
+
+     this.apiService.genericGet(this.definedConstants.API_BASE_URL+APIStrig+this.searchString).subscribe(
       response=>{
         this.allUsers = response._embedded.userInfoes;
         // this.tests = response._embedded.tests;
@@ -35,28 +44,65 @@ export class CandidateSearchComponent implements OnInit {
     this.utilService.navigateTo(this.definedConstants.USER_HOME,type);
   }
 
-  delete(user,index){
+/**
+ * 
+ * @param user 
+ * @param index 
+ * @param mode : Mode 0 means delete and 1 means enable it
+ */
+  delete(user,index,mode){
     console.log(user)
-    console.log(this.utilService.userInfo)
-    swal({
+    let userTextString:any=[];
+    // Deletion message
+    if(mode==0){
+      userTextString[0]="User won't able to login until you mark him Active again."
+      userTextString[1]= "Disable it";
+    }
+    // Enable message
+    else{
+
+      userTextString[0]="User will be able to login and can access his profile now."
+      userTextString[1]= "Enable it";
+    }
+
+      swal({
       title: 'Are you sure?',
-      text: "You won't be able to revert this profile!",
+      text: userTextString[0],
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: userTextString[1]
     }).then((result) => {
-      console.log("<<<<<<<<<<<<<"+result)
       if (result) {
-        //  this.apiService.generic(this.)
-        swal(
-          'Deleted!',
-          'Work in Progress.',
-          'success'
+        let userUpdated:any = JSON.parse(JSON.stringify(user));
+        if(mode==0)
+          userUpdated.status= "I";
+        else
+          userUpdated.status="A";
+        delete userUpdated["_links"];
+        delete userUpdated["__proto__"];
+        // console.log("userUpdated>>>>",userUpdated.json)
+        // console.log("userUpdated>>>>",user)
+        this.apiService.genericPut(user._links.self.href,userUpdated ).subscribe(
+          response=>{
+            if(mode==0){
+              user.status= "I";
+              swal('De-Activate!',"User is Deactivate now. Hw won't be able to access his profile now." ,'success')
+            }
+            else{
+               user.status="A";
+              swal('Activate!','Congratulation.. User is able to access his profile now.','success')
+              
+            }
+               
+          }
         )
+
+        
       }
     }).catch(swal.noop);
+    
    
   }
 }

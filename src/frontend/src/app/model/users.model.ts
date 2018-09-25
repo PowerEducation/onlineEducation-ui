@@ -14,4 +14,13 @@ export class UsersInfo{
   public lName:string;
   public userID:string;
   public role:string;
+  public dob:string;
+  public cell_no:string;
+  public address_line1;
+  public address_line2;
+  public city:string;
+  public zip:any;
+  public state:string;
+  public mailID:string;
+  public gender:string;
 }
